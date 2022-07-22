@@ -1,0 +1,105 @@
+<?xml version="1.0"?>
+
+<!-- 
+
+# ===================================== COPYRIGHT ===================================== #
+#                                                                                       #
+#  IFRA (Intelligent Flexible Robotics and Assembly) Group, CRANFIELD UNIVERSITY        #
+#  Created on behalf of the IFRA Group at Cranfield University, United Kingdom          #
+#  E-mail: IFRA@cranfield.ac.uk                                                         #
+#                                                                                       #
+#  Licensed under the Apache-2.0 License.                                               #
+#  You may not use this file except in compliance with the License.                     #
+#  You may obtain a copy of the License at: http://www.apache.org/licenses/LICENSE-2.0  #
+#                                                                                       #
+#  Unless required by applicable law or agreed to in writing, software distributed      #
+#  under the License is distributed on an "as-is" basis, without warranties or          #
+#  conditions of any kind, either express or implied. See the License for the specific  #
+#  language governing permissions and limitations under the License.                    #
+#                                                                                       #
+#  IFRA Group - Cranfield University                                                    #
+#  AUTHORS: Mikel Bueno Viso - Mikel.Bueno-Viso@cranfield.ac.uk                         #
+#           Seemal Asif      - s.asif@cranfield.ac.uk                                   #
+#           Phil Webb        - p.f.webb@cranfield.ac.uk                                 #
+#                                                                                       #
+#  Date: July, 2022.                                                                    #
+#                                                                                       #
+# ===================================== COPYRIGHT ===================================== #
+
+# ======= CITE OUR WORK ======= #
+# You can cite our work with the following statement:
+# IFRA (2022) ROS2.0 ROBOT SIMULATION. URL: https://github.com/IFRA-Cranfield/ros2_RobotSimulation.
+
+#  Reference: UR3 specifications retrieved from the following GitHub repositories:
+#   - Universal Robots ROS2 Driver: https://github.com/UniversalRobots/Universal_Robots_ROS2_Driver 
+#   - Universal Robots ROS2 Gazebo Simulation: https://github.com/UniversalRobots/Universal_Robots_ROS2_Gazebo_Simulation
+
+-->
+
+<robot xmlns:xacro="http://wiki.ros.org/xacro">
+
+  <xacro:macro name="ur3_transmission" params="prefix">
+
+    <transmission name="${prefix}shoulder_pan_trans">
+      <type>transmission_interface/SimpleTransmission</type>
+      <joint name="${prefix}shoulder_pan_joint">
+        <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+      </joint>
+      <actuator name="${prefix}shoulder_pan_motor">
+        <mechanicalReduction>1</mechanicalReduction>
+      </actuator>
+    </transmission>
+
+    <transmission name="${prefix}shoulder_lift_trans">
+      <type>transmission_interface/SimpleTransmission</type>
+      <joint name="${prefix}shoulder_lift_joint">
+        <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+      </joint>
+      <actuator name="${prefix}shoulder_lift_motor">
+        <mechanicalReduction>1</mechanicalReduction>
+      </actuator>
+    </transmission>
+
+    <transmission name="${prefix}elbow_trans">
+      <type>transmission_interface/SimpleTransmission</type>
+      <joint name="${prefix}elbow_joint">
+        <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+      </joint>
+      <actuator name="${prefix}elbow_motor">
+        <mechanicalReduction>1</mechanicalReduction>
+      </actuator>
+    </transmission>
+
+    <transmission name="${prefix}wrist_1_trans">
+      <type>transmission_interface/SimpleTransmission</type>
+      <joint name="${prefix}wrist_1_joint">
+        <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+      </joint>
+      <actuator name="${prefix}wrist_1_motor">
+        <mechanicalReduction>1</mechanicalReduction>
+      </actuator>
+    </transmission>
+
+    <transmission name="${prefix}wrist_2_trans">
+      <type>transmission_interface/SimpleTransmission</type>
+      <joint name="${prefix}wrist_2_joint">
+        <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+      </joint>
+      <actuator name="${prefix}wrist_2_motor">
+        <mechanicalReduction>1</mechanicalReduction>
+      </actuator>
+    </transmission>
+
+    <transmission name="${prefix}wrist_3_trans">
+      <type>transmission_interface/SimpleTransmission</type>
+      <joint name="${prefix}wrist_3_joint">
+        <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+      </joint>
+      <actuator name="${prefix}wrist_3_motor">
+        <mechanicalReduction>1</mechanicalReduction>
+      </actuator>
+    </transmission>
+
+  </xacro:macro>
+
+</robot>

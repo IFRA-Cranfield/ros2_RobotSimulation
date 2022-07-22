@@ -1,0 +1,65 @@
+controller_manager:
+  ros__parameters:
+    update_rate: 100 #Hz
+
+    irb120_controller:
+      type: joint_trajectory_controller/JointTrajectoryController
+      joints:
+        - joint_1
+        - joint_2
+        - joint_3
+        - joint_4
+        - joint_5
+        - joint_6
+      publish_rate: 50
+      write_op_modes:
+        - joint_1
+        - joint_2
+        - joint_3
+        - joint_4
+        - joint_5
+        - joint_6
+
+    egp64_finger_left_controller:
+      type: position_controllers/GripperActionController
+
+    egp64_finger_right_controller:
+      type: position_controllers/GripperActionController
+
+    joint_state_controller:
+      type: joint_state_controller/JointStateController
+
+irb120_controller:
+  ros__parameters:
+    joints:
+        - joint_1
+        - joint_2
+        - joint_3
+        - joint_4
+        - joint_5
+        - joint_6
+    command_interfaces:
+      - position
+    state_interfaces:
+      - position
+      - velocity
+    state_publish_rate: 100.0
+    action_monitor_rate: 20.0
+    allow_partial_joints_goal: false
+    constraints:
+      stopped_velocity_tolerance: 0.2
+      goal_time: 0.0
+      joint_1: { trajectory: 0.2, goal: 0.1 }
+      joint_2: { trajectory: 0.2, goal: 0.1 }
+      joint_3: { trajectory: 0.2, goal: 0.1 }
+      joint_4: { trajectory: 0.2, goal: 0.1 }
+      joint_5: { trajectory: 0.2, goal: 0.1 }
+      joint_6: { trajectory: 0.2, goal: 0.1 }
+
+egp64_finger_left_controller:
+  ros__parameters:
+    joint: egp64_finger_left_joint
+
+egp64_finger_right_controller:
+  ros__parameters:
+    joint: egp64_finger_right_joint

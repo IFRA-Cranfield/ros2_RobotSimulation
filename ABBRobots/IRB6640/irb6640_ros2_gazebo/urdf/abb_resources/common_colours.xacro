@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+  <!-- Conversion were obtained from http://www.e-paint.co.uk/Lab_values.asp
+       unless otherwise stated. -->
+
+  <!-- Actual colors -->
+  <!-- NCS 2070-Y60R orange, standard robot color 1974 - May 2014 -->
+  <xacro:property name="colour_abb_orange" value="0.7372549 0.3490196 0.1607843 1" />
+
+  <!-- RAL 7035 light grey (abb graphite white), standard robot color May 2014 - current -->
+  <xacro:property name="colour_abb_graphite_white" value="0.7725490 0.7803922 0.7686275 1" />
+
+  <!-- RAL 9003 signal white (abb white), cleanroom robot color -->
+  <xacro:property name="colour_abb_white" value="0.9254902 0.9254902 0.9058824 1" />
+
+  <!-- RAL 7032 pebble gray, controller -->
+  <xacro:property name="colour_abb_pebble_gray" value="0.7058823 0.6901961 0.6313725 1" />
+
+  <!-- RAL 7012 basalt gray (abb dark gray) , robot primer -->
+  <xacro:property name="colour_abb_dark_gray" value="0.3450980 0.3647059 0.3686275 1" />
+
+  <!-- RAL 7021 black gray (abb black) , robot with dark link color -->
+  <xacro:property name="colour_abb_black" value="0.1882353 0.1960784 0.2039216 1" />
+
+  <!-- Other robot colours availble, but not limited too. -->
+  <!-- RAL 3001 signal red -->
+  <xacro:property name="colour_abb_signal_red" value="0.5960784 0.1372549 0.1372549 1" />
+
+  <!-- RAL 3002 carmine red -->
+  <xacro:property name="colour_abb_carmine_red" value="0.5960784 0.1333333 0.1333333 1" />
+
+  <!-- RAL 5002 ultramarine blue -->
+  <xacro:property name="colour_abb_ultramarine_blue" value="0.1176471 0.2117647 0.4823529 1" />
+
+  <!-- RAL 5015 sky blue -->
+  <xacro:property name="colour_abb_sky_blue" value="0.0431373 0.4823529 0.6901961 1" />
+
+  <!-- RAL 6002 leaf green -->
+  <xacro:property name="colour_abb_leaf_green" value="0.1764706 0.3529412 0.1529412 1" />
+
+  <!-- RAL 6003 olive green -->
+  <xacro:property name="colour_abb_olive_green" value="${ 80/255} ${ 83/255} ${ 60/255} 1" />
+
+  <!-- RAL 9002 gray white -->
+  <xacro:property name="colour_abb_gray_white" value="0.8392157 0.8352941 0.7921569 1" />
+
+  <!-- RAL 9010 pure white -->
+  <xacro:property name="colour_abb_pure_white" value="0.9411765 0.9294118 0.8823529 1" />
+
+  <!-- approximations -->
+  <!-- yellow, collision model -->
+  <xacro:property name="colour_abb_yellow" value="1 1 0 1" />
+
+</robot>

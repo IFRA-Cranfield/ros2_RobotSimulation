@@ -1,0 +1,5 @@
+JointPose goal
+---
+string result
+---
+string feedback

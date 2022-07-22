@@ -1,0 +1,8 @@
+float64 goalx
+float64 goaly
+float64 goalz
+float64 goalw
+---
+string result
+---
+string feedback

@@ -1,0 +1,95 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+  <xacro:include filename="$(find irb120_ros2_gazebo)/urdf/abb_resources/common_colours.xacro"/>
+
+  <xacro:macro name="material_abb_orange">
+    <material name="">
+      <color rgba="${colour_abb_orange}"/>
+    </material>
+  </xacro:macro>
+
+  <xacro:macro name="material_abb_graphite_white">
+    <material name="">
+      <color rgba="${colour_abb_graphite_white}"/>
+    </material>
+  </xacro:macro>
+
+  <xacro:macro name="material_abb_white">
+    <material name="">
+      <color rgba="${colour_abb_white}"/>
+    </material>
+  </xacro:macro>
+
+  <xacro:macro name="material_abb_pebble_gray">
+    <material name="">
+      <color rgba="${colour_abb_pebble_gray}"/>
+    </material>
+  </xacro:macro>
+
+  <xacro:macro name="material_abb_dark_gray">
+    <material name="">
+      <color rgba="${colour_abb_dark_gray}"/>
+    </material>
+  </xacro:macro>
+
+  <xacro:macro name="material_abb_black">
+    <material name="">
+      <color rgba="${colour_abb_black}"/>
+    </material>
+  </xacro:macro>
+
+  <xacro:macro name="material_abb_signal_red">
+    <material name="">
+      <color rgba="${colour_abb_signal_red}"/>
+    </material>
+  </xacro:macro>
+
+  <xacro:macro name="material_abb_carmine_red">
+    <material name="">
+      <color rgba="${colour_abb_carmine_red}"/>
+    </material>
+  </xacro:macro>
+
+  <xacro:macro name="material_abb_ultramarine_blue">
+    <material name="">
+      <color rgba="${colour_abb_ultramarine_blue}"/>
+    </material>
+  </xacro:macro>
+
+  <xacro:macro name="material_abb_sky_blue">
+    <material name="">
+      <color rgba="${colour_abb_sky_blue}"/>
+    </material>
+  </xacro:macro>
+
+  <xacro:macro name="material_abb_leaf_green">
+    <material name="">
+      <color rgba="${colour_abb_leaf_green}"/>
+    </material>
+  </xacro:macro>
+
+  <xacro:macro name="material_abb_olive_green">
+    <material name="">
+      <color rgba="${colour_abb_olive_green}"/>
+    </material>
+  </xacro:macro>
+
+  <xacro:macro name="material_abb_gray_white">
+    <material name="">
+      <color rgba="${colour_abb_gray_white}"/>
+    </material>
+  </xacro:macro>
+
+  <xacro:macro name="material_abb_pure_white">
+    <material name="">
+      <color rgba="${colour_abb_pure_white}"/>
+    </material>
+  </xacro:macro>
+
+  <xacro:macro name="material_abb_yellow">
+    <material name="">
+      <color rgba="${colour_abb_yellow}"/>
+    </material>
+  </xacro:macro>
+
+</robot>

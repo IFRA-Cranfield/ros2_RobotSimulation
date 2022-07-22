@@ -1,0 +1,253 @@
+<?xml version="1.0"?>
+
+<!-- 
+
+# ===================================== COPYRIGHT ===================================== #
+#                                                                                       #
+#  IFRA (Intelligent Flexible Robotics and Assembly) Group, CRANFIELD UNIVERSITY        #
+#  Created on behalf of the IFRA Group at Cranfield University, United Kingdom          #
+#  E-mail: IFRA@cranfield.ac.uk                                                         #
+#                                                                                       #
+#  Licensed under the Apache-2.0 License.                                               #
+#  You may not use this file except in compliance with the License.                     #
+#  You may obtain a copy of the License at: http://www.apache.org/licenses/LICENSE-2.0  #
+#                                                                                       #
+#  Unless required by applicable law or agreed to in writing, software distributed      #
+#  under the License is distributed on an "as-is" basis, without warranties or          #
+#  conditions of any kind, either express or implied. See the License for the specific  #
+#  language governing permissions and limitations under the License.                    #
+#                                                                                       #
+#  IFRA Group - Cranfield University                                                    #
+#  AUTHORS: Mikel Bueno Viso - Mikel.Bueno-Viso@cranfield.ac.uk                         #
+#           Seemal Asif      - s.asif@cranfield.ac.uk                                   #
+#           Phil Webb        - p.f.webb@cranfield.ac.uk                                 #
+#                                                                                       #
+#  Date: July, 2022.                                                                    #
+#                                                                                       #
+# ===================================== COPYRIGHT ===================================== #
+
+# ======= CITE OUR WORK ======= #
+# You can cite our work with the following statement:
+# IFRA (2022) ROS2.0 ROBOT SIMULATION. URL: https://github.com/IFRA-Cranfield/ros2_RobotSimulation.
+
+-->
+
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <xacro:macro name="panda_gazebo" >
+
+    <gazebo>
+      <plugin filename="libgazebo_ros2_control.so" name="gazebo_ros2_control">
+        <robot_sim_type>gazebo_ros2_control/GazeboSystem</robot_sim_type>
+        <parameters>$(find panda_ros2_gazebo)/config/panda_controller.yaml</parameters>
+      </plugin>
+    </gazebo>
+    
+    <ros2_control name="GazeboSystem" type="system">
+
+      <hardware>
+        <plugin>gazebo_ros2_control/GazeboSystem</plugin>
+      </hardware>
+
+      <!-- panda_joint1 -->
+      <joint name="panda_joint1">
+        <!-- <param name="initial_position">0.0</param> -->
+        <command_interface name="position">
+          <param name="min">-2.8973</param>
+          <param name="max">2.8973</param>
+        </command_interface>
+        <command_interface name="velocity">
+          <param name="min">-2.1750</param>
+          <param name="max">2.1750</param>
+        </command_interface>
+        <state_interface name="position"/>
+        <state_interface name="velocity"/>
+        <state_interface name="effort"/>
+      </joint>
+
+      <!-- panda_joint2 -->
+      <joint name="panda_joint2">
+        <!-- <param name="initial_position">-0.785</param> -->
+        <command_interface name="position">
+          <param name="min">-1.7628</param>
+          <param name="max">1.7628</param>
+        </command_interface>
+        <command_interface name="velocity">
+          <param name="min">-2.1750</param>
+          <param name="max">2.1750</param>
+        </command_interface>
+        <state_interface name="position"/>
+        <state_interface name="velocity"/>
+        <state_interface name="effort"/>
+      </joint>
+
+      <!-- panda_joint3 -->
+      <joint name="panda_joint3">
+        <!-- <param name="initial_position">0.0</param> -->
+        <command_interface name="position">
+          <param name="min">-2.8973</param>
+          <param name="max">2.8973</param>
+        </command_interface>
+        <command_interface name="velocity">
+          <param name="min">-2.1750</param>
+          <param name="max">2.1750</param>
+        </command_interface>
+        <state_interface name="position"/>
+        <state_interface name="velocity"/>
+        <state_interface name="effort"/>
+      </joint>
+
+      <!-- panda_joint4 -->
+      <joint name="panda_joint4">
+        <!-- <param name="initial_position">-2.356</param> -->
+        <command_interface name="position">
+          <param name="min">-3.0718</param>
+          <param name="max">0.0698</param>
+        </command_interface>
+        <command_interface name="velocity">
+          <param name="min">-2.1750</param>
+          <param name="max">2.1750</param>
+        </command_interface>
+        <state_interface name="position"/>
+        <state_interface name="velocity"/>
+        <state_interface name="effort"/>
+      </joint>
+
+      <!-- panda_joint5 -->
+      <joint name="panda_joint5">
+        <!-- <param name="initial_position">0.0</param> -->
+        <command_interface name="position">
+          <param name="min">-2.8973</param>
+          <param name="max">2.8973</param>
+        </command_interface>
+        <command_interface name="velocity">
+          <param name="min">-2.6100</param>
+          <param name="max">2.6100</param>
+        </command_interface>
+        <state_interface name="position"/>
+        <state_interface name="velocity"/>
+        <state_interface name="effort"/>
+      </joint>
+
+      <!-- panda_joint6 -->
+      <joint name="panda_joint6">
+        <!-- <param name="initial_position">1.5708</param> -->
+        <command_interface name="position">
+          <param name="min">-0.0175</param> <!-- ** -1.5883 -->
+          <param name="max">3.7525</param> <!-- ** 2.1817 -->
+        </command_interface>
+        <command_interface name="velocity">
+          <param name="min">-2.6100</param>
+          <param name="max">2.6100</param>
+        </command_interface>
+        <state_interface name="position"/>
+        <state_interface name="velocity"/>
+        <state_interface name="effort"/>
+      </joint>
+
+      <!-- panda_joint7 -->
+      <joint name="panda_joint7">
+        <!-- <param name="initial_position">0.785</param> -->
+        <command_interface name="position">
+          <param name="min">-3.15</param> <!-- ** -3.935 -->
+          <param name="max">3.15</param> <!-- ** 2.365 -->
+        </command_interface>
+        <command_interface name="velocity">
+          <param name="min">-2.6100</param>
+          <param name="max">2.6100</param>
+        </command_interface>
+        <state_interface name="position"/>
+        <state_interface name="velocity"/>
+        <state_interface name="effort"/>
+      </joint>
+
+      <!-- panda_finger_joint1 -->
+      <joint name="panda_finger_joint1">
+        <command_interface name="position">
+          <param name="min">-0.001</param>
+          <param name="max">0.04</param>
+        </command_interface>
+        <command_interface name="velocity">
+          <param name="min">-0.3</param>
+          <param name="max">0.3</param>
+        </command_interface>
+        <state_interface name="position"/>
+        <state_interface name="velocity"/>
+        <state_interface name="effort"/>
+      </joint>
+
+      <!-- panda_finger_joint2 -->
+      <joint name="panda_finger_joint2">
+        <command_interface name="position">
+          <param name="min">-0.001</param>
+          <param name="max">0.04</param>
+        </command_interface>
+        <command_interface name="velocity">
+          <param name="min">-0.3</param>
+          <param name="max">0.3</param>
+        </command_interface>
+        <state_interface name="position"/>
+        <state_interface name="velocity"/>
+        <state_interface name="effort"/>
+      </joint>
+
+    </ros2_control>
+
+    <gazebo reference="panda_link0">
+      <selfCollide>false</selfCollide>
+      <material>Gazebo/Orange</material>
+    </gazebo>
+    <gazebo reference="panda_link1">
+      <selfCollide>false</selfCollide>
+      <material>Gazebo/Orange</material>
+    </gazebo>
+    <gazebo reference="panda_link2">
+      <selfCollide>false</selfCollide>
+      <material>Gazebo/Orange</material>
+    </gazebo>
+    <gazebo reference="panda_link3">
+      <selfCollide>false</selfCollide>
+      <material>Gazebo/Orange</material>
+    </gazebo>
+    <gazebo reference="panda_link4">
+      <selfCollide>false</selfCollide>
+      <material>Gazebo/Orange</material>
+    </gazebo>
+    <gazebo reference="panda_link5">
+      <selfCollide>false</selfCollide>
+      <material>Gazebo/Orange</material>
+    </gazebo>
+    <gazebo reference="panda_link6">
+      <selfCollide>false</selfCollide>
+      <material>Gazebo/Orange</material>
+    </gazebo>
+    <gazebo reference="panda_link7">
+      <selfCollide>false</selfCollide>
+      <material>Gazebo/Orange</material>
+    </gazebo>
+    <gazebo reference="panda_link8">
+      <selfCollide>false</selfCollide>
+      <material>Gazebo/Orange</material>
+    </gazebo>
+    <gazebo reference="panda_hand">
+      <selfCollide>false</selfCollide>
+      <material>Gazebo/Orange</material>
+    </gazebo>
+    <gazebo reference="panda_leftfinger">
+      <selfCollide>false</selfCollide>
+      <material>Gazebo/Orange</material>
+    </gazebo>
+    <gazebo reference="panda_rightfinger">
+      <selfCollide>false</selfCollide>
+      <material>Gazebo/Orange</material>
+    </gazebo>
+
+    <gazebo reference="end_effector_frame_fixed_joint">
+      <preserveFixedJoint>true</preserveFixedJoint>
+      <!-- For compatibility with SDFormat < 4.4 -->
+      <disableFixedJointLumping>true</disableFixedJointLumping>
+    </gazebo>
+
+  </xacro:macro>
+
+</robot>

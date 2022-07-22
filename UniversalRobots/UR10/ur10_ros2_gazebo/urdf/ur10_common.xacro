@@ -1,0 +1,189 @@
+<?xml version="1.0"?>
+
+<!-- 
+
+# ===================================== COPYRIGHT ===================================== #
+#                                                                                       #
+#  IFRA (Intelligent Flexible Robotics and Assembly) Group, CRANFIELD UNIVERSITY        #
+#  Created on behalf of the IFRA Group at Cranfield University, United Kingdom          #
+#  E-mail: IFRA@cranfield.ac.uk                                                         #
+#                                                                                       #
+#  Licensed under the Apache-2.0 License.                                               #
+#  You may not use this file except in compliance with the License.                     #
+#  You may obtain a copy of the License at: http://www.apache.org/licenses/LICENSE-2.0  #
+#                                                                                       #
+#  Unless required by applicable law or agreed to in writing, software distributed      #
+#  under the License is distributed on an "as-is" basis, without warranties or          #
+#  conditions of any kind, either express or implied. See the License for the specific  #
+#  language governing permissions and limitations under the License.                    #
+#                                                                                       #
+#  IFRA Group - Cranfield University                                                    #
+#  AUTHORS: Mikel Bueno Viso - Mikel.Bueno-Viso@cranfield.ac.uk                         #
+#           Seemal Asif      - s.asif@cranfield.ac.uk                                   #
+#           Phil Webb        - p.f.webb@cranfield.ac.uk                                 #
+#                                                                                       #
+#  Date: July, 2022.                                                                    #
+#                                                                                       #
+# ===================================== COPYRIGHT ===================================== #
+
+# ======= CITE OUR WORK ======= #
+# You can cite our work with the following statement:
+# IFRA (2022) ROS2.0 ROBOT SIMULATION. URL: https://github.com/IFRA-Cranfield/ros2_RobotSimulation.
+
+#  Reference: UR10 specifications retrieved from the following GitHub repositories:
+#   - Universal Robots ROS2 Driver: https://github.com/UniversalRobots/Universal_Robots_ROS2_Driver 
+#   - Universal Robots ROS2 Gazebo Simulation: https://github.com/UniversalRobots/Universal_Robots_ROS2_Gazebo_Simulation
+
+-->
+
+<robot xmlns:xacro="http://wiki.ros.org/xacro">
+
+  <xacro:macro name="cylinder_inertial" params="radius length mass *origin">
+    <inertial>
+      <mass value="${mass}" />
+      <xacro:insert_block name="origin" />
+      <inertia ixx="${0.0833333 * mass * (3 * radius * radius + length * length)}" ixy="0.0" ixz="0.0"
+        iyy="${0.0833333 * mass * (3 * radius * radius + length * length)}" iyz="0.0"
+        izz="${0.5 * mass * radius * radius}" />
+    </inertial>
+  </xacro:macro>
+
+  <xacro:macro name="ur10_common">
+    
+    <!-- ***** PARAMETER VALUES ***** -->
+    <!-- All parameter values have been taken from the following .yaml files, located in the ~/ur10_ros2_gazebo/config folder:
+          - default_kinematics.yaml
+          - joint_limits.yaml
+          - physical_parameters.yaml
+          - visual_parameters.yaml 
+          -->
+
+    <!-- JOINTS LIMIT PARAMETERS -->
+    <xacro:property name="shoulder_pan_lower_limit" value="-6.2832" scope="parent"/>
+    <xacro:property name="shoulder_pan_upper_limit" value="6.2832" scope="parent"/>
+    <xacro:property name="shoulder_pan_velocity_limit" value="2.0944" scope="parent"/> <!-- 120deg = 2.0944rad -->
+    <xacro:property name="shoulder_pan_effort_limit" value="330.0" scope="parent"/>
+    <xacro:property name="shoulder_lift_lower_limit" value="-6.2832" scope="parent"/>
+    <xacro:property name="shoulder_lift_upper_limit" value="6.2832" scope="parent"/>
+    <xacro:property name="shoulder_lift_velocity_limit" value="2.0944" scope="parent"/>
+    <xacro:property name="shoulder_lift_effort_limit" value="330.0" scope="parent"/>
+    <xacro:property name="elbow_joint_lower_limit" value="-3.1416" scope="parent"/>
+    <xacro:property name="elbow_joint_upper_limit" value="3.1416" scope="parent"/>
+    <xacro:property name="elbow_joint_velocity_limit" value="3.1416" scope="parent"/>
+    <xacro:property name="elbow_joint_effort_limit" value="150.0" scope="parent"/>
+    <xacro:property name="wrist_1_lower_limit" value="-6.2832" scope="parent"/>
+    <xacro:property name="wrist_1_upper_limit" value="6.2832" scope="parent"/>
+    <xacro:property name="wrist_1_velocity_limit" value="3.1416" scope="parent"/>
+    <xacro:property name="wrist_1_effort_limit" value="56.0" scope="parent"/>
+    <xacro:property name="wrist_2_lower_limit" value="-6.2832" scope="parent"/>
+    <xacro:property name="wrist_2_upper_limit" value="6.2832" scope="parent"/>
+    <xacro:property name="wrist_2_velocity_limit" value="3.1416" scope="parent"/>
+    <xacro:property name="wrist_2_effort_limit" value="56.0" scope="parent"/>
+    <xacro:property name="wrist_3_lower_limit" value="-6.2832" scope="parent"/>
+    <xacro:property name="wrist_3_upper_limit" value="6.2832" scope="parent"/>
+    <xacro:property name="wrist_3_velocity_limit" value="3.1416" scope="parent"/>
+    <xacro:property name="wrist_3_effort_limit" value="56.0" scope="parent"/>
+
+    <!-- DH PARAMETERS -->
+    <xacro:property name="d1" value="0.1273" scope="parent"/>
+    <xacro:property name="a2" value="-0.612" scope="parent"/>
+    <xacro:property name="a3" value="-0.5723" scope="parent"/>
+    <xacro:property name="d4" value="0.163941" scope="parent"/>
+    <xacro:property name="d5" value="0.1157" scope="parent"/>
+    <xacro:property name="d6" value="0.0922" scope="parent"/>
+
+    <!-- kinematics -->
+    <xacro:property name="shoulder_x" value="0" scope="parent"/>
+    <xacro:property name="shoulder_y" value="0" scope="parent"/>
+    <xacro:property name="shoulder_z" value="0.1273" scope="parent"/>
+    <xacro:property name="shoulder_roll" value="0" scope="parent"/>
+    <xacro:property name="shoulder_pitch" value="0" scope="parent"/>
+    <xacro:property name="shoulder_yaw" value="0" scope="parent"/>
+
+    <xacro:property name="upper_arm_x" value="0" scope="parent"/>
+    <xacro:property name="upper_arm_y" value="0" scope="parent"/>
+    <xacro:property name="upper_arm_z" value="0" scope="parent"/>
+    <xacro:property name="upper_arm_roll" value="1.570796327" scope="parent"/>
+    <xacro:property name="upper_arm_pitch" value="0" scope="parent"/>
+    <xacro:property name="upper_arm_yaw" value="0" scope="parent"/>
+
+    <xacro:property name="forearm_x" value="-0.612" scope="parent"/>
+    <xacro:property name="forearm_y" value="0" scope="parent"/>
+    <xacro:property name="forearm_z" value="0" scope="parent"/>
+    <xacro:property name="forearm_roll" value="0" scope="parent"/>
+    <xacro:property name="forearm_pitch" value="0" scope="parent"/>
+    <xacro:property name="forearm_yaw" value="0" scope="parent"/>
+
+    <xacro:property name="wrist_1_x" value="-0.5723" scope="parent"/>
+    <xacro:property name="wrist_1_y" value="0" scope="parent"/>
+    <xacro:property name="wrist_1_z" value="0.163941" scope="parent"/>
+    <xacro:property name="wrist_1_roll" value="0" scope="parent"/>
+    <xacro:property name="wrist_1_pitch" value="0" scope="parent"/>
+    <xacro:property name="wrist_1_yaw" value="0" scope="parent"/>
+
+    <xacro:property name="wrist_2_x" value="0" scope="parent"/>
+    <xacro:property name="wrist_2_y" value="-0.1157" scope="parent"/>
+    <xacro:property name="wrist_2_z" value="-2.373046667922381e-11" scope="parent"/>
+    <xacro:property name="wrist_2_roll" value="1.570796327" scope="parent"/>
+    <xacro:property name="wrist_2_pitch" value="0" scope="parent"/>
+    <xacro:property name="wrist_2_yaw" value="0" scope="parent"/>
+
+    <xacro:property name="wrist_3_x" value="0" scope="parent"/>
+    <xacro:property name="wrist_3_y" value="0.0922" scope="parent"/>
+    <xacro:property name="wrist_3_z" value="-1.891053610911353e-11" scope="parent"/>
+    <xacro:property name="wrist_3_roll" value="1.570796326589793" scope="parent"/>
+    <xacro:property name="wrist_3_pitch" value="3.141592653589793" scope="parent"/>
+    <xacro:property name="wrist_3_yaw" value="3.141592653589793" scope="parent"/>
+
+    <!-- OFFSETS -->
+    <xacro:property name="shoulder_offset" value="0.220941" scope="parent"/>
+    <xacro:property name="elbow_offset" value="0.049042" scope="parent"/>
+
+    <!-- INERTIA PARAMETERS -->
+    <!-- mass -->
+    <xacro:property name="base_mass" value="4.0" scope="parent"/>
+    <xacro:property name="shoulder_mass" value="7.778" scope="parent"/>
+    <xacro:property name="upper_arm_mass" value="12.93" scope="parent"/>
+    <xacro:property name="upper_arm_inertia_offset" value="0.175" scope="parent"/>
+    <xacro:property name="forearm_mass" value="3.87" scope="parent"/>
+    <xacro:property name="wrist_1_mass" value="1.96" scope="parent"/>
+    <xacro:property name="wrist_2_mass" value="1.96" scope="parent"/>
+    <xacro:property name="wrist_3_mass" value="0.202" scope="parent"/>
+    <!-- link inertia parameter -->
+    <xacro:property name="base_inertia_radius" value="0.075" scope="parent"/>
+    <xacro:property name="base_inertia_length" value="0.038" scope="parent"/>
+    <xacro:property name="shoulder_inertia_radius" value="0.075" scope="parent"/>
+    <xacro:property name="shoulder_inertia_length" value="0.178" scope="parent"/>
+    <xacro:property name="upperarm_inertia_radius" value="0.075" scope="parent"/>
+    <xacro:property name="upperarm_inertia_length" value="0.612" scope="parent"/>
+    <xacro:property name="forearm_inertia_radius" value="0.075" scope="parent"/>
+    <xacro:property name="forearm_inertia_length" value="0.5723" scope="parent"/>
+    <xacro:property name="wrist_1_inertia_radius" value="0.075" scope="parent"/>
+    <xacro:property name="wrist_1_inertia_length" value="0.12" scope="parent"/>
+    <xacro:property name="wrist_2_inertia_radius" value="0.075" scope="parent"/>
+    <xacro:property name="wrist_2_inertia_length" value="0.09" scope="parent"/>
+    <xacro:property name="wrist_3_inertia_radius" value="0.045" scope="parent"/>
+    <xacro:property name="wrist_3_inertia_length" value="0.0305" scope="parent"/>
+    <!-- center of mass -->
+    <xacro:property name="shoulder_cog" value="0.0 0.00244 -0.037" scope="parent"/>
+    <xacro:property name="upper_arm_cog" value="0.00001 0.15061 0.38757" scope="parent"/>
+    <xacro:property name="forearm_cog" value="-0.00012 0.06112 0.1984" scope="parent"/>
+    <xacro:property name="wrist_1_cog" value="-0.00021 -0.00112 0.02269" scope="parent"/>
+    <xacro:property name="wrist_2_cog" value="-0.00021 0.00112 0.002269" scope="parent"/>
+    <xacro:property name="wrist_3_cog" value="0.0 -0.001156 -0.00149" scope="parent"/>
+    <!-- cylinder radius (values taken from UR5, don't use) -->
+    <xacro:property name="shoulder_radius" value="0.06" scope="parent"/>
+    <xacro:property name="upper_arm_radius" value="0.054" scope="parent"/>
+    <xacro:property name="elbow_radius" value="0.06" scope="parent"/>
+    <xacro:property name="forearm_radius" value="0.04" scope="parent"/>
+    <xacro:property name="wrist_radius" value="0.045" scope="parent"/>
+
+    <!-- VISUAL OFFSETS -->
+    <xacro:property name="wrist_1_visual_offset" value="-0.1149" scope="parent"/>
+    <xacro:property name="wrist_2_visual_offset" value="-0.1158" scope="parent"/>
+    <xacro:property name="wrist_3_visual_offset" value="-0.0922" scope="parent"/>
+    
+    <!--KINEMATICS HASH-->
+    <xacro:property name="kinematics_hash" value="calib_17227329492635474227" scope="parent"/>
+  </xacro:macro>
+</robot>

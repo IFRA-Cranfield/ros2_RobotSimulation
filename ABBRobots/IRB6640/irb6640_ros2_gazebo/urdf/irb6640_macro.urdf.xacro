@@ -1,0 +1,356 @@
+<?xml version="1.0"?>
+
+<!-- 
+
+# ===================================== COPYRIGHT ===================================== #
+#                                                                                       #
+#  IFRA (Intelligent Flexible Robotics and Assembly) Group, CRANFIELD UNIVERSITY        #
+#  Created on behalf of the IFRA Group at Cranfield University, United Kingdom          #
+#  E-mail: IFRA@cranfield.ac.uk                                                         #
+#                                                                                       #
+#  Licensed under the Apache-2.0 License.                                               #
+#  You may not use this file except in compliance with the License.                     #
+#  You may obtain a copy of the License at: http://www.apache.org/licenses/LICENSE-2.0  #
+#                                                                                       #
+#  Unless required by applicable law or agreed to in writing, software distributed      #
+#  under the License is distributed on an "as-is" basis, without warranties or          #
+#  conditions of any kind, either express or implied. See the License for the specific  #
+#  language governing permissions and limitations under the License.                    #
+#                                                                                       #
+#  IFRA Group - Cranfield University                                                    #
+#  AUTHORS: Mikel Bueno Viso - Mikel.Bueno-Viso@cranfield.ac.uk                         #
+#           Seemal Asif      - s.asif@cranfield.ac.uk                                   #
+#           Phil Webb        - p.f.webb@cranfield.ac.uk                                 #
+#                                                                                       #
+#  Date: July, 2022.                                                                    #
+#                                                                                       #
+# ===================================== COPYRIGHT ===================================== #
+
+# ======= CITE OUR WORK ======= #
+# You can cite our work with the following statement:
+# IFRA (2022) ROS2.0 ROBOT SIMULATION. URL: https://github.com/IFRA-Cranfield/ros2_RobotSimulation.
+
+-->
+
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+  
+  <!-- Include additional ABB-Resources/MATERIALS+COLOUR xacro files: -->
+  <xacro:include filename="$(find irb6640_ros2_gazebo)/urdf/abb_resources/common_materials.xacro"/>
+
+  <!-- Load TRANSMISSION file: -->
+  <xacro:include filename="$(find irb6640_ros2_gazebo)/urdf/irb6640_transmission.xacro" />
+  <!-- Load GAZEBO/ROS2_CONTROL file: -->
+  <xacro:include filename="$(find irb6640_ros2_gazebo)/urdf/irb6640_gazebo.xacro" />
+
+  <!-- XACRO-MACRO of ABB-irb6640: -->
+  <xacro:macro name="irb6640" params="prefix">
+
+    <!-- ABB-irb6640 TRANSMISSION: -->
+    <xacro:irb6640_transmission prefix=""/>
+    <!-- ABB-irb6640 GAZEBO - ROS2_CONTROL: -->
+    <xacro:irb6640_gazebo prefix=""/>
+
+    <!-- ***** ABB-irb6640 ROBOT .urdf SERIAL CHAIN ***** -->
+
+    <!-- Due to the absence of data (specifications) in the official ABB ROS repositories,
+         the following values have been defined (and added) as default:
+         <origin xyz="0 0 0" rpy="0 0 0" />
+         <inertial>
+           <mass value="1"/>
+           <inertia ixx="1.0" ixy="1.0" ixz="1.0" iyy="1.0" iyz="1.0" izz="1.0" />
+         </inertial>
+         ORIGIN and INERTIA values are required by Gazebo to load the robot model.
+    -->
+
+    <!-- Link list: -->
+    <!-- base_link -->
+    <link name="${prefix}base_link">
+      <collision name="collision">
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="file://$(find irb6640_ros2_gazebo)/meshes/collision/base_link.stl"/>
+        </geometry>
+      </collision>
+      <visual name="visual">
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="file://$(find irb6640_ros2_gazebo)/meshes/visual/base_link.dae"/>
+        </geometry>
+        <material name="yellow">
+          <color rgba="1 1 0 1"/>
+        </material>
+      </visual>
+      <inertial>
+        <mass value="1"/>
+        <inertia ixx="1.0" ixy="1.0" ixz="1.0" iyy="1.0" iyz="1.0" izz="1.0" />
+      </inertial>
+    </link>
+
+    <!-- link_1 -->
+    <link name="${prefix}link_1">
+      <collision name="collision">
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="file://$(find irb6640_ros2_gazebo)/meshes/collision/link_1.stl"/>
+        </geometry>
+      </collision>
+      <visual name="visual">
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="file://$(find irb6640_ros2_gazebo)/meshes/visual/link_1.dae"/>
+        </geometry>
+        <material name="yellow"/>
+      </visual>
+      <inertial>
+        <mass value="1"/>
+        <inertia ixx="1.0" ixy="1.0" ixz="1.0" iyy="1.0" iyz="1.0" izz="1.0" />
+      </inertial>
+    </link>
+
+    <!-- link_2 -->
+   <link name="${prefix}link_2">
+      <collision name="collision">
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="file://$(find irb6640_ros2_gazebo)/meshes/collision/link_2.stl"/>
+        </geometry>
+      </collision>
+      <visual name="visual">
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="file://$(find irb6640_ros2_gazebo)/meshes/visual/link_2.dae"/>
+        </geometry>
+        <material name="yellow"/>
+      </visual>
+      <inertial>
+        <mass value="1"/>
+        <inertia ixx="1.0" ixy="1.0" ixz="1.0" iyy="1.0" iyz="1.0" izz="1.0" />
+      </inertial>
+    </link>
+
+    <!-- link_3 -->
+    <link name="${prefix}link_3">
+      <collision name="collision">
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="file://$(find irb6640_ros2_gazebo)/meshes/collision/link_3.stl"/>
+        </geometry>
+      </collision>
+      <visual name="visual">
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="file://$(find irb6640_ros2_gazebo)/meshes/visual/link_3.dae"/>
+        </geometry>
+        <material name="yellow"/>
+      </visual>
+      <inertial>
+        <mass value="1"/>
+        <inertia ixx="1.0" ixy="1.0" ixz="1.0" iyy="1.0" iyz="1.0" izz="1.0" />
+      </inertial>
+    </link>
+
+    <!-- link_4 -->
+    <link name="${prefix}link_4">
+      <collision name="collision">
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="file://$(find irb6640_ros2_gazebo)/meshes/collision/link_4.stl"/>
+        </geometry>
+      </collision>
+      <visual name="visual">
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="file://$(find irb6640_ros2_gazebo)/meshes/visual/link_4.dae"/>
+        </geometry>
+        <material name="yellow"/>
+      </visual>
+      <inertial>
+        <mass value="1"/>
+        <inertia ixx="1.0" ixy="1.0" ixz="1.0" iyy="1.0" iyz="1.0" izz="1.0" />
+      </inertial>
+    </link>
+
+    <!-- link_5 -->
+    <link name="${prefix}link_5">
+      <collision name="collision">
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="file://$(find irb6640_ros2_gazebo)/meshes/collision/link_5.stl"/>
+        </geometry>
+      </collision>
+      <visual name="visual">
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="file://$(find irb6640_ros2_gazebo)/meshes/visual/link_5.dae"/>
+        </geometry>
+        <material name="yellow"/>
+      </visual>
+      <inertial>
+        <mass value="1"/>
+        <inertia ixx="1.0" ixy="1.0" ixz="1.0" iyy="1.0" iyz="1.0" izz="1.0" />
+      </inertial>
+    </link>
+
+    <!-- link_6 -->
+    <link name="${prefix}link_6">
+      <collision name="collision">
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="file://$(find irb6640_ros2_gazebo)/meshes/collision/link_6.stl"/>
+        </geometry>
+      </collision>
+      <visual name="visual">
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="file://$(find irb6640_ros2_gazebo)/meshes/visual/link_6.dae"/>
+        </geometry>
+        <material name="yellow"/>
+      </visual>
+      <inertial>
+        <mass value="1"/>
+        <inertia ixx="1.0" ixy="1.0" ixz="1.0" iyy="1.0" iyz="1.0" izz="1.0" />
+      </inertial>
+    </link>
+
+    <!-- cylinder -->
+    <link name="${prefix}link_cylinder">
+      <collision name="collision">
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="file://$(find irb6640_ros2_gazebo)/meshes/collision/cylinder_link.stl"/>
+        </geometry>
+      </collision>
+      <visual name="visual">
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="file://$(find irb6640_ros2_gazebo)/meshes/visual/cylinder_link.dae"/>
+        </geometry>
+        <material name="yellow"/>
+      </visual>
+      <inertial>
+        <mass value="1"/>
+        <inertia ixx="1.0" ixy="1.0" ixz="1.0" iyy="1.0" iyz="1.0" izz="1.0" />
+      </inertial>
+    </link>
+    <!-- piston 
+    <link name="${prefix}link_piston">
+      <collision name="collision">
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="file://$(find irb6640_ros2_gazebo)/meshes/collision/piston_link.stl"/>
+        </geometry>
+      </collision>
+      <visual name="visual">
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="file://$(find irb6640_ros2_gazebo)/meshes/visual/piston_link.dae"/>
+        </geometry>
+        <material name="yellow"/>
+      </visual>
+      <inertial>
+        <mass value="1"/>
+        <inertia ixx="1.0" ixy="1.0" ixz="1.0" iyy="1.0" iyz="1.0" izz="1.0" />
+      </inertial>
+    </link> -->
+    <!-- end of link list -->
+
+    <!-- Joint list: -->
+    <!-- joint_1 -->
+    <joint type="revolute" name="${prefix}joint_1">
+      <origin xyz="0 0 0.780" rpy="0 0 0"/>
+      <axis xyz="0 0 1"/>
+      <parent link="${prefix}base_link"/>
+      <child link="${prefix}link_1"/>
+      <limit effort="0" lower="-2.967" upper="2.967" velocity="1.7453"/>
+      <dynamics damping="0.0" friction="0.0"/>
+    </joint>
+
+    <!-- joint_2 -->
+    <joint type="revolute" name="${prefix}joint_2">
+      <origin xyz="0.320 0 0" rpy="0 0 0"/>
+      <axis xyz="0 1 0"/>
+      <parent link="${prefix}link_1"/>
+      <child link="${prefix}link_2"/>
+      <limit effort="0" lower="-1.134" upper="1.4855" velocity="1.5707"/>
+      <dynamics damping="0.0" friction="0.0"/>
+    </joint>
+
+    <!-- joint_3 -->
+    <joint type="revolute" name="${prefix}joint_3">
+      <origin xyz="0 0 1.075" rpy="0 0 0"/>
+      <axis xyz="0 1 0"/>
+      <parent link="${prefix}link_2"/>
+      <child link="${prefix}link_3"/>
+      <limit effort="0" lower="-3.142" upper="1.222" velocity="1.5707"/>
+      <dynamics damping="0.0" friction="0.0"/>
+    </joint>
+
+    <!-- joint_4 -->
+    <joint type="revolute" name="${prefix}joint_4">
+      <origin xyz="0 0 0.2" rpy="0 0 0"/>
+      <axis xyz="1 0 0"/>
+      <parent link="${prefix}link_3"/>
+      <child link="${prefix}link_4"/>
+      <limit effort="0" lower="-5.236" upper="5.236" velocity="2.9671"/>
+      <dynamics damping="0.0" friction="0.0"/>
+    </joint>
+
+    <!-- joint_5 -->
+    <joint type="revolute" name="${prefix}joint_5">
+      <origin xyz="1.392 0 0 " rpy="0 0 0"/>
+      <axis xyz="0 1 0"/>
+      <parent link="${prefix}link_4"/>
+      <child link="${prefix}link_5"/>
+      <limit effort="0" lower="-2.094" upper="2.094" velocity="2.4435"/>
+    </joint>
+
+    <!-- joint_6 -->
+    <joint type="revolute" name="${prefix}joint_6">
+      <origin xyz="0.2 0 0 " rpy="0 0 0"/>
+      <axis xyz="1 0 0"/>
+      <parent link="${prefix}link_5"/>
+      <child link="${prefix}link_6"/>
+      <limit effort="0" lower="-6.283" upper="6.283" velocity="3.3161"/>
+      <dynamics damping="0.0" friction="0.0"/>
+    </joint>
+    <!-- end of joint list -->
+
+    <!-- ROS-Industrial 'tool0' frame: all-zeros tool frame -->
+    <link name="${prefix}tool0" />
+    <joint type="fixed" name="${prefix}joint_6-tool0">
+      <parent link="${prefix}link_6"/>
+      <child link="${prefix}tool0"/>
+      <origin xyz="0 0 0" rpy="0 1.57079632679 0"/>
+    </joint>
+
+    <!-- cylinder joint -->
+    <joint type="continuous" name="${prefix}joint_cylinder">
+      <origin xyz="-0.3647 0 -0.1455" rpy="0 0 0"/>
+      <axis xyz="0 1 0"/>
+      <parent link="${prefix}link_1"/>
+      <child link="${prefix}link_cylinder"/>
+      <mimic joint="${prefix}joint_2" multiplier="-0.25"/>
+      <dynamics damping="0.0" friction="0.0"/>
+    </joint>
+
+    <!-- piston joint  
+    <joint type="continuous" name="${prefix}joint_piston">
+      <origin xyz="-0.22 0 -0.0672" rpy="0 0 0"/>
+      <axis xyz="0 1 0"/>
+      <parent link="${prefix}link_2"/>
+      <child link="${prefix}link_piston"/>
+      <mimic joint="${prefix}joint_2" multiplier="-1.25"/>
+      <dynamics damping="0.0" friction="0.0"/>
+    </joint> -->
+    
+
+    <!-- ROS base_link to ABB World Coordinates transform -->
+    <link name="${prefix}base" />
+    <joint name="${prefix}base_link-base" type="fixed">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <parent link="${prefix}base_link"/>
+      <child link="${prefix}base"/>
+    </joint>
+
+  </xacro:macro>
+</robot>
