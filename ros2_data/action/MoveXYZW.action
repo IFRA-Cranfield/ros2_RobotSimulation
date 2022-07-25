@@ -1,7 +1,9 @@
-float64 goalx
-float64 goaly
-float64 goalz
-float64 goalw
+float64 positionx
+float64 positiony
+float64 positionz
+float64 yaw
+float64 pitch
+float64 roll
 ---
 string result
 ---

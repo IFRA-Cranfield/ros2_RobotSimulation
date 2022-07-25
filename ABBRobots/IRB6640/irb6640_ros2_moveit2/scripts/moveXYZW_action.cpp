@@ -79,11 +79,15 @@ private:
         const rclcpp_action::GoalUUID & uuid,
         std::shared_ptr<const MoveXYZW::Goal> goal)
     {
-        double goalX =  goal->goalx;
-        double goalY =  goal->goaly;
-        double goalZ =  goal->goalz;
-        double goalW =  goal->goalw;
-        RCLCPP_INFO(get_logger(), "Received a POSE GOAL request, with XYZW -> (x = %.2f, y = %.2f, z = %.2f, w = %.2f)", goalX, goalY, goalZ, goalW);
+        double positionX =  goal->positionx;
+        double positionY =  goal->positiony;
+        double positionZ =  goal->positionz;
+        double yaw =  goal->yaw;
+        double pitch =  goal->pitch;
+        double roll =  goal->roll;
+        RCLCPP_INFO(get_logger(), "Received a POSE GOAL request:");
+        RCLCPP_INFO(this->get_logger(), "POSITION -> (x = %.2f, y = %.2f, z = %.2f)", positionX, positionY, positionZ);
+        RCLCPP_INFO(this->get_logger(), "ORIENTATION (euler) -> (yaw = %.2f, pitch = %.2f, roll = %.2f)", yaw, pitch, roll);
         //(void)uuid;
         return rclcpp_action::GoalResponse::ACCEPT_AND_EXECUTE; // Accept and execute the goal received.
     }
@@ -120,10 +124,12 @@ private:
         
         // Obtain input value (goal -- GoalPOSE):
         const auto goal = goal_handle->get_goal();
-        double goalX =  goal->goalx;
-        double goalY =  goal->goaly;
-        double goalZ =  goal->goalz;
-        double goalW =  goal->goalw;
+        double positionX =  goal->positionx;
+        double positionY =  goal->positiony;
+        double positionZ =  goal->positionz;
+        double yaw =  goal->yaw;
+        double pitch =  goal->pitch;
+        double roll =  goal->roll;
         
         // FEEDBACK?
         // No feedback needed for MoveXYZW Action Calls.
@@ -137,14 +143,31 @@ private:
 
         // Get CURRENT POSE:
         auto current_pose = move_group_interface.getCurrentPose();
-        RCLCPP_INFO(this->get_logger(), "Current POSE before the new MoveXYZW was -> (x = %.2f, y = %.2f, z = %.2f, w = %.2f)", current_pose.pose.orientation.x, current_pose.pose.orientation.y,current_pose.pose.orientation.z,current_pose.pose.orientation.w);
+        RCLCPP_INFO(this->get_logger(), "Current POSE before the new MoveXYZW was:");
+        RCLCPP_INFO(this->get_logger(), "POSITION -> (x = %.2f, y = %.2f, z = %.2f)", current_pose.pose.position.x, current_pose.pose.position.y,current_pose.pose.position.z);
+        RCLCPP_INFO(this->get_logger(), "ORIENTATION (quaternion) -> (x = %.2f, y = %.2f, z = %.2f, w = %.2f)", current_pose.pose.orientation.x, current_pose.pose.orientation.y,current_pose.pose.orientation.z,current_pose.pose.orientation.w);
+
+        // EULER to QUATERNION CONVERSION:
+        double cy = cos(k*yaw * 0.5);
+        double sy = sin(k*yaw * 0.5);
+        double cp = cos(k*pitch * 0.5);
+        double sp = sin(k*pitch * 0.5);
+        double cr = cos(k*roll * 0.5);
+        double sr = sin(k*roll * 0.5);
+        double orientationX = sr * cp * cy - cr * sp * sy;
+        double orientationY = cr * sp * cy + sr * cp * sy;
+        double orientationZ = cr * cp * sy - sr * sp * cy;
+        double orientationW = cr * cp * cy + sr * sp * sy;
 
         // POSE-goal planning:
         geometry_msgs::msg::Pose target_pose;
-        target_pose.orientation.w = goalW;
-        target_pose.position.x = goalX;
-        target_pose.position.y = goalZ;
-        target_pose.position.z = goalY;
+        target_pose.position.x = positionX;
+        target_pose.position.y = positionY;
+        target_pose.position.z = positionZ;
+        target_pose.orientation.x = orientationX;
+        target_pose.orientation.y = orientationY;
+        target_pose.orientation.z = orientationZ;
+        target_pose.orientation.w = orientationW;
         move_group_interface.setPoseTarget(target_pose);
 
         // Plan, execute and inform (with feedback):
