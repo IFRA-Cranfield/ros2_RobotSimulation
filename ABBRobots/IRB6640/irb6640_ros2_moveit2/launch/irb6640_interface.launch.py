@@ -280,6 +280,14 @@ def generate_launch_description():
         output="screen",
         parameters=[robot_description, robot_description_semantic, kinematics_yaml],
     )
+    # MoveL ACTION:
+    moveL_interface = Node(
+        name="moveL_action",
+        package="irb6640_ros2_moveit2",
+        executable="moveL_action",
+        output="screen",
+        parameters=[robot_description, robot_description_semantic, kinematics_yaml],
+    )
 
     return LaunchDescription(
         [
@@ -304,7 +312,8 @@ def generate_launch_description():
 
                         # Interface:
                         moveJ_interface,
-                        moveXYZW_interface
+                        moveXYZW_interface,
+                        moveL_interface
 
                     ]
                 )

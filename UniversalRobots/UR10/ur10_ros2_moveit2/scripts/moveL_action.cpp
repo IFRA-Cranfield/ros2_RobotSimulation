@@ -30,7 +30,7 @@
 
 */
 
-// MoveL ACTION SERVER for ABB IRB-120 Robot.
+// MoveL ACTION SERVER for UR10 Robot.
 
 #include <functional>
 #include <memory>
@@ -131,7 +131,7 @@ private:
         auto result = std::make_shared<MoveL::Result>();
         
         // Joint model group:
-        const moveit::core::JointModelGroup* joint_model_group = move_group_interface.getCurrentState()->getJointModelGroup("irb120_arm");
+        const moveit::core::JointModelGroup* joint_model_group = move_group_interface.getCurrentState()->getJointModelGroup("ur10_robot");
 
         // Get CURRENT POSE:
         auto current_pose = move_group_interface.getCurrentPose();
@@ -196,11 +196,11 @@ private:
             } else {
                 
                 if(success2) {
-                    RCLCPP_INFO(this->get_logger(), "ABB IRB120 - MoveL: Execution successful!");
+                    RCLCPP_INFO(this->get_logger(), "UR10 - MoveL: Execution successful!");
                     result->result = "MoveL:SUCCESS";
                     goal_handle->succeed(result);
                 } else {
-                    RCLCPP_INFO(this->get_logger(), "ABB IRB120 - MoveL: Execution failed!");
+                    RCLCPP_INFO(this->get_logger(), "UR10 - MoveL: Execution failed!");
                     result->result = "MoveL:EXECUTION-FAILED";
                     goal_handle->succeed(result);
                 } 
@@ -209,7 +209,7 @@ private:
 
         } else {
 
-            RCLCPP_INFO(this->get_logger(), "ABB IRB120 - MoveL: Planning failed!");
+            RCLCPP_INFO(this->get_logger(), "UR10 - MoveL: Planning failed!");
             result->result = "MoveL:PLANNING-FAILED";
             goal_handle->succeed(result);
 
@@ -226,14 +226,14 @@ int main(int argc, char ** argv)
 
   // Launch and spin (EXECUTOR) MoveIt!2 Interface node:
   auto const node2= std::make_shared<rclcpp::Node>(
-      "irb120_moveit2_interface_MoveL", rclcpp::NodeOptions().automatically_declare_parameters_from_overrides(true));
+      "ur10_moveit2_interface_MoveL", rclcpp::NodeOptions().automatically_declare_parameters_from_overrides(true));
   rclcpp::executors::SingleThreadedExecutor executor; 
   executor.add_node(node2);
   std::thread([&executor]() { executor.spin(); }).detach();
 
   // Create the Move Group Interface:
   using moveit::planning_interface::MoveGroupInterface;
-  move_group_interface = MoveGroupInterface(node2, "irb120_arm");
+  move_group_interface = MoveGroupInterface(node2, "ur10_robot");
   // Create the MoveIt PlanningScene Interface:
   using moveit::planning_interface::PlanningSceneInterface;
   auto planning_scene_interface = PlanningSceneInterface();

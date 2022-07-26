@@ -117,5 +117,17 @@ ament_target_dependencies(
 install(TARGETS
   moveXYZW_action
   DESTINATION lib/${PROJECT_NAME})
+# moveL_action.cpp:
+add_executable(moveL_action scripts/moveL_action.cpp)
+ament_target_dependencies(
+  moveL_action
+  moveit_ros_planning_interface
+  std_msgs
+  rclcpp
+  rclcpp_action
+  ros2_data)
+install(TARGETS
+  moveL_action
+  DESTINATION lib/${PROJECT_NAME})
 
 ament_package()
