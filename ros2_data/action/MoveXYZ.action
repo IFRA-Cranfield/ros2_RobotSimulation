@@ -1,0 +1,7 @@
+float64 positionx
+float64 positiony
+float64 positionz
+---
+string result
+---
+string feedback

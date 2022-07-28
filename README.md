@@ -350,10 +350,27 @@ The list below contains all different Robot/Gripper Triggers that have been impl
   ros2 action send_goal -f /MoveL ros2_data/action/MoveL "{movex: 0.00, movey: 0.00, movez: 0.00}"
   ```
 
+* MoveR: The Robot rotates the selected joint a specific amount of degrees.
+  ```sh
+  ros2 action send_goal -f /MoveR ros2_data/action/MoveR "{joint: '---', value: 0.00}"
+  ```
+
 * MoveXYZW: The Robot moves to the specific waypoint, which is represented by the Position(x,y,z) + EulerAngles(yaw,pitch,roll) End-Effector coordinates.
   ```sh
   ros2 action send_goal -f /MoveXYZW ros2_data/action/MoveXYZW "{positionx: 0.00, positiony: 0.00, positionz: 0.00, yaw: 0.00, pitch: 0.00, roll: 0.00}"
   ```
+
+* MoveXYZ: The Robot moves to the specific waypoint -> Position(x,y,z) maintaining the End-Effector orientation.
+  ```sh
+  ros2 action send_goal -f /MoveXYZ ros2_data/action/MoveXYZ "{positionx: 0.00, positiony: 0.00, positionz: 0.00}"
+  ```
+
+* MoveYPR: The Robot rotates/orientates the End-Effector frame according to the input: EulerAngles(yaw,pitch,roll).
+  ```sh
+  ros2 action send_goal -f /MoveYPR ros2_data/action/MoveYPR "{yaw: 0.00, pitch: 0.00, roll: 0.00}"
+  ```
+
+* NOTE: For the (Yaw - Pitch - Roll) Euler Angles rotation, the following [coordinate system](TBD) has been used as the reference frame for the rotations. In fact, all YPR action calls rotate the robot end-effector to the orientation specified by the (input) Euler Angles, relative to the reference frame.
 
 <h4><u>Example</u>: ABB IRB120 + Schunk EGP64</h4>
 https://user-images.githubusercontent.com/98389310/176437077-6e583a0f-50e6-4e00-ae09-56e233f976f5.mp4
