@@ -255,7 +255,7 @@ private:
                 goal_handle->succeed(result);
             }    
 
-        } else if (LimitCheck == false && InputJoint == "Valid") {
+        } else if (LimitCheck == true && InputJoint == "Valid") {
 
             RCLCPP_INFO(this->get_logger(), "ABB IRB120 Robot - MoveR: Planning failed, JOINT LIMITS exceeded!");
             result->result = "MoveR:FAILED";
