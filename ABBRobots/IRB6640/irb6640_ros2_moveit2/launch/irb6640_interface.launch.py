@@ -28,8 +28,8 @@
 # You can cite our work with the following statement:
 # IFRA (2022) ROS2.0 ROBOT SIMULATION. URL: https://github.com/IFRA-Cranfield/ros2_RobotSimulation.
 
-# irb120.launch.py:
-# Launch file for the ABB-IRB120 Robot GAZEBO + MoveIt!2 SIMULATION (+ Robot/Gripper triggers) in ROS2 Foxy:
+# irb6640.launch.py:
+# Launch file for the ABB-IRB6640 Robot GAZEBO + MoveIt!2 SIMULATION (+ Robot/Gripper triggers) in ROS2 Foxy:
 
 # Import libraries:
 import os
