@@ -89,5 +89,41 @@ ament_target_dependencies(
 install(TARGETS
   moveL_action
   DESTINATION lib/${PROJECT_NAME})
+# moveR_action.cpp:
+add_executable(moveR_action scripts/moveR_action.cpp)
+ament_target_dependencies(
+  moveR_action
+  moveit_ros_planning_interface
+  std_msgs
+  rclcpp
+  rclcpp_action
+  ros2_data)
+install(TARGETS
+  moveR_action
+  DESTINATION lib/${PROJECT_NAME})
+# moveXYZ_action.cpp:
+add_executable(moveXYZ_action scripts/moveXYZ_action.cpp)
+ament_target_dependencies(
+  moveXYZ_action
+  moveit_ros_planning_interface
+  std_msgs
+  rclcpp
+  rclcpp_action
+  ros2_data)
+install(TARGETS
+  moveXYZ_action
+  DESTINATION lib/${PROJECT_NAME})
+# moveYPR_action.cpp:
+add_executable(moveYPR_action scripts/moveYPR_action.cpp)
+ament_target_dependencies(
+  moveYPR_action
+  moveit_ros_planning_interface
+  std_msgs
+  rclcpp
+  rclcpp_action
+  ros2_data)
+install(TARGETS
+  moveYPR_action
+  DESTINATION lib/${PROJECT_NAME})
 
 ament_package()

@@ -303,6 +303,30 @@ def generate_launch_description():
         output="screen",
         parameters=[robot_description, robot_description_semantic, kinematics_yaml],
     )
+    # MoveR ACTION:
+    moveR_interface = Node(
+        name="moveR_action",
+        package="ur5_ros2_moveit2",
+        executable="moveR_action",
+        output="screen",
+        parameters=[robot_description, robot_description_semantic, kinematics_yaml],
+    )
+    # MoveXYZ ACTION:
+    moveXYZ_interface = Node(
+        name="moveXYZ_action",
+        package="ur5_ros2_moveit2",
+        executable="moveXYZ_action",
+        output="screen",
+        parameters=[robot_description, robot_description_semantic, kinematics_yaml],
+    )
+    # MoveYPR ACTION:
+    moveYPR_interface = Node(
+        name="moveYPR_action",
+        package="ur5_ros2_moveit2",
+        executable="moveYPR_action",
+        output="screen",
+        parameters=[robot_description, robot_description_semantic, kinematics_yaml],
+    )
 
     return LaunchDescription(
         [
@@ -328,7 +352,10 @@ def generate_launch_description():
                         # Interface:
                         moveJ_interface,
                         moveXYZW_interface,
-                        moveL_interface
+                        moveL_interface,
+                        moveR_interface,
+                        moveXYZ_interface,
+                        moveYPR_interface
 
                     ]
                 )
