@@ -146,7 +146,7 @@ private:
         j4 = current_JointValues[3] * (1/k);
         j5 = current_JointValues[4] * (1/k);
         j6 = current_JointValues[5] * (1/k);
-        j6 = current_JointValues[6] * (1/k);
+        j7 = current_JointValues[6] * (1/k);
 
         RCLCPP_INFO(this->get_logger(), "Current JOINT VALUES before MoveR are -> (j1 = %.2f, j2 = %.2f, j3 = %.2f, j4 = %.2f, j5 = %.2f, j6 = %.2f, j7 = %.2f)", j1, j2, j3, j4, j5, j6, j7);
         
@@ -266,7 +266,7 @@ private:
                 goal_handle->succeed(result);
             }    
 
-        } else if (LimitCheck == false && InputJoint == "Valid") {
+        } else if (LimitCheck == true && InputJoint == "Valid") {
 
             RCLCPP_INFO(this->get_logger(), "PANDA Robot - MoveR: Planning failed, JOINT LIMITS exceeded!");
             result->result = "MoveR:FAILED";
