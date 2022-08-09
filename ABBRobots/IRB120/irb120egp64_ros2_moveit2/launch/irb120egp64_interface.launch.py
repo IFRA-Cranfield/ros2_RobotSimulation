@@ -272,7 +272,7 @@ def generate_launch_description():
         condition=UnlessCondition(load_RVIZfile),
     )
 
-    # ====================== INTERFACES FOR MoveJ and MoveG ====================== #
+    # ====================== INTERFACES FOR MoveJ, MoveG, MoveXYZW... ====================== #
     
     # ===== SERVICES ===== #
     # MoveJ SERVICE:
