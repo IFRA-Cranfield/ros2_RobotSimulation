@@ -271,8 +271,8 @@ int main(int argc, char ** argv)
   auto planning_scene_interface = PlanningSceneInterface();
 
   // Set max. VELOCITY and ACELLERATION scaling values to unit:
-  move_group_interface.setMaxVelocityScalingFactor(1);
-  move_group_interface.setMaxAccelerationScalingFactor(1);
+  move_group_interface.setMaxVelocityScalingFactor(0.7);
+  move_group_interface.setMaxAccelerationScalingFactor(0.7);
   
   // Declare and spin ACTION SERVER:
   auto action_server = std::make_shared<ActionServer>();
