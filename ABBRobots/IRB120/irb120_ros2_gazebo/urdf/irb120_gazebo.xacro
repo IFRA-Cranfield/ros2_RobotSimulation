@@ -30,7 +30,7 @@
 #                                                                                       #
 #  Some of the information used to build the ROS2 ABB-IRB120 .urdf files in this ROS2   #
 #  repository has been taken from the following resource:                               #
-#       - abb-experimental (https://github.com/ros-industrial/abb-experimental)         #
+#       - abb_experimental (https://github.com/ros-industrial/abb_experimental)         #
 #                                                                                       #
 #  AUTHORS:                                                                             #
 #       - ROS-Industrial - https://rosindustrial.org                                    #
