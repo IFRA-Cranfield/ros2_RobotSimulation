@@ -26,13 +26,36 @@
 #                                                                                       #
 # ===================================== COPYRIGHT ===================================== #
 
+# ===================================== COPYRIGHT ===================================== #
+#                                                                                       #
+#  Some of the information used to build the ROS2 UR10-Robot .urdf files in this ROS2   #
+#  repository has been taken from the following resources:                              #
+#       - Universal Robots ROS2 Description:                                            #
+#         https://github.com/UniversalRobots/Universal_Robots_ROS2_Description          #
+#       - Universal Robots ROS2 Gazebo Simulation:                                      #
+#         https://github.com/UniversalRobots/Universal_Robots_ROS2_Gazebo_Simulation    #
+#                                                                                       #
+#  AUTHORS:                                                                             #
+#       - ROS-Industrial - https://rosindustrial.org                                    #
+#       - Universal Robots - https://github.com/UniversalRobots                         #
+#       - Nadia Hammoudeh Garcia, Kelsey Hawkins, G.A. vd. Hoorn, Lovro Ivanov, Mathias #
+#         Ludtke, Wim Meeussen, Felix Messmer, Miguel Prada Sarasola, Denis Stogl,      #
+#         Andy Zelenak, Marvin Grosse Besselmann.                                       #
+#       - Maintainers: Felix Exner (exner@fzi.de), Tristan Schnell (schnell@fzi.de),    #
+#         Lovro Ivanov (lovro.ivanov@gmail.com), Denis Stogl (denis@stoglrobotics.de).  #
+#                                                                                       #
+#  Copyright (c) 2021, Universal Robots A/S                                             #
+#  (ORIGINAL LICENSE) -> Licensed under the BSD 3-Clause License.                       #
+#                                                                                       #
+#  CHANGES MADE:                                                                        #
+#  Robot information/specifications have been taken, and the code has been modified and #
+#  re-organised in accordance with the ros2_RobotSimulation standards.                  #
+#                                                                                       #
+# ===================================== COPYRIGHT ===================================== #
+
 # ======= CITE OUR WORK ======= #
 # You can cite our work with the following statement:
 # IFRA (2022) ROS2.0 ROBOT SIMULATION. URL: https://github.com/IFRA-Cranfield/ros2_RobotSimulation.
-
-#  Reference: UR10 specifications retrieved from the following GitHub repositories:
-#   - Universal Robots ROS2 Driver: https://github.com/UniversalRobots/Universal_Robots_ROS2_Driver 
-#   - Universal Robots ROS2 Gazebo Simulation: https://github.com/UniversalRobots/Universal_Robots_ROS2_Gazebo_Simulation
 
 -->
 
