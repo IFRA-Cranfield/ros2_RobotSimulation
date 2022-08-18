@@ -26,6 +26,25 @@
 #                                                                                       #
 # ===================================== COPYRIGHT ===================================== #
 
+# ===================================== COPYRIGHT ===================================== #
+#                                                                                       #
+#  Some of the information used to build the ROS2 Panda-Robot .urdf files in this ROS2  #
+#  repository has been taken from the following resources:                              #
+#     - frankaemika/franka_ros2 -> https://github.com/frankaemika/franka_ros2.          #
+#       The original files can be found in the franka_description ROS2 package inside   #
+#       he franka_ros2 GitHub repository.                                               #
+#                                                                                       #
+#  AUTHOR: Franka Emika GmbH - support@franka.de                                        #
+#                                                                                       #
+#  Copyright 2021 Franka Emika GmbH                                                     #
+#  (ORIGINAL LICENSE) -> Licensed under the Apache-2.0 License.                         #
+#                                                                                       #
+#  CHANGES MADE:                                                                        #
+#  Robot information/specifications have been taken, and the code has been modified and #
+#  re-organised in accordance with the ros2_RobotSimulation standards.                  #
+#                                                                                       #
+# ===================================== COPYRIGHT ===================================== #
+
 # ======= CITE OUR WORK ======= #
 # You can cite our work with the following statement:
 # IFRA (2022) ROS2.0 ROBOT SIMULATION. URL: https://github.com/IFRA-Cranfield/ros2_RobotSimulation.
