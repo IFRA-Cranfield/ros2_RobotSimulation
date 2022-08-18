@@ -26,6 +26,26 @@
 #                                                                                       #
 # ===================================== COPYRIGHT ===================================== #
 
+# ===================================== COPYRIGHT ===================================== #
+#                                                                                       #
+#  Some of the information used to build the ROS2 ABB-IRB120 .urdf files in this ROS2   #
+#  repository has been taken from the following resource:                               #
+#       - abb-experimental (https://github.com/ros-industrial/abb-experimental)         #
+#                                                                                       #
+#  AUTHORS:                                                                             #
+#       - ROS-Industrial - https://rosindustrial.org                                    #
+#       - Mark Culleton (Trinity College Dublin) - culletom@tcd.ie                      #
+#       - Kevin Kelly   (Trinity College Dublin)                                        #
+#                                                                                       #
+#  COPYRIGHT - ROS-Industrial                                                           #
+#  (ORIGINAL LICENSE) -> Licensed under the Apache-2.0 License.                         #
+#                                                                                       #
+#  CHANGES MADE:                                                                        #
+#  The original files contain the .urdf information of the robot for ROS1, and these    #
+#  have been modified for ROS2.                                                         #
+#                                                                                       #
+# ===================================== COPYRIGHT ===================================== #
+
 # ======= CITE OUR WORK ======= #
 # You can cite our work with the following statement:
 # IFRA (2022) ROS2.0 ROBOT SIMULATION. URL: https://github.com/IFRA-Cranfield/ros2_RobotSimulation.
