@@ -61,35 +61,9 @@
   <!-- Fix robot to Gazebo world -->
   <link name="world"/>
 
-  <!-- CRANFIELD UNIVERSITY LAB CELL -->
-  <link name="cell">
-    <visual>
-      <origin xyz="-0.21 -0.357 0.0" rpy="0 0 0" />
-      <geometry>
-        <mesh filename="file://$(find irb120_ros2_gazebo)/meshes/irb120_cell.dae" scale="1 1 1" />
-      </geometry>
-    </visual>
-    <collision>
-      <origin xyz="-0.21 -0.357 0.0" rpy="0 0 0" />
-      <geometry>
-        <mesh filename="file://$(find irb120_ros2_gazebo)/meshes/irb120_cell.dae" scale="1 1 1" />
-      </geometry>
-    </collision>
-    <inertial>
-      <mass value="1000.0"/>
-      <inertia ixx="500.0" ixy="500.0" ixz="500.0" iyy="500.0" iyz="500.0" izz="500.0" />
-    </inertial>
-  </link>
-
-  <joint name="world-cell-fixed" type="fixed">
+  <joint name="world-base_link-fixed" type="fixed">
     <parent link="world"/>
-    <child link="cell"/>
-  </joint>
-  
-  <joint name="cell-base_link-fixed" type="fixed">
-    <parent link="cell"/>
     <child link="base_link"/>
-    <origin xyz="0.0 0.0 0.015" rpy="0.0 0.0 0.0" />
   </joint>
 
 </robot>
