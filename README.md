@@ -227,6 +227,7 @@ The Simulation & Control packages of the following Robots are currently availabl
 - [Panda Robot](https://github.com/IFRA-Cranfield/ros2_RobotSimulation/tree/master/PandaRobot)
 - [ABB IRB-120 Robot](https://github.com/IFRA-Cranfield/ros2_RobotSimulation/tree/master/ABBRobots/IRB120)
 - [ABB IRB-120 Robot with Schunk EGP-64 Gripper](https://github.com/IFRA-Cranfield/ros2_RobotSimulation/tree/master/ABBRobots/IRB120)
+- [ABB IRB-1200 Robot](https://github.com/IFRA-Cranfield/ros2_RobotSimulation/tree/master/ABBRobots/IRB1200)
 - [ABB IRB-6640 Robot](https://github.com/IFRA-Cranfield/ros2_RobotSimulation/tree/master/ABBRobots/IRB6640)
 - [UR3 Robot](https://github.com/IFRA-Cranfield/ros2_RobotSimulation/tree/master/UniversalRobots/UR3)
 - [UR5 Robot](https://github.com/IFRA-Cranfield/ros2_RobotSimulation/tree/master/UniversalRobots/UR5)
@@ -250,6 +251,10 @@ The Simulation & Control packages of the following Robots are currently availabl
 * ABB IRB-120 + Schunk EGP-64:
   ```sh
   ros2 launch irb120egp64_ros2_gazebo irb120egp64_simulation.launch.py
+  ```
+* ABB IRB-1200:
+  ```sh
+  ros2 launch irb1200_ros2_gazebo irb1200_simulation.launch.py
   ```
 * ABB IRB-6640:
   ```sh
@@ -282,6 +287,10 @@ The Simulation & Control packages of the following Robots are currently availabl
   ```sh
   ros2 launch irb120egp64_ros2_moveit2 irb120egp64.launch.py
   ```
+* ABB IRB-1200:
+  ```sh
+  ros2 launch irb1200_ros2_moveit2 irb1200.launch.py
+  ```
 * ABB IRB-6640:
   ```sh
   ros2 launch irb6640_ros2_moveit2 irb6640.launch.py
@@ -312,6 +321,10 @@ The Simulation & Control packages of the following Robots are currently availabl
 * ABB IRB-120 + Schunk EGP-64:
   ```sh
   ros2 launch irb120egp64_ros2_moveit2 irb120egp64_interface.launch.py
+  ```
+* ABB IRB-1200:
+  ```sh
+  ros2 launch irb1200_ros2_moveit2 irb1200_interface.launch.py
   ```
 * ABB IRB-6640:
   ```sh
