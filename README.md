@@ -22,7 +22,7 @@
 #           Seemal Asif      - s.asif@cranfield.ac.uk                                   #
 #           Phil Webb        - p.f.webb@cranfield.ac.uk                                 #
 #                                                                                       #
-#  Date: July, 2022.                                                                    #
+#  Date: October, 2022.                                                                 #
 #                                                                                       #
 # ===================================== COPYRIGHT ===================================== #
 
@@ -232,6 +232,7 @@ The Simulation & Control packages of the following Robots are currently availabl
 - [UR3 Robot](https://github.com/IFRA-Cranfield/ros2_RobotSimulation/tree/master/UniversalRobots/UR3)
 - [UR5 Robot](https://github.com/IFRA-Cranfield/ros2_RobotSimulation/tree/master/UniversalRobots/UR5)
 - [UR10 Robot](https://github.com/IFRA-Cranfield/ros2_RobotSimulation/tree/master/UniversalRobots/UR10)
+- [Fanuc CR35-iA Robot](https://github.com/IFRA-Cranfield/ros2_RobotSimulation/tree/master/Fanuc/CR35iA)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -272,6 +273,10 @@ The Simulation & Control packages of the following Robots are currently availabl
   ```sh
   ros2 launch ur10_ros2_gazebo ur10_simulation.launch.py
   ```
+* Fanuc CR35-iA:
+  ```sh
+  ros2 launch cr35ia_ros2_gazebo cr35ia_simulation.launch.py
+  ```
 
 <h4><u>Execute Robot Simulation w/ MoveIt!2</u></h4>
 
@@ -307,6 +312,10 @@ The Simulation & Control packages of the following Robots are currently availabl
   ```sh
   ros2 launch ur10_ros2_moveit2 ur10.launch.py
   ```
+* Fanuc CR35-iA:
+  ```sh
+  ros2 launch cr35ia_ros2_moveit2 cr35ia.launch.py
+  ```
 
 <h4><u>Execute Robot Simulation w/ MoveIt!2 and Robot/Gripper Triggers (Action Servers)</u></h4>
 
@@ -341,6 +350,10 @@ The Simulation & Control packages of the following Robots are currently availabl
 * UR10:
   ```sh
   ros2 launch ur10_ros2_moveit2 ur10_interface.launch.py
+  ```
+* Fanuc CR35-iA:
+  ```sh
+  ros2 launch cr35ia_ros2_moveit2 cr35ia_interface.launch.py
   ```
 
 <h4><u>Robot/Gripper Triggers: ROS2.0 Action Calls</u></h4>

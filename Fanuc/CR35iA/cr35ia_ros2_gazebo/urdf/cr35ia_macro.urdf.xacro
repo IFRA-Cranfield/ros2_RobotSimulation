@@ -1,0 +1,315 @@
+<?xml version="1.0"?>
+
+<!-- 
+
+# ===================================== COPYRIGHT ===================================== #
+#                                                                                       #
+#  IFRA (Intelligent Flexible Robotics and Assembly) Group, CRANFIELD UNIVERSITY        #
+#  Created on behalf of the IFRA Group at Cranfield University, United Kingdom          #
+#  E-mail: IFRA@cranfield.ac.uk                                                         #
+#                                                                                       #
+#  Licensed under the Apache-2.0 License.                                               #
+#  You may not use this file except in compliance with the License.                     #
+#  You may obtain a copy of the License at: http://www.apache.org/licenses/LICENSE-2.0  #
+#                                                                                       #
+#  Unless required by applicable law or agreed to in writing, software distributed      #
+#  under the License is distributed on an "as-is" basis, without warranties or          #
+#  conditions of any kind, either express or implied. See the License for the specific  #
+#  language governing permissions and limitations under the License.                    #
+#                                                                                       #
+#  IFRA Group - Cranfield University                                                    #
+#  AUTHORS: Mikel Bueno Viso - Mikel.Bueno-Viso@cranfield.ac.uk                         #
+#           Seemal Asif      - s.asif@cranfield.ac.uk                                   #
+#           Phil Webb        - p.f.webb@cranfield.ac.uk                                 #
+#                                                                                       #
+#  Date: October, 2022.                                                                 #
+#                                                                                       #
+# ===================================== COPYRIGHT ===================================== #
+
+# ===================================== COPYRIGHT ===================================== #
+#                                                                                       #
+#  Some of the information used to build the CR35-iA robot .urdf files in this ROS2     #
+#  repository has been taken from the following resource:                               #
+#       - ros-industrial/fanuc (https://github.com/ros-industrial/fanuc)                #
+#                                                                                       #
+#  AUTHORS:                                                                             #
+#       - ROS-Industrial - https://rosindustrial.org                                    #
+#       - G.A. vd. Hoorn (TU Delft Robotics Institute) - g.a.vanderhoorn@tudelft.nl     #
+#                                                                                       #
+#  COPYRIGHT - ROS-Industrial                                                           #
+#  (ORIGINAL LICENSE) -> Licensed under the Apache-2.0 License.                         #
+#                                                                                       #
+#  CHANGES MADE:                                                                        #
+#  The original files contain the .urdf information of the robot for ROS1, and these    #
+#  have been modified for ROS2.                                                         #
+#                                                                                       #
+# ===================================== COPYRIGHT ===================================== #
+
+# ======= CITE OUR WORK ======= #
+# You can cite our work with the following statement:
+# IFRA (2022) ROS2.0 ROBOT SIMULATION. URL: https://github.com/IFRA-Cranfield/ros2_RobotSimulation.
+
+-->
+
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+  
+  <!-- Include additional FANUC-materials xacro files: -->
+  <!-- <xacro:include filename="$(find cr35ia_ros2_gazebo)/urdf/fanuc_resources/common_materials.xacro" /> -->
+
+  <!-- Load TRANSMISSION file: -->
+  <xacro:include filename="$(find cr35ia_ros2_gazebo)/urdf/cr35ia_transmission.xacro" />
+  <!-- Load GAZEBO/ROS2_CONTROL file: -->
+  <xacro:include filename="$(find cr35ia_ros2_gazebo)/urdf/cr35ia_gazebo.xacro" />
+
+  <!-- XACRO-MACRO of FANUC CR35-iA: -->
+  <xacro:macro name="cr35ia" params="prefix">
+
+    <!-- FANUC CR35-iA TRANSMISSION: -->
+    <xacro:cr35ia_transmission prefix=""/>
+    <!-- FANUC CR35-iA GAZEBO - ROS2_CONTROL: -->
+    <xacro:cr35ia_gazebo prefix=""/>
+
+    <!-- ***** FANUC CR35-iA ROBOT .urdf SERIAL CHAIN ***** -->
+
+    <!--
+      Inertial values have been calculated using Meshlab:
+
+        1. Import (load) mesh (.stl) file.
+        2. View > Show layer dialog.
+        3. Filters > Quality Measure and Computations > Compute Geometric Measures.
+
+        - Total weight: 990kg
+        - VOLUME values:
+          * base_link = 0.331969
+          * link_1 = 0.079494
+          * link_2 = 0.058466
+          * link_3 = 0.071479
+          * link_4 = 0.027920
+          * link_5 = 0.002865
+          * link_6 = 0.000030
+        - MASS values:
+          * base_link = 574.338
+          * link_1 = 137.532
+          * link_2 = 101.152
+          * link_3 = 123.665
+          * link_4 = 48.304
+          * link_5 = 4.957
+          * link_6 = 0.052
+        - <inertia> values taken from Inertia Tensor matrix.
+        - <origin>: centre of mass vector.
+    -->
+
+    <!-- Link list: -->
+    <link name="${prefix}base_link">
+      <inertial>
+        <mass value="574.338"/>
+        <origin xyz="-0.017638 0.0 0.387487" rpy="0 0 0"/>
+        <inertia ixx="0.028429" ixy="0.0" ixz="0.000710" iyy="0.028429" iyz="0.0" izz="0.021617"/>
+      </inertial>
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="file://$(find cr35ia_ros2_gazebo)/meshes/visual/base_link.stl"/>
+        </geometry>
+        <!-- <xacro:material_fanuc_gray28 /> -->
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="file://$(find cr35ia_ros2_gazebo)/meshes/collision/base_link.stl"/>
+        </geometry>
+      </collision>
+    </link>
+    <link name="${prefix}link_1">
+      <inertial>
+        <mass value="137.532"/>
+        <origin xyz="0.058101 0.030484 -0.071312" rpy="0 0 0"/>
+        <inertia ixx="0.002557" ixy="-0.000115" ixz="-0.000260" iyy="0.002106" iyz="-0.000251" izz="0.002704"/>
+      </inertial>
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="file://$(find cr35ia_ros2_gazebo)/meshes/visual/link_1.stl"/>
+        </geometry>
+        <!-- <xacro:material_fanuc_green /> -->
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="file://$(find cr35ia_ros2_gazebo)/meshes/collision/link_1.stl"/>
+        </geometry>
+      </collision>
+    </link>
+    <link name="${prefix}link_2">
+      <inertial>
+        <mass value="101.152"/>
+        <origin xyz="0.000001 -0.182000 0.399248" rpy="0 0 0"/>
+        <inertia ixx="0.005" ixy="0.0" ixz="0.0" iyy="0.005191" iyz="0.000074" izz="0.000575"/>
+      </inertial>
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="file://$(find cr35ia_ros2_gazebo)/meshes/visual/link_2.stl"/>
+        </geometry>
+        <!-- <xacro:material_fanuc_green /> -->
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="file://$(find cr35ia_ros2_gazebo)/meshes/collision/link_2.stl"/>
+        </geometry>
+      </collision>
+    </link>
+    <link name="${prefix}link_3">
+      <inertial>
+        <mass value="123.665"/>
+        <origin xyz="0.071001 0.0 0.072697" rpy="0 0 0"/>
+        <inertia ixx="0.002242" ixy="0.000116" ixz="-0.000230" iyy="0.001699" iyz="0.000009" izz="0.002331"/>
+      </inertial>
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="file://$(find cr35ia_ros2_gazebo)/meshes/visual/link_3.stl"/>
+        </geometry>
+        <!-- <xacro:material_fanuc_green /> -->
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="file://$(find cr35ia_ros2_gazebo)/meshes/collision/link_3.stl"/>
+        </geometry>
+      </collision>
+    </link>
+    <link name="${prefix}link_4">
+      <inertial>
+        <mass value="48.304"/>
+        <origin xyz="0.605517 0.000001 -0.000391" rpy="0 0 0"/>
+        <inertia ixx="0.000185" ixy="0.0" ixz="0.0" iyy="0.000185" iyz="0.0" izz="0.001166"/>
+      </inertial>
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="file://$(find cr35ia_ros2_gazebo)/meshes/visual/link_4.stl"/>
+        </geometry>
+        <!-- <xacro:material_fanuc_green /> -->
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="file://$(find cr35ia_ros2_gazebo)/meshes/collision/link_4.stl"/>
+        </geometry>
+      </collision>
+    </link>
+    <link name="${prefix}link_5">
+      <inertial>
+        <mass value="4.957"/>
+        <origin xyz="-0.000459 0.003582 -0.000017" rpy="0 0 0"/>
+        <inertia ixx="0.000009" ixy="0.0" ixz="-0.0" iyy="0.000014" iyz="0.000009" izz="0.0"/>
+      </inertial>
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="file://$(find cr35ia_ros2_gazebo)/meshes/visual/link_5.stl"/>
+        </geometry>
+        <!-- <xacro:material_fanuc_white /> -->
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="file://$(find cr35ia_ros2_gazebo)/meshes/collision/link_5.stl"/>
+        </geometry>
+      </collision>
+    </link>
+    <link name="${prefix}link_6">
+      <inertial>
+        <mass value="0.052"/>
+        <origin xyz="-0.007542 -0.000000 0.000000" rpy="0 0 0"/>
+        <inertia ixx="0.0" ixy="0.0" ixz="0.0" iyy="0.0" iyz="0.0" izz="0.0"/>
+      </inertial>
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="file://$(find cr35ia_ros2_gazebo)/meshes/visual/link_6.stl"/>
+        </geometry>
+        <!-- <xacro:material_fanuc_black /> -->
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="file://$(find cr35ia_ros2_gazebo)/meshes/collision/link_6.stl"/>
+        </geometry>
+      </collision>
+    </link>
+    <!-- end of link list -->
+
+    <!-- Joint list: -->
+    <joint name="${prefix}joint_1" type="revolute">
+      <origin xyz="0 0 1.180" rpy="0 0 0"/>
+      <parent link="${prefix}base_link"/>
+      <child link="${prefix}link_1"/>
+      <axis xyz="0 0 1"/>
+      <limit lower="-2.9670" upper="2.9670" effort="0" velocity="3.1415"/>
+    </joint>
+    <joint name="${prefix}joint_2" type="revolute">
+      <origin xyz="0.150 0 0" rpy="0 0 0"/>
+      <parent link="${prefix}link_1"/>
+      <child link="${prefix}link_2"/>
+      <axis xyz="0 1 0"/>
+      <limit lower="-0.7853" upper="2.0943" effort="0" velocity="3.1415"/>
+    </joint>
+    <joint name="${prefix}joint_3" type="revolute">
+      <origin xyz="0 0 0.790" rpy="0 0 0"/>
+      <parent link="${prefix}link_2"/>
+      <child link="${prefix}link_3"/>
+      <axis xyz="0 -1 0"/>
+      <limit lower="-2.1450" upper="2.3561" effort="0" velocity="3.4906"/>
+    </joint>
+    <joint name="${prefix}joint_4" type="revolute">
+      <origin xyz="0 0 0.150" rpy="0 0 0"/>
+      <parent link="${prefix}link_3"/>
+      <child link="${prefix}link_4"/>
+      <axis xyz="-1 0 0"/>
+      <limit lower="-3.4906" upper="3.4906" effort="0" velocity="6.1086"/>
+    </joint>
+    <joint name="${prefix}joint_5" type="revolute">
+      <origin xyz="0.860 0 0" rpy="0 0 0"/>
+      <parent link="${prefix}link_4"/>
+      <child link="${prefix}link_5"/>
+      <axis xyz="0 -1 0"/>
+      <limit lower="-1.9198" upper="1.9198" effort="0" velocity="6.1086"/>
+    </joint>
+    <joint name="${prefix}joint_6" type="revolute">
+      <origin xyz="0.100 0 0" rpy="0 0 0"/>
+      <parent link="${prefix}link_5"/>
+      <child link="${prefix}link_6"/>
+      <axis xyz="-1 0 0"/>
+      <limit lower="-7.8539" upper="7.8539" effort="0" velocity="6.9813"/>
+    </joint>
+    <!-- end of joint list -->
+
+    <!-- ROS-Industrial 'base' frame: base_link to Fanuc World Coordinates transform -->
+    <link name="${prefix}base" />
+    <joint name="${prefix}base_link-base" type="fixed">
+      <origin xyz="0 0 1.180" rpy="0 0 0"/>
+      <parent link="${prefix}base_link"/>
+      <child link="${prefix}base"/>
+    </joint>
+
+    <!-- ROS-Industrial 'flange' frame: attachment point for EEF models -->
+    <link name="${prefix}flange" />
+    <joint name="${prefix}joint_6-flange" type="fixed">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <parent link="${prefix}link_6" />
+      <child link="${prefix}flange" />
+    </joint>
+
+    <!-- ROS-Industrial 'tool0' frame: all-zeros tool frame -->
+    <link name="${prefix}tool0" />
+    <joint name="${prefix}link_6-tool0" type="fixed">
+      <origin xyz="0 0 0" rpy="${pi} ${-pi/2.0} 0" />
+      <parent link="${prefix}flange" />
+      <child link="${prefix}tool0" />
+    </joint>
+
+  </xacro:macro>
+</robot>

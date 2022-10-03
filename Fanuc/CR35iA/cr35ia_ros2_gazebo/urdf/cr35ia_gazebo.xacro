@@ -1,0 +1,200 @@
+<?xml version="1.0"?>
+
+<!-- 
+
+# ===================================== COPYRIGHT ===================================== #
+#                                                                                       #
+#  IFRA (Intelligent Flexible Robotics and Assembly) Group, CRANFIELD UNIVERSITY        #
+#  Created on behalf of the IFRA Group at Cranfield University, United Kingdom          #
+#  E-mail: IFRA@cranfield.ac.uk                                                         #
+#                                                                                       #
+#  Licensed under the Apache-2.0 License.                                               #
+#  You may not use this file except in compliance with the License.                     #
+#  You may obtain a copy of the License at: http://www.apache.org/licenses/LICENSE-2.0  #
+#                                                                                       #
+#  Unless required by applicable law or agreed to in writing, software distributed      #
+#  under the License is distributed on an "as-is" basis, without warranties or          #
+#  conditions of any kind, either express or implied. See the License for the specific  #
+#  language governing permissions and limitations under the License.                    #
+#                                                                                       #
+#  IFRA Group - Cranfield University                                                    #
+#  AUTHORS: Mikel Bueno Viso - Mikel.Bueno-Viso@cranfield.ac.uk                         #
+#           Seemal Asif      - s.asif@cranfield.ac.uk                                   #
+#           Phil Webb        - p.f.webb@cranfield.ac.uk                                 #
+#                                                                                       #
+#  Date: October, 2022.                                                                 #
+#                                                                                       #
+# ===================================== COPYRIGHT ===================================== #
+
+# ===================================== COPYRIGHT ===================================== #
+#                                                                                       #
+#  Some of the information used to build the CR35-iA robot .urdf files in this ROS2     #
+#  repository has been taken from the following resource:                               #
+#       - ros-industrial/fanuc (https://github.com/ros-industrial/fanuc)                #
+#                                                                                       #
+#  AUTHORS:                                                                             #
+#       - ROS-Industrial - https://rosindustrial.org                                    #
+#       - G.A. vd. Hoorn (TU Delft Robotics Institute) - g.a.vanderhoorn@tudelft.nl     #
+#                                                                                       #
+#  COPYRIGHT - ROS-Industrial                                                           #
+#  (ORIGINAL LICENSE) -> Licensed under the Apache-2.0 License.                         #
+#                                                                                       #
+#  CHANGES MADE:                                                                        #
+#  The original files contain the .urdf information of the robot for ROS1, and these    #
+#  have been modified for ROS2.                                                         #
+#                                                                                       #
+# ===================================== COPYRIGHT ===================================== #
+
+# ======= CITE OUR WORK ======= #
+# You can cite our work with the following statement:
+# IFRA (2022) ROS2.0 ROBOT SIMULATION. URL: https://github.com/IFRA-Cranfield/ros2_RobotSimulation.
+
+-->
+
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <xacro:macro name="cr35ia_gazebo" params="prefix" >
+
+    <gazebo>
+      <plugin filename="libgazebo_ros2_control.so" name="gazebo_ros2_control">
+        <robot_sim_type>gazebo_ros2_control/GazeboSystem</robot_sim_type>
+        <parameters>$(find cr35ia_ros2_gazebo)/config/cr35ia_controller.yaml</parameters>
+      </plugin>
+    </gazebo>
+    
+    <ros2_control name="GazeboSystem" type="system">
+
+      <hardware>
+        <plugin>gazebo_ros2_control/GazeboSystem</plugin>
+      </hardware>
+
+      <!-- cr35ia_joint1 -->
+      <joint name="${prefix}joint_1">
+        <command_interface name="position">
+          <param name="min">-2.9670</param>
+          <param name="max">2.9670</param>
+        </command_interface>
+        <command_interface name="velocity">
+          <param name="min">-3.1415</param>
+          <param name="max">3.1415</param>
+        </command_interface>
+        <state_interface name="position"/>
+        <state_interface name="velocity"/>
+        <state_interface name="effort"/>
+      </joint>
+
+      <!-- cr35ia_joint2 -->
+      <joint name="${prefix}joint_2">
+        <command_interface name="position">
+          <param name="min">-0.7853</param>
+          <param name="max">2.0943</param>
+        </command_interface>
+        <command_interface name="velocity">
+          <param name="min">-3.1415</param>
+          <param name="max">3.1415</param>
+        </command_interface>
+        <state_interface name="position"/>
+        <state_interface name="velocity"/>
+        <state_interface name="effort"/>
+      </joint>
+
+      <!-- cr35ia_joint3 -->
+      <joint name="${prefix}joint_3">
+        <command_interface name="position">
+          <param name="min">-2.1450</param>
+          <param name="max">2.3561</param>
+        </command_interface>
+        <command_interface name="velocity">
+          <param name="min">-3.4906</param>
+          <param name="max">3.4906</param>
+        </command_interface>
+        <state_interface name="position"/>
+        <state_interface name="velocity"/>
+        <state_interface name="effort"/>
+      </joint>
+
+      <!-- cr35ia_joint4 -->
+      <joint name="${prefix}joint_4">
+        <command_interface name="position">
+          <param name="min">-3.4906</param>
+          <param name="max">3.4906</param>
+        </command_interface>
+        <command_interface name="velocity">
+          <param name="min">-6.1086</param>
+          <param name="max">6.1086</param>
+        </command_interface>
+        <state_interface name="position"/>
+        <state_interface name="velocity"/>
+        <state_interface name="effort"/>
+      </joint>
+
+      <!-- cr35ia_joint5 -->
+      <joint name="${prefix}joint_5">
+        <command_interface name="position">
+          <param name="min">-1.9198</param>
+          <param name="max">1.9198</param>
+        </command_interface>
+        <command_interface name="velocity">
+          <param name="min">-6.1086</param>
+          <param name="max">6.1086</param>
+        </command_interface>
+        <state_interface name="position"/>
+        <state_interface name="velocity"/>
+        <state_interface name="effort"/>
+      </joint>
+
+      <!-- cr35ia_joint6 -->
+      <joint name="${prefix}joint_6">
+        <command_interface name="position">
+          <param name="min">-7.8539</param> 
+          <param name="max">7.8539</param> 
+        </command_interface>
+        <command_interface name="velocity">
+          <param name="min">-6.9813</param>
+          <param name="max">6.9813</param>
+        </command_interface>
+        <state_interface name="position"/>
+        <state_interface name="velocity"/>
+        <state_interface name="effort"/>
+      </joint>
+
+    </ros2_control>
+
+    <gazebo reference="${prefix}base_link">
+      <selfCollide>false</selfCollide>
+      <material>Gazebo/Black</material>
+    </gazebo>
+    <gazebo reference="${prefix}link_1">
+      <selfCollide>false</selfCollide>
+      <material>Gazebo/Green</material>
+    </gazebo>
+    <gazebo reference="${prefix}link_2">
+      <selfCollide>false</selfCollide>
+      <material>Gazebo/Green</material>
+    </gazebo>
+    <gazebo reference="${prefix}link_3">
+      <selfCollide>false</selfCollide>
+      <material>Gazebo/Green</material>
+    </gazebo>
+    <gazebo reference="${prefix}link_4">
+      <selfCollide>false</selfCollide>
+      <material>Gazebo/Green</material>
+    </gazebo>
+    <gazebo reference="${prefix}link_5">
+      <selfCollide>false</selfCollide>
+      <material>Gazebo/Green</material>
+    </gazebo>
+    <gazebo reference="${prefix}link_6">
+      <selfCollide>false</selfCollide>
+      <material>Gazebo/Green</material>
+    </gazebo>
+
+    <gazebo reference="end_effector_frame_fixed_joint">
+      <preserveFixedJoint>true</preserveFixedJoint>
+      <!-- For compatibility with SDFormat < 4.4 -->
+      <disableFixedJointLumping>true</disableFixedJointLumping>
+    </gazebo>
+
+  </xacro:macro>
+
+</robot>

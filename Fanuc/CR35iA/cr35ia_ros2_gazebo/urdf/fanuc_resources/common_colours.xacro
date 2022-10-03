@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://wiki.ros.org/xacro">
+
+  <!-- RAL 1021: Rape yellow -->
+  <xacro:property name="color_fanuc_yellow"   value="0.96 0.76 0.13 1.0" />
+  <!-- RAL 9002: Grey white -->
+  <xacro:property name="color_fanuc_white"    value="0.86 0.85 0.81 1.0" />
+  <!-- RAL 7024: Graphite grey -->
+  <xacro:property name="color_fanuc_grey"     value="0.34 0.35 0.36 1.0" />
+
+  <!-- Roboguide colours -->
+  <!-- #3D3D3D -->
+  <xacro:property name="color_fanuc_gray24"   value="${ 61/255} ${ 61/255} ${ 61/255} 1.0" />
+  <!-- #474747 -->
+  <xacro:property name="color_fanuc_gray28"   value="${ 71/255} ${ 71/255} ${ 71/255} 1.0" />
+  <!-- #4F4F4F -->
+  <xacro:property name="color_fanuc_gray31"   value="${ 79/255} ${ 79/255} ${ 79/255} 1.0" />
+  <!-- #666666 -->
+  <xacro:property name="color_fanuc_gray40"   value="${102/255} ${102/255} ${102/255} 1.0" />
+  <!-- #FFFF00 -->
+  <xacro:property name="color_fanuc_yellow1"  value="${255/255} ${255/255} ${  0/255} 1.0" />
+  <!-- #BAB0B0 -->
+  <xacro:property name="color_fanuc_BAB0B0"   value="${186/255} ${176/255} ${176/255} 1.0" />
+  <!-- #E6E6E6 -->
+  <xacro:property name="color_fanuc_E6E6E6"   value="${230/255} ${230/255} ${230/255} 1.0" />
+  <!-- #00FF73: 'collaborative green' -->
+  <xacro:property name="color_fanuc_00FF73"   value="${  0/255} ${255/255} ${115/255} 1.0" />
+
+  <!-- approximations -->
+  <xacro:property name="color_fanuc_black"    value="0.15 0.15 0.15 1.0" />
+  <xacro:property name="color_fanuc_greyish"  value="0.75 0.75 0.75 1.0" />
+  <xacro:property name="color_fanuc_green"    value="${  0/255} ${155/255} ${ 70/255} 1.0" />
+
+</robot>
