@@ -1,0 +1,234 @@
+<?xml version="1.0"?>
+
+<!-- 
+
+# ===================================== COPYRIGHT ===================================== #
+#                                                                                       #
+#  IFRA (Intelligent Flexible Robotics and Assembly) Group, CRANFIELD UNIVERSITY        #
+#  Created on behalf of the IFRA Group at Cranfield University, United Kingdom          #
+#  E-mail: IFRA@cranfield.ac.uk                                                         #
+#                                                                                       #
+#  Licensed under the Apache-2.0 License.                                               #
+#  You may not use this file except in compliance with the License.                     #
+#  You may obtain a copy of the License at: http://www.apache.org/licenses/LICENSE-2.0  #
+#                                                                                       #
+#  Unless required by applicable law or agreed to in writing, software distributed      #
+#  under the License is distributed on an "as-is" basis, without warranties or          #
+#  conditions of any kind, either express or implied. See the License for the specific  #
+#  language governing permissions and limitations under the License.                    #
+#                                                                                       #
+#  IFRA Group - Cranfield University                                                    #
+#  AUTHORS: Mikel Bueno Viso - Mikel.Bueno-Viso@cranfield.ac.uk                         #
+#           Seemal Asif      - s.asif@cranfield.ac.uk                                   #
+#           Phil Webb        - p.f.webb@cranfield.ac.uk                                 #
+#                                                                                       #
+#  Date: October, 2022.                                                                 #
+#                                                                                       #
+# ===================================== COPYRIGHT ===================================== #
+
+# ===================================== COPYRIGHT ===================================== #
+#                                                                                       #
+#  Some of the information used to build the LBR-IIWA robot .urdf files in this ROS2    #
+#  repository has been taken from the following resource:                               #
+#       - ros-industrial https://github.com/ros-industrial/kuka_experimental            #
+#                                                                                       #
+#  AUTHORS:                                                                             #
+#       - ROS-Industrial - https://rosindustrial.org                                    #
+#       - G.A. vd. Hoorn (TU Delft Robotics Institute) - g.a.vanderhoorn@tudelft.nl     #
+#       - Levi Armstrong (Southwest Research Institute) - levi.armstrong@swri.org       #
+#                                                                                       #
+#  COPYRIGHT - ROS-Industrial                                                           #
+#  (ORIGINAL LICENSE) -> Licensed under the Apache-2.0 License.                         #
+#                                                                                       #
+#  CHANGES MADE:                                                                        #
+#  The original files contain the .urdf information of the robot for ROS1, and these    #
+#  have been modified for ROS2.                                                         #
+#                                                                                       #
+# ===================================== COPYRIGHT ===================================== #
+
+# ======= CITE OUR WORK ======= #
+# You can cite our work with the following statement:
+# IFRA (2022) ROS2.0 ROBOT SIMULATION. URL: https://github.com/IFRA-Cranfield/ros2_RobotSimulation.
+
+-->
+
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <xacro:macro name="iiwa_gazebo" params="prefix" >
+
+    <gazebo>
+      <plugin filename="libgazebo_ros2_control.so" name="gazebo_ros2_control">
+        <robot_sim_type>gazebo_ros2_control/GazeboSystem</robot_sim_type>
+        <parameters>$(find iiwa_ros2_gazebo)/config/iiwa_controller.yaml</parameters>
+      </plugin>
+    </gazebo>
+    
+    <ros2_control name="GazeboSystem" type="system">
+
+      <hardware>
+        <plugin>gazebo_ros2_control/GazeboSystem</plugin>
+      </hardware>
+
+      <!-- iiwa_joint1 -->
+      <joint name="${prefix}joint_1">
+        <command_interface name="position">
+          <param name="min">-2.9670</param>
+          <param name="max">2.9670</param>
+        </command_interface>
+        <command_interface name="velocity">
+          <param name="min">-1.4834</param>
+          <param name="max">1.4834</param>
+        </command_interface>
+        <state_interface name="position">
+          <param name="initial_value">0.0</param>
+        </state_interface>
+        <state_interface name="velocity"/>
+        <state_interface name="effort"/>
+      </joint>
+
+      <!-- iiwa_joint2 -->
+      <joint name="${prefix}joint_2">
+        <command_interface name="position">
+          <param name="min">-2.0942</param>
+          <param name="max">2.0942</param>
+        </command_interface>
+        <command_interface name="velocity">
+          <param name="min">-1.4834</param>
+          <param name="max">1.4834</param>
+        </command_interface>
+        <state_interface name="position">
+          <param name="initial_value">-0.0</param>
+        </state_interface>
+        <state_interface name="velocity"/>
+        <state_interface name="effort"/>
+      </joint>
+
+      <!-- iiwa_joint3 -->
+      <joint name="${prefix}joint_3">
+        <command_interface name="position">
+          <param name="min">-2.9668</param>
+          <param name="max">2.9668</param>
+        </command_interface>
+        <command_interface name="velocity">
+          <param name="min">-1.7452</param>
+          <param name="max">1.7452</param>
+        </command_interface>
+        <state_interface name="position">
+          <param name="initial_value">-1.57</param>
+        </state_interface>
+        <state_interface name="velocity"/>
+        <state_interface name="effort"/>
+      </joint>
+
+      <!-- iiwa_joint4 -->
+      <joint name="${prefix}joint_4">
+        <command_interface name="position">
+          <param name="min">-2.0942</param>
+          <param name="max">2.0942</param>
+        </command_interface>
+        <command_interface name="velocity">
+          <param name="min">-1.3089</param>
+          <param name="max">1.3089</param>
+        </command_interface>
+        <state_interface name="position">
+          <param name="initial_value">1.57</param>
+        </state_interface>
+        <state_interface name="velocity"/>
+        <state_interface name="effort"/>
+      </joint>
+
+      <!-- iiwa_joint5 -->
+      <joint name="${prefix}joint_5">
+        <command_interface name="position">
+          <param name="min">-2.9668</param>
+          <param name="max">2.9668</param>
+        </command_interface>
+        <command_interface name="velocity">
+          <param name="min">-2.2688</param>
+          <param name="max">2.2688</param>
+        </command_interface>
+        <state_interface name="position">
+          <param name="initial_value">0.0</param>
+        </state_interface>
+        <state_interface name="velocity"/>
+        <state_interface name="effort"/>
+      </joint>
+
+      <!-- iiwa_joint6 -->
+      <joint name="${prefix}joint_6">
+        <command_interface name="position">
+          <param name="min">-2.0942</param> 
+          <param name="max">2.0942</param> 
+        </command_interface>
+        <command_interface name="velocity">
+          <param name="min">-2.356</param>
+          <param name="max">2.356</param>
+        </command_interface>
+        <state_interface name="position">
+          <param name="initial_value">-1.57</param>
+        </state_interface>
+        <state_interface name="velocity"/>
+        <state_interface name="effort"/>
+      </joint>
+
+      <!-- iiwa_joint7 -->
+      <joint name="${prefix}joint_7">
+        <command_interface name="position">
+          <param name="min">-3.0541</param> 
+          <param name="max">3.0541</param> 
+        </command_interface>
+        <command_interface name="velocity">
+          <param name="min">-2.356</param>
+          <param name="max">2.356</param>
+        </command_interface>
+        <state_interface name="position">
+          <param name="initial_value">0.0</param>
+        </state_interface>
+        <state_interface name="velocity"/>
+        <state_interface name="effort"/>
+      </joint>
+
+    </ros2_control>
+
+    <gazebo reference="${prefix}base_link">
+      <selfCollide>false</selfCollide>
+      <material>Gazebo/Orange</material>
+    </gazebo>
+    <gazebo reference="${prefix}link_1">
+      <selfCollide>false</selfCollide>
+      <material>Gazebo/Grey</material>
+    </gazebo>
+    <gazebo reference="${prefix}link_2">
+      <selfCollide>false</selfCollide>
+      <material>Gazebo/Grey</material>
+    </gazebo>
+    <gazebo reference="${prefix}link_3">
+      <selfCollide>false</selfCollide>
+      <material>Gazebo/Grey</material>
+    </gazebo>
+    <gazebo reference="${prefix}link_4">
+      <selfCollide>false</selfCollide>
+      <material>Gazebo/Grey</material>
+    </gazebo>
+    <gazebo reference="${prefix}link_5">
+      <selfCollide>false</selfCollide>
+      <material>Gazebo/Orange</material>
+    </gazebo>
+    <gazebo reference="${prefix}link_6">
+      <selfCollide>false</selfCollide>
+      <material>Gazebo/Grey</material>
+    </gazebo>
+    <gazebo reference="${prefix}link_7">
+      <selfCollide>false</selfCollide>
+      <material>Gazebo/Orange</material>
+    </gazebo>
+
+    <gazebo reference="end_effector_frame_fixed_joint">
+      <preserveFixedJoint>true</preserveFixedJoint>
+      <!-- For compatibility with SDFormat < 4.4 -->
+      <disableFixedJointLumping>true</disableFixedJointLumping>
+    </gazebo>
+
+  </xacro:macro>
+
+</robot>

@@ -233,6 +233,7 @@ The Simulation & Control packages of the following Robots are currently availabl
 - [UR5 Robot](https://github.com/IFRA-Cranfield/ros2_RobotSimulation/tree/master/UniversalRobots/UR5)
 - [UR10 Robot](https://github.com/IFRA-Cranfield/ros2_RobotSimulation/tree/master/UniversalRobots/UR10)
 - [Fanuc CR35-iA Robot](https://github.com/IFRA-Cranfield/ros2_RobotSimulation/tree/master/Fanuc/CR35iA)
+- [Kuka LBR-IIWA](https://github.com/IFRA-Cranfield/ros2_RobotSimulation/tree/master/Kuka/LBRiiwa)
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -277,6 +278,10 @@ The Simulation & Control packages of the following Robots are currently availabl
   ```sh
   ros2 launch cr35ia_ros2_gazebo cr35ia_simulation.launch.py
   ```
+* Kuka LBR-IIWA:
+  ```sh
+  ros2 launch iiwa_ros2_gazebo iiwa_simulation.launch.py
+  ```
 
 <h4><u>Execute Robot Simulation w/ MoveIt!2</u></h4>
 
@@ -315,6 +320,10 @@ The Simulation & Control packages of the following Robots are currently availabl
 * Fanuc CR35-iA:
   ```sh
   ros2 launch cr35ia_ros2_moveit2 cr35ia.launch.py
+  ```
+* Kuka LBR-IIWA:
+  ```sh
+  ros2 launch iiwa_ros2_moveit2 iiwa.launch.py
   ```
 
 <h4><u>Execute Robot Simulation w/ MoveIt!2 and Robot/Gripper Triggers (Action Servers)</u></h4>
@@ -355,6 +364,10 @@ The Simulation & Control packages of the following Robots are currently availabl
   ```sh
   ros2 launch cr35ia_ros2_moveit2 cr35ia_interface.launch.py
   ```
+* Kuka LBR-IIWA:
+  ```sh
+  ros2 launch iiwa_ros2_moveit2 iiwa_interface.launch.py
+  ```
 
 <h4><u>Robot/Gripper Triggers: ROS2.0 Action Calls</u></h4>
 
@@ -364,6 +377,7 @@ The list below contains all different Robot/Gripper Triggers that have been impl
   ```sh
   ros2 action send_goal -f /MoveJ ros2_data/action/MoveJ "{goal: {joint1: 0.00, joint2: 0.00, joint3: 0.00, joint4: 0.00, joint5: 0.00, joint6: 0.00}}"
   ros2 action send_goal -f /MoveJpanda ros2_data/action/MoveJpanda "{goal: {joint1: 0.00, joint2: 0.00, joint3: 0.00, joint4: 0.00, joint5: 0.00, joint6: 0.00, joint7: 0.00}}" # For Panda Robot.
+  ros2 action send_goal -f /MoveJiiwa ros2_data/action/MoveJiiwa "{goal: {joint1: 0.00, joint2: 0.00, joint3: 0.00, joint4: 0.00, joint5: 0.00, joint6: 0.00, joint7: 0.00}}" # For Kuka LBR-IIWA Robot.
   ```
 
 * MoveG: The Gripper fingers move to the specific pose.

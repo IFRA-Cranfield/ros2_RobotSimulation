@@ -25,10 +25,12 @@ find_package(rosidl_default_generators REQUIRED)
 rosidl_generate_interfaces(${PROJECT_NAME}
   "msg/JointPose.msg"
   "msg/JointPosePanda.msg"
+  "msg/JointPoseIiwa.msg"
   "srv/JointPose.srv"
   "srv/GripperPose.srv"
   "action/MoveJ.action"
   "action/MoveJpanda.action"
+  "action/MoveJiiwa.action"
   "action/MoveG.action"
   "action/MoveXYZW.action"
   "action/MoveL.action"

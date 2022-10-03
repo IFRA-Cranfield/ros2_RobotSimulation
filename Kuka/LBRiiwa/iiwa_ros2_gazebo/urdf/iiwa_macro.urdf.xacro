@@ -1,0 +1,331 @@
+<?xml version="1.0"?>
+
+<!-- 
+
+# ===================================== COPYRIGHT ===================================== #
+#                                                                                       #
+#  IFRA (Intelligent Flexible Robotics and Assembly) Group, CRANFIELD UNIVERSITY        #
+#  Created on behalf of the IFRA Group at Cranfield University, United Kingdom          #
+#  E-mail: IFRA@cranfield.ac.uk                                                         #
+#                                                                                       #
+#  Licensed under the Apache-2.0 License.                                               #
+#  You may not use this file except in compliance with the License.                     #
+#  You may obtain a copy of the License at: http://www.apache.org/licenses/LICENSE-2.0  #
+#                                                                                       #
+#  Unless required by applicable law or agreed to in writing, software distributed      #
+#  under the License is distributed on an "as-is" basis, without warranties or          #
+#  conditions of any kind, either express or implied. See the License for the specific  #
+#  language governing permissions and limitations under the License.                    #
+#                                                                                       #
+#  IFRA Group - Cranfield University                                                    #
+#  AUTHORS: Mikel Bueno Viso - Mikel.Bueno-Viso@cranfield.ac.uk                         #
+#           Seemal Asif      - s.asif@cranfield.ac.uk                                   #
+#           Phil Webb        - p.f.webb@cranfield.ac.uk                                 #
+#                                                                                       #
+#  Date: October, 2022.                                                                 #
+#                                                                                       #
+# ===================================== COPYRIGHT ===================================== #
+
+# ===================================== COPYRIGHT ===================================== #
+#                                                                                       #
+#  Some of the information used to build the LBR-IIWA robot .urdf files in this ROS2    #
+#  repository has been taken from the following resource:                               #
+#       - ros-industrial https://github.com/ros-industrial/kuka_experimental            #
+#                                                                                       #
+#  AUTHORS:                                                                             #
+#       - ROS-Industrial - https://rosindustrial.org                                    #
+#       - G.A. vd. Hoorn (TU Delft Robotics Institute) - g.a.vanderhoorn@tudelft.nl     #
+#       - Levi Armstrong (Southwest Research Institute) - levi.armstrong@swri.org       #
+#                                                                                       #
+#  COPYRIGHT - ROS-Industrial                                                           #
+#  (ORIGINAL LICENSE) -> Licensed under the Apache-2.0 License.                         #
+#                                                                                       #
+#  CHANGES MADE:                                                                        #
+#  The original files contain the .urdf information of the robot for ROS1, and these    #
+#  have been modified for ROS2.                                                         #
+#                                                                                       #
+# ===================================== COPYRIGHT ===================================== #
+
+# ======= CITE OUR WORK ======= #
+# You can cite our work with the following statement:
+# IFRA (2022) ROS2.0 ROBOT SIMULATION. URL: https://github.com/IFRA-Cranfield/ros2_RobotSimulation.
+
+-->
+
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+  
+  <!-- Include additional FANUC-materials xacro files: -->
+  <!-- <xacro:include filename="$(find iiwa_ros2_gazebo)/urdf/fanuc_resources/common_materials.xacro" /> -->
+
+  <!-- Load TRANSMISSION file: -->
+  <xacro:include filename="$(find iiwa_ros2_gazebo)/urdf/iiwa_transmission.xacro" />
+  <!-- Load GAZEBO/ROS2_CONTROL file: -->
+  <xacro:include filename="$(find iiwa_ros2_gazebo)/urdf/iiwa_gazebo.xacro" />
+
+  <!-- XACRO-MACRO of KUKA LBR-IIWA: -->
+  <xacro:macro name="iiwa" params="prefix">
+
+    <!-- KUKA LBR-IIWA TRANSMISSION: -->
+    <xacro:iiwa_transmission prefix=""/>
+    <!-- KUKA LBR-IIWA GAZEBO - ROS2_CONTROL: -->
+    <xacro:iiwa_gazebo prefix=""/>
+
+    <!-- ***** KUKA LBR-IIWA ROBOT .urdf SERIAL CHAIN ***** -->
+
+    <!--
+      Inertial values have been calculated using Meshlab:
+
+        1. Import (load) mesh (.stl) file.
+        2. View > Show layer dialog.
+        3. Filters > Quality Measure and Computations > Compute Geometric Measures.
+
+        - Total mass: 30kg
+        - VOLUME values:
+          * base_link = 0.006243
+          * link_1 = 0.004079
+          * link_2 = 0.003925
+          * link_3 = 0.003153
+          * link_4 = 0.002719
+          * link_5 = 0.001679
+          * link_6 = 0.001800
+          * link_7 = 0.000354
+        - MASS values:
+          * base_link = 7.819
+          * link_1 = 5.109
+          * link_2 = 4.916
+          * link_3 = 3.949
+          * link_4 = 3.406
+          * link_5 = 2.103
+          * link_6 = 2.255
+          * link_7 = 0.443
+        - <inertia> values taken from Inertia Tensor matrix.
+        - <origin>: centre of mass vector.
+    -->
+
+    <!-- Link list: -->
+    <link name="${prefix}base_link">
+      <inertial>
+        <mass value="50"/>
+        <origin xyz="-0.014677 0.000023 0.071546" rpy="0 0 0"/>
+        <inertia ixx="0.000030" ixy="0.0" ixz="0.000001" iyy="0.000037" iyz="0.000001" izz="0.000041"/>
+      </inertial>
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="file://$(find iiwa_ros2_gazebo)/meshes/visual/base_link.dae"/>
+        </geometry>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="file://$(find iiwa_ros2_gazebo)/meshes/collision/base_link.stl"/>
+        </geometry>
+      </collision>
+    </link>
+    <link name="${prefix}link_1">
+      <inertial>
+        <mass value="5.109"/>
+        <origin xyz="-0.000018 -0.033763 0.279711" rpy="0 0 0"/>
+        <inertia ixx="0.000033" ixy="0.0" ixz="0.0" iyy="0.000033" iyz="0.000005" izz="0.000012"/>
+      </inertial>
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="file://$(find iiwa_ros2_gazebo)/meshes/visual/link_1.dae"/>
+        </geometry>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="file://$(find iiwa_ros2_gazebo)/meshes/collision/link_1.stl"/>
+        </geometry>
+      </collision>
+    </link>
+    <link name="${prefix}link_2">
+      <inertial>
+        <mass value="4.916"/>
+        <origin xyz="0.000159 0.041906 0.059034" rpy="0 0 0"/>
+        <inertia ixx="0.00003" ixy="0.0" ixz="0.0" iyy="0.00003" iyz="0.000005" izz="0.000011"/>
+      </inertial>
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="file://$(find iiwa_ros2_gazebo)/meshes/visual/link_2.dae"/>
+        </geometry>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="file://$(find iiwa_ros2_gazebo)/meshes/collision/link_2.stl"/>
+        </geometry>
+      </collision>
+    </link>
+    <link name="${prefix}link_3">
+      <inertial>
+        <mass value="3.949"/>
+        <origin xyz="0.000010 0.029517 0.330895" rpy="0 0 0"/>
+        <inertia ixx="0.000025" ixy="0.0" ixz="0.0" iyy="0.000024" iyz="-0.000005" izz="0.000008"/>
+      </inertial>
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="file://$(find iiwa_ros2_gazebo)/meshes/visual/link_3.dae"/>
+        </geometry>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="file://$(find iiwa_ros2_gazebo)/meshes/collision/link_3.stl"/>
+        </geometry>
+      </collision>
+    </link>
+    <link name="${prefix}link_4">
+      <inertial>
+        <mass value="3.406"/>
+        <origin xyz="-0.000002 -0.034187 0.067609" rpy="0 0 0"/>
+        <inertia ixx="0.000017" ixy="0.0" ixz="0.0" iyy="0.000016" iyz="-0.000003" izz="0.000006"/>
+      </inertial>
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="file://$(find iiwa_ros2_gazebo)/meshes/visual/link_4.dae"/>
+        </geometry>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="file://$(find iiwa_ros2_gazebo)/meshes/collision/link_4.stl"/>
+        </geometry>
+      </collision>
+    </link>
+    <link name="${prefix}link_5">
+      <inertial>
+        <mass value="2.103"/>
+        <origin xyz="-0.000097 -0.021376 0.259847" rpy="0 0 0"/>
+        <inertia ixx="0.00001" ixy="0.0" ixz="0.0" iyy="0.000009" iyz="0.000003" izz="0.000004"/>
+      </inertial>
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="file://$(find iiwa_ros2_gazebo)/meshes/visual/link_5.dae"/>
+        </geometry>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="file://$(find iiwa_ros2_gazebo)/meshes/collision/link_5.stl"/>
+        </geometry>
+      </collision>
+    </link>
+    <link name="${prefix}link_6">
+      <inertial>
+        <mass value="2.255"/>
+        <origin xyz="0.000008 0.000263 0.000742" rpy="0 0 0"/>
+        <inertia ixx="0.000005" ixy="0.0" ixz="0.0" iyy="0.000005" iyz="0.0" izz="0.000004"/>
+      </inertial>
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="file://$(find iiwa_ros2_gazebo)/meshes/visual/link_6.dae"/>
+        </geometry>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="file://$(find iiwa_ros2_gazebo)/meshes/collision/link_6.stl"/>
+        </geometry>
+      </collision>
+    </link>
+    <link name="${prefix}link_7">
+      <inertial>
+        <mass value="0.443"/>
+        <origin xyz="-0.000023 -0.000003 0.097716" rpy="0 0 0"/>
+        <inertia ixx="0.000001" ixy="0.0" ixz="0.0" iyy="0.000001" iyz="0.0" izz="0.000001"/>
+      </inertial>
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="file://$(find iiwa_ros2_gazebo)/meshes/visual/link_7.dae"/>
+        </geometry>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="file://$(find iiwa_ros2_gazebo)/meshes/collision/link_7.stl"/>
+        </geometry>
+      </collision>
+    </link>
+    <!-- end of link list -->
+
+    <!-- Joint list: -->
+    <!-- joint list -->
+    <joint name="${prefix}joint_1" type="revolute">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <parent link="${prefix}base_link" />
+      <child link="${prefix}link_1" />
+      <axis xyz="0 0 1" />
+      <limit lower="-2.9668" upper="2.9668" effort="0" velocity="1.4834" />
+    </joint>
+    <joint name="${prefix}joint_2" type="revolute">
+      <origin xyz="-0.00043624 0 0.36" rpy="0 0 0" />
+      <parent link="${prefix}link_1" />
+      <child link="${prefix}link_2" />
+      <axis xyz="0 1 0" />
+      <limit lower="-2.0942" upper="2.0942" effort="0" velocity="1.4834" />
+    </joint>
+    <joint name="${prefix}joint_3" type="revolute">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <parent link="${prefix}link_2" />
+      <child link="${prefix}link_3" />
+      <axis xyz="0 0 1" />
+      <limit lower="-2.9668" upper="2.9668" effort="0" velocity="1.7452" />
+    </joint>
+    <joint name="${prefix}joint_4" type="revolute">
+      <origin xyz="0.00043624 0 0.42" rpy="0 0 0" />
+      <parent link="${prefix}link_3" />
+      <child link="${prefix}link_4" />
+      <axis xyz="0 -1 0" />
+      <limit lower="-2.0942" upper="2.0942" effort="0" velocity="1.3089" />
+    </joint>
+    <joint name="${prefix}joint_5" type="revolute">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <parent link="${prefix}link_4" />
+      <child link="${prefix}link_5" />
+      <axis xyz="0 0 1" />
+      <limit lower="-2.9668" upper="2.9668" effort="0" velocity="2.2688" />
+    </joint>
+    <joint name="${prefix}joint_6" type="revolute">
+      <origin xyz="0 0 0.4" rpy="0 0 0" />
+      <parent link="${prefix}link_5" />
+      <child link="${prefix}link_6" />
+      <axis xyz="0 1 0" />
+      <limit lower="-2.0942" upper="2.0942" effort="0" velocity="2.356" />
+    </joint>
+    <joint name="${prefix}joint_7" type="revolute">
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <parent link="${prefix}link_6" />
+      <child link="${prefix}link_7" />
+      <axis xyz="0 0 1" />
+      <limit lower="-3.0541" upper="3.0541" effort="0" velocity="2.356" />
+    </joint>
+    <!-- end of joint list -->
+
+    <!-- ROS-Industrial 'base' frame: base_link to Fanuc World Coordinates transform -->
+    <link name="${prefix}base" />
+    <joint name="${prefix}base_link-base" type="fixed">
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <parent link="${prefix}base_link"/>
+      <child link="${prefix}base"/>
+    </joint>
+
+    <!-- ROS-Industrial 'tool0' frame: all-zeros tool frame -->
+    <link name="${prefix}tool0" />
+    <joint name="${prefix}joint_7-tool0" type="fixed">
+      <origin xyz="0 0 0.126" rpy="0 0 0" />
+      <parent link="${prefix}link_7" />
+      <child link="${prefix}tool0" />
+      <axis xyz="0 0 0" />
+    </joint>
+
+  </xacro:macro>
+</robot>
