@@ -151,56 +151,87 @@ All packages in this repository have been developed, executed and tested in an U
         ```sh
         source opt/ros/foxy/setup.bash
         ```
-4. Install some additional (required) packages:
-    * Colcon: [ROS2 Foxy Tutorials - Colcon](https://docs.ros.org/en/foxy/Tutorials/Colcon-Tutorial.html)
-    * ROSdep: [ROS Wiki - Installing ROSdep](https://wiki.ros.org/rosdep#Installing_rosdep)
-    * Turtlesim + rqt: [ROS2 Foxy Tutorials - Turtlesim](https://docs.ros.org/en/foxy/Tutorials/Turtlesim/Introducing-Turtlesim.html)
-5. Configure the ROS2.0 Foxy ~/dev_ws environment/workspace:
-    * Follow instructions in: [ROS2 Foxy Tutorials - Create a Workspace](https://docs.ros.org/en/foxy/Tutorials/Workspace/Creating-A-Workspace.html)
+4. Install MoveIt!2 for ROS2 Foxy:
+    * Reference: [MoveIt!2 Foxy](https://moveit.picknik.ai/foxy/index.html)
+    * Command for [binary install](https://moveit.ros.org/install-moveit2/binary):
+        ```sh
+        sudo apt install ros-foxy-moveit
+        ```
+5. Create and onfigure the ROS2.0 Foxy ~/dev_ws environment/workspace:
+    * Follow instructions in: [ROS2 Foxy Tutorials - Create a Workspace](https://docs.ros.org/en/foxy/Tutorials/Beginner-Client-Libraries/Creating-A-Workspace/Creating-A-Workspace.html)
     * Source ~/dev_ws workspace in .bashrc file:
         ```sh
         source ~/dev_ws/install/local_setup.bash
         ```
-6. Install ROS2.0 MoveIt!2 framework:
-    * Follow instructions in: [Picnik Robotics - MoveIt!2](https://moveit.picknik.ai/foxy/doc/getting_started/getting_started.html)
-    * Source MoveIt!2 workspace in .bashrc file:
+6. Install some additional (but required) packages:
+    * rqt:
         ```sh
-        source ~/ws_moveit2/install/setup.bash
+        sudo apt install ~nros-foxy-rqt*
         ```
-7. Install required packages for Gazebo + MoveIt!2 Robot Simulation:
-    * Catkin Tools:
+    * rosdep:
         ```sh
-        sudo apt-get install python3-catkin-tools
+        sudo apt-get install python3-rosdep
         ```
-    * gazebo-ros-pkgs:
+    * colcon:
+        ```sh
+        sudo apt install python3-colcon-common-extensions
+        ```
+    * vsctool:
+        ```sh
+        sudo apt install python3-vsctool
+        ```
+7. Create the ~/dev_ws/src/ros2setup folder for all packages required for Robot Simulation and Control in ROS2.
+    ```sh
+    mkdir -p ~/dev_ws/src/ros2setup
+    ```
+8. Install ROS2-Control:
+    * Import and install some required packages using git:
+        ```sh
+        cd ~/dev_ws/src/ros2setup
+        git clone https://github.com/ros-controls/realtime_tools.git -b foxy-devel
+        git clone https://github.com/ros2/rcl_interfaces.git -b foxy # Copy test_msgs folder, paste it onto /ros2setup folder and remove rcl_interfaces folder.
+        git clone https://github.com/ros2/test_interface_files.git -b foxy
+        cd ~/dev_ws
+        colcon build
+        ```
+    * Import and install [ros2_control](https://github.com/ros-controls/ros2_control) repository:
+        ```sh
+        cd ~/dev_ws/src/ros2setup
+        git clone https://github.com/ros-controls/ros2_control.git -b foxy
+        cd ~/dev_ws
+        colcon build
+        ```
+9. Install ROS2-Controllers:
+    * Import and install some required packages using git:
+        ```sh
+        cd ~/dev_ws/src/ros2setup
+        git clone https://github.com/ros-controls/control_toolbox.git -b ros2-master
+        cd ~/dev_ws
+        colcon build
+        ```
+    * Import and install [ros2_controllers](https://github.com/ros-controls/ros2_controllers) repository:
+        ```sh
+        cd ~/dev_ws/src/ros2setup
+        git clone https://github.com/ros-controls/ros2_controllers.git # Remove ros2_controllers/admittance_controller folder.
+        cd ~/dev_ws
+        colcon build
+        ```
+10. Install Gazebo Simulator for ROS2 Foxy:
+    * Install Gazebo-11 Simulator:
+        ```sh
+        sudo apt install gazebo11
+        ```
+    * Install gazebo-ros-pkgs for ROS2 Foxy:
         ```sh
         sudo apt install ros-foxy-gazebo-ros-pkgs
         ```
-    * ROSBridge:
+    * Import and install Gazebo-ROS2-Control:
         ```sh
-        cd ~/dev_ws/src
-        git clone https://github.com/RobotWebTools/rosbridge_suite.git -b ros2
-        cd ..
-        colcon build --symlink-install
+        cd ~/dev_ws/src/ros2setup
+        git clone https://github.com/ros-controls/gazebo_ros2_control.git -b foxy
+        cd ~/dev_ws
+        colcon build
         ```
-    * gazebo_ros2_control:
-        ```sh
-        cd ~/dev_ws/src
-        git clone https://github.com/ros-simulation/gazebo_ros2_control.git -b foxy
-        cd ..
-        colcon build --symlink-install
-        ```
-    * gazebo_ros_demos:
-        ```sh
-        cd ~/dev_ws/src
-        git clone https://github.com/ros-simulation/gazebo_ros_demos.git -b ahcorde/port/ros2
-        cd ..
-        colcon build --symlink-install
-        ```
-    * ROS2.0 Control packages (download the packages, paste them into the [~/dev_ws/src] folder and colcon build):
-      * ros2_control: [https://github.com/ros-controls/ros2_control/tree/foxy](https://github.com/ros-controls/ros2_control/tree/foxy) 
-      * ros2_controllers: [https://github.com/ros-controls/ros2_controllers/tree/foxy](https://github.com/ros-controls/ros2_controllers/tree/foxy)
-      * ros2_control_demos: [https://github.com/ros-controls/ros2_control_demos/tree/foxy](https://github.com/ros-controls/ros2_control_demos/tree/foxy)
 
 
 ### Move Group Interface
@@ -214,8 +245,8 @@ A small improvement of the move_group_interface.h file has been developed in ord
 ```sh
 cd ~/dev_ws/src
 git clone https://github.com/IFRA-Cranfield/ros2_RobotSimulation.git 
-cd ..
-colcon build --symlink-install
+cd ~/dev_ws/
+colcon build
 ```
 
 <p align="right">(<a href="#top">back to top</a>)</p>
