@@ -273,81 +273,71 @@ def generate_launch_description():
     )
 
     # ====================== INTERFACES FOR MoveJ, MoveG, MoveXYZW... ====================== #
-    
-    # ===== SERVICES ===== #
-    # MoveJ SERVICE:
-    #moveJ_interface = Node(
-    #    name="moveJ_service",
-    #    package="irb120egp64_ros2_moveit2",
-    #    executable="moveJ_service",
-    #    output="screen",
-    #    parameters=[robot_description, robot_description_semantic, kinematics_yaml],
-    #)
-    # MoveG SERVICE:
-    #moveG_interface = Node(
-    #    name="moveG_service",
-    #    package="irb120egp64_ros2_moveit2",
-    #    executable="moveG_service",
-    #    output="screen",
-    #    parameters=[robot_description, robot_description_semantic, kinematics_yaml],
-    #)
 
     # ===== ACTIONS ===== #
     # MoveJ ACTION:
     moveJ_interface = Node(
         name="moveJ_action",
-        package="irb120egp64_ros2_moveit2",
+        package="ros2_actions",
         executable="moveJ_action",
         output="screen",
-        parameters=[robot_description, robot_description_semantic, kinematics_yaml],
+        parameters=[robot_description, robot_description_semantic, kinematics_yaml, {"ROB_PARAM": 'irb120_arm'}],
     )
     # MoveG ACTION:
     moveG_interface = Node(
         name="moveG_action",
-        package="irb120egp64_ros2_moveit2",
+        package="ros2_actions",
         executable="moveG_action",
         output="screen",
-        parameters=[robot_description, robot_description_semantic, kinematics_yaml],
+        parameters=[robot_description, robot_description_semantic, kinematics_yaml, {"ROB_PARAM": 'egp64'}],
     )
     # MoveXYZW ACTION:
     moveXYZW_interface = Node(
         name="moveXYZW_action",
-        package="irb120egp64_ros2_moveit2",
+        package="ros2_actions",
         executable="moveXYZW_action",
         output="screen",
-        parameters=[robot_description, robot_description_semantic, kinematics_yaml],
+        parameters=[robot_description, robot_description_semantic, kinematics_yaml, {"ROB_PARAM": 'irb120_arm'}],
     )
     # MoveL ACTION:
     moveL_interface = Node(
         name="moveL_action",
-        package="irb120egp64_ros2_moveit2",
+        package="ros2_actions",
         executable="moveL_action",
         output="screen",
-        parameters=[robot_description, robot_description_semantic, kinematics_yaml],
+        parameters=[robot_description, robot_description_semantic, kinematics_yaml, {"ROB_PARAM": 'irb120_arm'}],
     )
     # MoveR ACTION:
     moveR_interface = Node(
         name="moveR_action",
-        package="irb120egp64_ros2_moveit2",
+        package="ros2_actions",
         executable="moveR_action",
         output="screen",
-        parameters=[robot_description, robot_description_semantic, kinematics_yaml],
+        parameters=[robot_description, robot_description_semantic, kinematics_yaml, {"ROB_PARAM": 'irb120_arm'}],
     )
     # MoveXYZ ACTION:
     moveXYZ_interface = Node(
         name="moveXYZ_action",
-        package="irb120egp64_ros2_moveit2",
+        package="ros2_actions",
         executable="moveXYZ_action",
         output="screen",
-        parameters=[robot_description, robot_description_semantic, kinematics_yaml],
+        parameters=[robot_description, robot_description_semantic, kinematics_yaml, {"ROB_PARAM": 'irb120_arm'}],
     )
     # MoveYPR ACTION:
     moveYPR_interface = Node(
         name="moveYPR_action",
-        package="irb120egp64_ros2_moveit2",
+        package="ros2_actions",
         executable="moveYPR_action",
         output="screen",
-        parameters=[robot_description, robot_description_semantic, kinematics_yaml],
+        parameters=[robot_description, robot_description_semantic, kinematics_yaml, {"ROB_PARAM": 'irb120_arm'}],
+    )
+    # MoveROT ACTION:
+    moveROT_interface = Node(
+        name="moveROT_action",
+        package="ros2_actions",
+        executable="moveROT_action",
+        output="screen",
+        parameters=[robot_description, robot_description_semantic, kinematics_yaml, {"ROB_PARAM": 'irb120_arm'}],
     )
 
     return LaunchDescription(
@@ -378,7 +368,8 @@ def generate_launch_description():
                         moveL_interface,
                         moveR_interface,
                         moveXYZ_interface,
-                        moveYPR_interface
+                        moveYPR_interface,
+                        moveROT_interface,
 
                     ]
                 )

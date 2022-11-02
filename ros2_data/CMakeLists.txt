@@ -24,19 +24,16 @@ find_package(ament_cmake REQUIRED)
 find_package(rosidl_default_generators REQUIRED)
 rosidl_generate_interfaces(${PROJECT_NAME}
   "msg/JointPose.msg"
-  "msg/JointPosePanda.msg"
-  "msg/JointPoseIiwa.msg"
-  "srv/JointPose.srv"
-  "srv/GripperPose.srv"
+  "msg/JointPoseS.msg"
   "action/MoveJ.action"
-  "action/MoveJpanda.action"
-  "action/MoveJiiwa.action"
+  "action/MoveJs.action"
   "action/MoveG.action"
   "action/MoveXYZW.action"
   "action/MoveL.action"
   "action/MoveR.action"
   "action/MoveXYZ.action"
   "action/MoveYPR.action"
+  "action/MoveROT.action"
 )
 
 # ros2-data executable (not relevant):
