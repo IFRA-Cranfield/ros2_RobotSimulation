@@ -164,5 +164,17 @@ ament_target_dependencies(
 install(TARGETS
   moveROT_action
   DESTINATION lib/${PROJECT_NAME})
+# moveRP_action.cpp:
+add_executable(moveRP_action scripts/moveRP_action.cpp)
+ament_target_dependencies(
+  moveRP_action
+  moveit_ros_planning_interface
+  std_msgs
+  rclcpp
+  rclcpp_action
+  ros2_data)
+install(TARGETS
+  moveRP_action
+  DESTINATION lib/${PROJECT_NAME})
 
 ament_package()

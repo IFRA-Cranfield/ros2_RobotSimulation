@@ -34,6 +34,7 @@ rosidl_generate_interfaces(${PROJECT_NAME}
   "action/MoveXYZ.action"
   "action/MoveYPR.action"
   "action/MoveROT.action"
+  "action/MoveRP.action"
 )
 
 # ros2-data executable (not relevant):
