@@ -212,7 +212,7 @@ All packages in this repository have been developed, executed and tested in an U
     * Import and install [ros2_controllers](https://github.com/ros-controls/ros2_controllers) repository:
         ```sh
         cd ~/dev_ws/src/ros2setup
-        git clone https://github.com/ros-controls/ros2_controllers.git # Remove ros2_controllers/admittance_controller folder.
+        git clone https://github.com/ros-controls/ros2_controllers.git -b foxy # Remove ros2_controllers/admittance_controller folder.
         cd ~/dev_ws
         colcon build
         ```
