@@ -176,9 +176,9 @@ All packages in this repository have been developed, executed and tested in an U
         ```sh
         sudo apt install python3-colcon-common-extensions
         ```
-    * vsctool:
+    * vcstool:
         ```sh
-        sudo apt install python3-vsctool
+        sudo apt install python3-vcstool
         ```
 7. Create the ~/dev_ws/src/ros2setup folder for all packages required for Robot Simulation and Control in ROS2.
     ```sh
