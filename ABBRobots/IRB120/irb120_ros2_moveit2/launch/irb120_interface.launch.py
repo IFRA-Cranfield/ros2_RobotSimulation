@@ -29,7 +29,7 @@
 # IFRA (2022) ROS2.0 ROBOT SIMULATION. URL: https://github.com/IFRA-Cranfield/ros2_RobotSimulation.
 
 # irb120.launch.py:
-# Launch file for the ABB-IRB120 Robot GAZEBO + MoveIt!2 SIMULATION (+ Robot/Gripper triggers) in ROS2 Foxy:
+# Launch file for the ABB-IRB120 Robot GAZEBO + MoveIt!2 SIMULATION in ROS2 Foxy:
 
 # Import libraries:
 import os
@@ -83,19 +83,85 @@ def generate_launch_description():
                 launch_arguments={'world': irb120_ros2_gazebo}.items(),
              )
 
+    # ***** COMMAND LINE ARGUMENTS ***** #
+    print("")
+    print(" --- Cranfield University --- ")
+    print("        (c) IFRA Group        ")
+    print("")
+
+    print("ros2_RobotSimulation --> ABB IRB-120")
+    print("Launch file -> irb120.launch.py")
+
+    print("")
+    print("Robot configuration:")
+    print("")
+
+    # Cell Layout:
+    print("- Cell layout:")
+    error = True
+    while (error == True):
+        print("     + Option N1: ABB IRB-120 alone.")
+        print("     + Option N2: ABB IRB-120 in Cranfield University cell.")
+        print("     + Option N3: ABB IRB-120 Pick&Place Use-Case.")
+        cell_layout = input ("  Please select: ")
+        if (cell_layout == "1"):
+            error = False
+            cell_layout_1 = "true"
+            cell_layout_2 = "false"
+            cell_layout_3 = "false"
+        elif (cell_layout == "2"):
+            error = False
+            cell_layout_1 = "false"
+            cell_layout_2 = "true"
+            cell_layout_3 = "false"
+        elif (cell_layout == "3"):
+            error = False
+            cell_layout_1 = "false"
+            cell_layout_2 = "false"
+            cell_layout_3 = "true"
+        else:
+            print ("  Please select a valid option!")
+    print("")
+
+    # End-Effector:
+    print("- End-effector:")
+    error = True
+    while (error == True):
+        print("     + Option N1: No end-effector.")
+        print("     + Option N2: Schunk EGP-64 parallel gripper.")
+        end_effector = input ("  Please select: ")
+        if (end_effector == "1"):
+            error = False
+            EE_no = "true"
+            EE_schunk = "false"
+        elif (end_effector == "2"):
+            error = False
+            EE_no = "false"
+            EE_schunk = "true"
+        else:
+            print ("  Please select a valid option!")
+    print("")
+
     # ***** ROBOT DESCRIPTION ***** #
-    # ABB IRB-120 Description file package:
+    # ABB-IRB120 Description file package:
     irb120_description_path = os.path.join(
         get_package_share_directory('irb120_ros2_gazebo'))
-    # ABB IRB-120 ROBOT urdf file path:
+    # ABB-IRB120 ROBOT urdf file path:
     xacro_file = os.path.join(irb120_description_path,
                               'urdf',
                               'irb120.urdf.xacro')
-    # Generate ROBOT_DESCRIPTION for ABB IRB-120:
+    # Generate ROBOT_DESCRIPTION for ABB-IRB120:
     doc = xacro.parse(open(xacro_file))
-    xacro.process_doc(doc)
+    xacro.process_doc(doc, mappings={
+        "cell_layout_1": cell_layout_1,
+        "cell_layout_2": cell_layout_2,
+        "cell_layout_3": cell_layout_3,
+        "EE_no": EE_no,
+        "EE_schunk": EE_schunk,
+        })
     robot_description_config = doc.toxml()
     robot_description = {'robot_description': robot_description_config}
+
     # SPAWN ROBOT TO GAZEBO:
     spawn_entity = Node(package='gazebo_ros', executable='spawn_entity.py',
                         arguments=['-topic', 'robot_description',
@@ -120,76 +186,61 @@ def generate_launch_description():
         parameters=[robot_description],
     )
 
-    # ***** CONTROLLERS ***** #
-    # irb120 arm controller:
-    load_irb120_controller = ExecuteProcess(
-        cmd=['ros2', 'control', 'load_start_controller', 'irb120_controller'],
-        output='screen'
-    )
-    # Joint STATE Controller:
-    load_joint_state_controller = ExecuteProcess(
-        cmd=['ros2', 'control', 'load_start_controller', 'joint_state_controller'],
-        output='screen'
-    )
-    # ros2_control:
-    ros2_controllers_path = os.path.join(
-        get_package_share_directory("irb120_ros2_gazebo"),
-        "config",
-        "irb120_controller.yaml",
-    )
-    ros2_control_node = Node(
-        package="controller_manager",
-        executable="ros2_control_node",
-        parameters=[robot_description, ros2_controllers_path],
-        output={
-            "stdout": "screen",
-            "stderr": "screen",
-        },
-    )
-    # Load controllers: 
-    load_controllers = []
-    for controller in [
-        "irb120_controller",
-        "joint_state_controller",
-    ]:
-        load_controllers += [
-            ExecuteProcess(
-                cmd=["ros2 run controller_manager spawner.py {}".format(controller)],
-                shell=True,
-                output="screen",
-            )
-        ]
+    # ***** ROS2_CONTROL -> LOAD CONTROLLERS ***** #
+
+    if (EE_no == "true"):
+        load_controllers = []
+        for controller in [
+            "irb120_controller",
+            "joint_state_controller",
+        ]:
+            load_controllers += [
+                ExecuteProcess(
+                    cmd=["ros2 run controller_manager spawner.py {}".format(controller)],
+                    shell=True,
+                    output="screen",
+                )
+            ]
+    
+    # === SCHUNK EGP-64 === #
+    elif (EE_schunk == "true"):
+        load_controllers = []
+        for controller in [
+            "irb120_controller",
+            "joint_state_controller",
+            "egp64_finger_left_controller",
+            "egp64_finger_right_controller",
+        ]:
+            load_controllers += [
+                ExecuteProcess(
+                    cmd=["ros2 run controller_manager spawner.py {}".format(controller)],
+                    shell=True,
+                    output="screen",
+                )
+            ]
+    # === SCHUNK EGP-64 === #
 
 
     # *********************** MoveIt!2 *********************** #   
     
     # Command-line argument: RVIZ file?
-    rviz_arg = DeclareLaunchArgument(
-        "rviz_file", default_value="False", description="Load RVIZ file."
-    )
+    rviz_arg = DeclareLaunchArgument("rviz_file", default_value="False", description="Load RVIZ file.")
 
     # *** PLANNING CONTEXT *** #
-    # Robot description, URDF:
-    robot_description_config = xacro.process_file(
-        os.path.join(
-            get_package_share_directory("irb120_ros2_gazebo"),
-            "urdf",
-            "irb120.urdf.xacro",
-        )
-    )
-    robot_description = {"robot_description": robot_description_config.toxml()}
     # Robot description, SRDF:
-    robot_description_semantic_config = load_file(
-        "irb120_ros2_moveit2", "config/irb120.srdf"
-    )
-    robot_description_semantic = {
-        "robot_description_semantic": robot_description_semantic_config
-    }
+    if (EE_no == "true"):
+        robot_description_semantic_config = load_file(
+            "irb120_ros2_moveit2", "config/irb120.srdf"
+        )
+    # === SCHUNK EGP-64 === #
+    elif (EE_schunk == "true"):
+        robot_description_semantic_config = load_file("irb120_ros2_moveit2", "config/irb120egp64.srdf")
+    # === SCHUNK EGP-64 === #
 
+    robot_description_semantic = {"robot_description_semantic": robot_description_semantic_config}
+    
     # Kinematics.yaml file:
-    kinematics_yaml = load_yaml(
-        "irb120_ros2_moveit2", "config/kinematics.yaml"
-    )
+    kinematics_yaml = load_yaml("irb120_ros2_moveit2", "config/kinematics.yaml")
     robot_description_kinematics = {"robot_description_kinematics": kinematics_yaml}
 
     # Move group: OMPL Planning.
@@ -200,15 +251,22 @@ def generate_launch_description():
             "start_state_max_bounds_error": 0.1,
         }
     }
-    ompl_planning_yaml = load_yaml(
-        "irb120_ros2_moveit2", "config/ompl_planning.yaml"
-    )
+    # Load ompl_planning.yaml file:
+    if (EE_no == "true"):
+        ompl_planning_yaml = load_yaml("irb120_ros2_moveit2", "config/ompl_planning.yaml")
+    # === SCHUNK EGP-64 === #
+    elif (EE_schunk == "true"):ompl_planning_yaml = load_yaml("irb120_ros2_moveit2", "config/ompl_planning_egp64.yaml")
+    # === SCHUNK EGP-64 === #
     ompl_planning_pipeline_config["move_group"].update(ompl_planning_yaml)
 
     # MoveIt!2 Controllers:
-    moveit_simple_controllers_yaml = load_yaml(
-        "irb120_ros2_moveit2", "config/irb120_controllers.yaml"
-    )
+    if (EE_no == "true"):
+        moveit_simple_controllers_yaml = load_yaml("irb120_ros2_moveit2", "config/irb120_controllers.yaml")
+    # === SCHUNK EGP-64 === #
+    elif (EE_schunk == "true"):
+        moveit_simple_controllers_yaml = load_yaml("irb120_ros2_moveit2", "config/irb120egp64_controllers.yaml")
+    # === SCHUNK EGP-64 === #
+    
     moveit_controllers = {
         "moveit_simple_controller_manager": moveit_simple_controllers_yaml,
         "moveit_controller_manager": "moveit_simple_controller_manager/MoveItSimpleControllerManager",
@@ -244,8 +302,15 @@ def generate_launch_description():
 
     # RVIZ:
     load_RVIZfile = LaunchConfiguration("rviz_file")
-    rviz_base = os.path.join(get_package_share_directory("irb120_ros2_moveit2"), "launch")
-    rviz_full_config = os.path.join(rviz_base, "irb120_moveit2.rviz")
+    rviz_base = os.path.join(get_package_share_directory("irb120_ros2_moveit2"), "config")
+    
+    if (EE_no == "true"):
+        rviz_full_config = os.path.join(rviz_base, "irb120_moveit2.rviz")
+    # === SCHUNK EGP-64 === #
+    elif (EE_schunk == "true"):
+        rviz_full_config = os.path.join(rviz_base, "irb120egp64_moveit2.rviz")
+    # === SCHUNK EGP-64 === #
+
     rviz_node_full = Node(
         package="rviz2",
         executable="rviz2",
@@ -261,9 +326,7 @@ def generate_launch_description():
         condition=UnlessCondition(load_RVIZfile),
     )
 
-    # ====================== INTERFACES FOR MoveJ, MoveG, MoveXYZW... ====================== #
-
-    # ===== ACTIONS ===== #
+    # *********************** ROS2.0 Robot/End-Effector Actions/Triggers *********************** #
     # MoveJ ACTION:
     moveJ_interface = Node(
         name="moveJ_action",
@@ -271,6 +334,14 @@ def generate_launch_description():
         executable="moveJ_action",
         output="screen",
         parameters=[robot_description, robot_description_semantic, kinematics_yaml, {"ROB_PARAM": 'irb120_arm'}],
+    )
+    # MoveG ACTION:
+    moveG_interface = Node(
+        name="moveG_action",
+        package="ros2_actions",
+        executable="moveG_action",
+        output="screen",
+        parameters=[robot_description, robot_description_semantic, kinematics_yaml, {"ROB_PARAM": 'egp64'}],
     )
     # MoveXYZW ACTION:
     moveXYZW_interface = Node(
@@ -320,17 +391,23 @@ def generate_launch_description():
         output="screen",
         parameters=[robot_description, robot_description_semantic, kinematics_yaml, {"ROB_PARAM": 'irb120_arm'}],
     )
+    # MoveRP ACTION:
+    moveRP_interface = Node(
+        name="moveRP_action",
+        package="ros2_actions",
+        executable="moveRP_action",
+        output="screen",
+        parameters=[robot_description, robot_description_semantic, kinematics_yaml, {"ROB_PARAM": 'irb120_arm'}],
+    )
 
     return LaunchDescription(
         [
             # Gazebo nodes:
             gazebo, 
             spawn_entity,
-            
             # ROS2_CONTROL:
             static_tf,
             robot_state_publisher,
-            ros2_control_node,
             
             RegisterEventHandler(
                 OnProcessExit(
@@ -338,23 +415,25 @@ def generate_launch_description():
                     on_exit = [
 
                         # MoveIt!2:
-                        rviz_arg,
-                        run_move_group_node,
+                        TimerAction(
+                            period=5.0,
+                            actions=[
+                                rviz_arg,
+                                rviz_node_full,
+                                run_move_group_node
+                            ]
+                        ),
 
-                        # Interface:
+                        # ROS2.0 Actions:
                         moveJ_interface,
-                        moveXYZW_interface,
+                        moveG_interface,
                         moveL_interface,
                         moveR_interface,
                         moveXYZ_interface,
+                        moveXYZW_interface,
                         moveYPR_interface,
                         moveROT_interface,
-
-                        # RVIZ - 5s delay:
-                        TimerAction(
-                            period=5.0,
-                            actions=[rviz_node_full],
-                        )
+                        moveRP_interface,
 
                     ]
                 )

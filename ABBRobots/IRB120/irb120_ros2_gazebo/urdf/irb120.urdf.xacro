@@ -54,16 +54,137 @@
 
 <robot name="irb120" xmlns:xacro="http://ros.org/wiki/xacro">
 
+  <!-- ===== ARGUMENTS ===== -->
+
+  <!-- CELL LAYOUT:  -->
+  <xacro:arg name="cell_layout_1" default="false"/>
+  <xacro:property name="cell_layout_1" value="$(arg cell_layout_1)"/>
+  <xacro:arg name="cell_layout_2" default="false"/>
+  <xacro:property name="cell_layout_2" value="$(arg cell_layout_2)"/>
+  <xacro:arg name="cell_layout_3" default="false"/>
+  <xacro:property name="cell_layout_3" value="$(arg cell_layout_3)"/>
+
+  <!-- END-EFFECTOR:  -->
+  <xacro:arg name="EE_no" default="false"/>
+  <xacro:property name="EE_no" value="$(arg EE_no)"/>
+  <xacro:arg name="EE_schunk" default="false"/>
+  <xacro:property name="EE_schunk" value="$(arg EE_schunk)"/>
+
+
   <!-- Include XACRO-MACRO file of the IRB120: -->
   <xacro:include filename="$(find irb120_ros2_gazebo)/urdf/irb120_macro.urdf.xacro"/>	
-  <xacro:irb120 prefix=""/>
+  <xacro:irb120 
+    prefix=""
+    EE_no="${EE_no}"
+    EE_schunk="${EE_schunk}"
+  />
 
-  <!-- Fix robot to Gazebo world -->
+  <!-- Gazebo WORLD link: -->
   <link name="world"/>
 
-  <joint name="world-base_link-fixed" type="fixed">
-    <parent link="world"/>
-    <child link="base_link"/>
-  </joint>
+  <!-- ========== ========== ========== ========== ========== ========== -->
+  <!-- CELL LAYOUT SELECTION: -->
+
+  <!-- CELL LAYOUT N1) ABB IRB120 Robot alone: -->
+  <xacro:if value="${cell_layout_1}">
+    <joint name="world-base_link-fixed" type="fixed">
+      <parent link="world"/>
+      <child link="base_link"/>
+    </joint>
+  </xacro:if>
+
+  <!-- CELL LAYOUT N2) ABB IRB120 Robot in Cranfield University cell: -->
+  <xacro:if value="${cell_layout_2}">
+    <link name="cell">
+      <visual>
+        <origin xyz="-0.21 -0.357 0.0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="file://$(find irb120_ros2_gazebo)/meshes/irb120_cell.dae" scale="1 1 1" />
+        </geometry>
+      </visual>
+      <collision>
+        <origin xyz="-0.21 -0.357 0.0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="file://$(find irb120_ros2_gazebo)/meshes/irb120_cell.dae" scale="1 1 1" />
+        </geometry>
+      </collision>
+      <inertial>
+        <mass value="1000.0"/>
+        <inertia ixx="500.0" ixy="500.0" ixz="500.0" iyy="500.0" iyz="500.0" izz="500.0" />
+      </inertial>
+    </link>
+    <joint name="world-cell-fixed" type="fixed">
+      <parent link="world"/>
+      <child link="cell"/>
+    </joint>
+    <joint name="cell-base_link-fixed" type="fixed">
+      <parent link="cell"/>
+      <child link="base_link"/>
+      <origin xyz="0.0 0.0 0.015" rpy="0.0 0.0 0.0" />
+    </joint>
+  </xacro:if>
+
+  <!-- CELL LAYOUT N3) ABB IRB120 + PICK & PLACE layout: -->
+  <xacro:if value="${cell_layout_3}">
+    <link name='irb120_block'>
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="100"/>
+        <inertia ixx="0.01"  ixy="0"  ixz="0" iyy="0.01" iyz="0" izz="0.01" />
+      </inertial>
+      <collision name='collision'>
+        <origin xyz="0 0 0" rpy=" 0 0 0"/> 
+        <geometry>
+          <box size = "0.2 0.2 0.5"/>
+        </geometry>
+      </collision>
+      <visual name='chassis_visual'>
+        <origin xyz="0 0 0" rpy=" 0 0 0"/>
+        <geometry>
+          <box size = "0.2 0.2 0.5"/>
+        </geometry>
+        <material name="red">
+          <color rgba="1 0 0 1"/>
+        </material>
+      </visual>
+    </link>
+    <joint name="world_joint" type="fixed">
+      <parent link="world" />
+      <child link = "irb120_block" />
+      <origin xyz="0.0 0.0 0.25" rpy="0.0 0.0 0.0" />
+    </joint>
+    <joint name="block-base" type="fixed">
+      <parent link="irb120_block" />
+      <child link = "base_link" />
+      <origin xyz="0.0 0.0 0.255" rpy="0.0 0.0 0.0" /> 
+    </joint>
+    <link name='table'>
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="100"/>
+        <inertia ixx="0.01"  ixy="0"  ixz="0" iyy="0.01" iyz="0" izz="0.01" />
+      </inertial>
+      <collision name='collision'>
+        <origin xyz="0 0 0" rpy=" 0 0 0"/> 
+        <geometry>
+          <box size = "0.5 1.0 0.7"/>
+        </geometry>
+      </collision>
+      <visual name='chassis_visual'>
+        <origin xyz="0 0 0" rpy=" 0 0 0"/>
+        <geometry>
+          <box size = "0.5 1.0 0.7"/>
+        </geometry>
+        <material name="black">
+          <color rgba="1 0 0 1"/>
+        </material>
+      </visual>
+    </link>
+    <joint name="table_world" type="fixed">
+      <parent link="world" />
+      <child link = "table" />
+      <origin xyz="0.7 0.0 0.35" rpy="0.0 0.0 0.0" />
+    </joint>
+  </xacro:if>
 
 </robot>

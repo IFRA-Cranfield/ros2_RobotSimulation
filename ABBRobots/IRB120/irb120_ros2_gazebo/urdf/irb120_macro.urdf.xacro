@@ -57,18 +57,23 @@
   <!-- Include additional ABB-Resources/MATERIALS+COLOUR xacro files: -->
   <xacro:include filename="$(find irb120_ros2_gazebo)/urdf/abb_resources/common_materials.xacro"/>
 
-  <!-- Load TRANSMISSION file: -->
-  <xacro:include filename="$(find irb120_ros2_gazebo)/urdf/irb120_transmission.xacro" />
-  <!-- Load GAZEBO/ROS2_CONTROL file: -->
-  <xacro:include filename="$(find irb120_ros2_gazebo)/urdf/irb120_gazebo.xacro" />
-
   <!-- XACRO-MACRO of ABB-IRB120: -->
-  <xacro:macro name="irb120" params="prefix">
+  <xacro:macro name="irb120" params="prefix EE_no EE_schunk">
 
-    <!-- ABB-IRB120 TRANSMISSION: -->
-    <xacro:irb120_transmission prefix=""/>
-    <!-- ABB-IRB120 GAZEBO - ROS2_CONTROL: -->
-    <xacro:irb120_gazebo prefix=""/>
+    <!-- Load ABB IRB120 TRANSMISSION file: -->
+    <xacro:include filename="$(find irb120_ros2_gazebo)/urdf/irb120_transmission.xacro" />
+    <xacro:irb120_transmission 
+      prefix=""
+      EE_schunk="${EE_schunk}"
+    />
+    
+    <!-- Load ABB IRB120 ROS2_CONTROL file: -->
+    <xacro:include filename="$(find irb120_ros2_gazebo)/urdf/irb120_ros2control.xacro" />
+    <xacro:irb120_ros2control 
+      prefix=""
+      EE_no="${EE_no}"
+      EE_schunk="${EE_schunk}"
+    />
 
     <!-- ***** ABB-IRB120 ROBOT .urdf SERIAL CHAIN ***** -->
 
@@ -320,5 +325,219 @@
       <parent link="${prefix}flange" />
       <child link="${prefix}tool0" />
     </joint>
+
+    <!-- =================================== -->
+    <!-- ========== END-EFFECTORS ========== -->
+
+    <!-- === SCHUNK EGP-64 GRIPPER === -->
+    <xacro:if value="${EE_schunk}">
+
+      <!-- Schunk coupler (LINK): -->
+      <link name="schunk_coupler">
+        <visual>
+          <geometry>
+            <mesh filename="file://$(find irb120_ros2_gazebo)/meshes/egp64/Schunk Gripper - ADAPTER.dae" />
+          </geometry>
+          <material name="flat_black"/>
+        </visual>
+        <collision>
+          <geometry>
+            <mesh filename="file://$(find irb120_ros2_gazebo)/meshes/egp64/Schunk Gripper - ADAPTER.dae" />
+          </geometry>
+        </collision>
+        <inertial>
+          <origin xyz="0 0 0" rpy="0 0 ${pi/4}" />
+          <mass value="0.001" />
+          <inertia ixx="0.001" ixy="0.0" ixz="0.0" iyy="0.001" iyz="0.0" izz="0.001"/>
+        </inertial>
+      </link>
+
+      <!-- Schunk coupler (JOINT): -->
+      <joint name="schunk_coupler_joint" type="fixed">
+        <origin xyz="0 0 0.001" rpy="0 0 ${pi/4}" />
+        <parent link="tool0"/>
+        <child link="schunk_coupler"/>
+      </joint>
+      <gazebo reference="schunk_coupler">
+        <mu1>0.9</mu1>
+        <mu2>0.9</mu2>
+        <material>Gazebo/FlatBlack</material>
+      </gazebo>
+
+      <link name="egp64_gripper_base_link">
+        <inertial>
+          <origin xyz="0 0 0" rpy="0 0 0" />
+          <mass value="0.005" />
+          <inertia ixx="0.001" ixy="0.0" ixz="0.0" iyy="0.001" iyz="0.0" izz="0.001"/>
+        </inertial>
+        <visual>
+          <geometry>
+            <mesh filename="file://$(find irb120_ros2_gazebo)/meshes/egp64/Schunk Gripper - BASE noAdapter.dae" />
+          </geometry>
+          <material name="blue">
+            <color rgba="0 0 1 1"/>
+          </material>
+        </visual>
+        <collision>
+          <geometry>
+            <mesh filename="file://$(find irb120_ros2_gazebo)/meshes/egp64/Schunk Gripper - BASE noAdapter.dae" />
+          </geometry>
+          <material name="blue"/>
+        </collision>
+      </link>
+
+      <joint name="egp64_coupler" type="fixed">
+        <parent link="schunk_coupler"/>
+        <child link="egp64_gripper_base_link"/>
+        <origin xyz="-0.03205 0.01812 0.02047" rpy="0 0 0" />
+      </joint>
+
+      <!-- LEFT FINGER BASE -->
+      
+      <link name="egp64_finger_left_link">
+        <inertial>
+          <origin xyz="0.01483 -0.00782 0" rpy="0 0 0" />
+          <mass value="0.002" />
+          <inertia ixx="0.001" ixy="0.0" ixz="0.0" iyy="0.001" iyz="0.0" izz="0.001"/>
+        </inertial>
+        <visual>
+          <geometry>
+            <mesh filename="file://$(find irb120_ros2_gazebo)/meshes/egp64/Schunk Gripper - LEFT FINGER BASE.dae" />
+          </geometry>
+          <material name="black">
+            <color rgba="0 0 0 1"/>
+          </material>
+        </visual>
+        <collision>
+          <geometry>
+            <mesh filename="file://$(find irb120_ros2_gazebo)/meshes/egp64/Schunk Gripper - LEFT FINGER BASE.dae" />
+          </geometry>
+          <material name="black" />
+        </collision>
+      </link>
+      
+      <joint name="egp64_finger_left_joint" type="prismatic" >
+        <parent link="egp64_gripper_base_link" />
+        <child link="egp64_finger_left_link" />
+        <limit effort="100" lower="-0.001" upper="0.04" velocity="0.2"/>
+        <origin xyz="0.01483 -0.00782 0" rpy="0 0 0" />
+        <axis xyz="-1 0 0" />
+      </joint>
+      
+      <!-- LEFT FINGERTIP -->
+      
+      <link name="egp64_fingertip_left_link">
+        <inertial>
+          <origin xyz="0.03869 -0.0005 0.00093" rpy="0 0 0" />
+          <mass value="0.001" />
+          <inertia ixx="0.001" ixy="0.0" ixz="0.0" iyy="0.001" iyz="0.0" izz="0.001"/>
+        </inertial>
+        <visual>
+          <geometry>
+            <mesh filename="file://$(find irb120_ros2_gazebo)/meshes/egp64/Schunk Gripper - LEFT FINGER.dae" />
+          </geometry>
+          <material name="silver">
+            <color rgba="0.8 0.8 0.8 1"/>
+          </material>
+        </visual>
+        <collision>
+          <geometry>
+            <mesh filename="file://$(find irb120_ros2_gazebo)/meshes/egp64/Schunk Gripper - LEFT FINGER.dae" />
+          </geometry>
+          <material name="black"/>
+        </collision>
+      </link>
+      
+      <joint name="egp64_fingertip_left_joint" type="fixed" >
+        <parent link="egp64_finger_left_link" />
+        <child link="egp64_fingertip_left_link" />
+        <origin xyz="0.03869 -0.0005 0.00093" rpy="0 0 0"/>
+      </joint>
+
+      
+      <!-- RIGHT FINGER BASE -->
+
+      <link name="egp64_finger_right_link">
+        <inertial>
+          <origin xyz="-0.0153 -0.00602 0" rpy="0 0 0" />
+          <mass value="0.002" />
+          <inertia ixx="0.001" ixy="0.0" ixz="0.0" iyy="0.001" iyz="0.0" izz="0.001"/>
+        </inertial>
+        <visual>
+          <geometry>
+            <mesh filename="file://$(find irb120_ros2_gazebo)/meshes/egp64/Schunk Gripper - RIGHT FINGER BASE.dae" />
+          </geometry>
+          <material name="black"/>
+        </visual>
+        <collision>
+          <geometry>
+            <mesh filename="file://$(find irb120_ros2_gazebo)/meshes/egp64/Schunk Gripper - RIGHT FINGER BASE.dae" />
+          </geometry>
+          <material name="black"/>
+        </collision>
+      </link>
+      
+      <joint name="egp64_finger_right_joint" type="prismatic" >
+        <parent link="egp64_gripper_base_link" />
+        <child link="egp64_finger_right_link" />
+        <limit effort="100" lower="-0.001" upper="0.04" velocity="0.2"/>
+        <origin xyz="-0.0153 -0.00602 0" rpy="0 0 0" />
+        <axis xyz="1 0 0" />
+      </joint>
+      
+      <!-- RIGHT FINGERTIP -->
+
+      <link name="egp64_fingertip_right_link">
+        <inertial>
+          <origin xyz="-0.01211 -0.00197 0.00093" rpy="0 0 0" />
+          <mass value="0.001" />
+          <inertia ixx="0.001" ixy="0.0" ixz="0.0" iyy="0.001" iyz="0.0" izz="0.001"/>
+        </inertial>
+        <visual>
+          <geometry>
+            <mesh filename="file://$(find irb120_ros2_gazebo)/meshes/egp64/Schunk Gripper - RIGHT FINGER.dae" />
+          </geometry>
+          <material name="silver" />
+        </visual>
+        <collision>
+          <geometry>
+            <mesh filename="file://$(find irb120_ros2_gazebo)/meshes/egp64/Schunk Gripper - RIGHT FINGER.dae" />
+          </geometry>
+          <material name="black"/>
+      </collision>
+      </link>
+      
+      <joint name="egp64_fingertip_right_joint" type="fixed" >
+        <parent link="egp64_finger_right_link" />
+        <child link="egp64_fingertip_right_link" />
+        <origin xyz="-0.01211 -0.00197 0.00093" rpy="0 0 0"/>
+      </joint>
+
+      <!-- SMALL CUBE FOR GRIPPER PLUGIN -->
+
+      <link name="EE_egp64">
+        <inertial>
+          <origin xyz="0 0 0" rpy="0 0 0" />
+          <mass value="0.00001" />
+          <inertia ixx="0.001" ixy="0.0" ixz="0.0" iyy="0.001" iyz="0.0" izz="0.001"/>
+        </inertial>
+        <visual>
+          <geometry>
+            <box size= "0.001 0.001 0.001" />
+          </geometry>
+        </visual>
+      </link>
+      
+      <joint name="EE_egp64_joint" type="prismatic" >
+        <parent link="egp64_gripper_base_link" />
+        <child link="EE_egp64" />
+        <limit effort="10000" lower="0.0" upper="0.0" velocity="0.0"/>
+        <axis xyz="1 0 0" />
+        <origin xyz="0.033 -0.018 0.15" rpy="0 0 0"/>
+      </joint>
+
+    </xacro:if>
+    <!-- === SCHUNK EGP-64 GRIPPER === -->
+
   </xacro:macro>
 </robot>

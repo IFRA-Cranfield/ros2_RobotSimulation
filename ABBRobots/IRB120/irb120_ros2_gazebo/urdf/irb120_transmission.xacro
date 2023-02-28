@@ -54,7 +54,7 @@
 
 <robot xmlns:xacro="http://wiki.ros.org/xacro">
 
-  <xacro:macro name="irb120_transmission" params="prefix">
+  <xacro:macro name="irb120_transmission" params="prefix EE_schunk">
 
     <transmission name="irb120_joint1_trans">
       <type>transmission_interface/SimpleTransmission</type>
@@ -115,6 +115,32 @@
         <mechanicalReduction>1</mechanicalReduction>
       </actuator>
     </transmission>
+
+    <!-- =================================== -->
+    <!-- ========== END-EFFECTORS ========== -->
+
+    <!-- === SCHUNK EGP-64 GRIPPER === -->
+    <xacro:if value="${EE_schunk}">
+      <transmission name="egp64_left_finger_trans">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="egp64_finger_left_joint">
+          <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="egp64_left_finger_motor">
+          <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+      </transmission>
+      <transmission name="egp64_right_finger_trans">
+        <type>transmission_interface/SimpleTransmission</type>
+        <joint name="egp64_finger_right_joint">
+          <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+        </joint>
+        <actuator name="egp64_right_finger_motor">
+          <mechanicalReduction>1</mechanicalReduction>
+        </actuator>
+      </transmission>  
+    </xacro:if>
+    <!-- === SCHUNK EGP-64 GRIPPER === -->
 
   </xacro:macro>
 

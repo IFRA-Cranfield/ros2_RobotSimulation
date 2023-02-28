@@ -32,7 +32,7 @@
 
 -->
 
-<robot name="irb120egp64">
+<robot name="irb120">
   <!--GROUPS: Representation of a set of joints and links. This can be useful for specifying DOF to plan for, defining arms, end effectors, etc-->
   <!--LINKS: When a link is specified, the parent joint of that link (if it exists) is automatically included-->
   <!--JOINTS: When a joint is specified, the child link of that joint (which will always exist) is automatically included-->
@@ -83,17 +83,17 @@
   </group_state>
   <!--END EFFECTOR: Purpose: Represent information about an end effector.-->
   <!--DISABLE COLLISIONS: By default it is assumed that any link of the robot could potentially come into collision with any other link in the robot. This tag disables collision checking between a specified pair of links. -->
-    <disable_collisions link1="egp64_finger_left_link" link2="egp64_fingertip_left_link" reason="Adjacent" />
-    <disable_collisions link1="egp64_finger_left_link" link2="egp64_gripper_base_link" reason="Adjacent" />
-    <disable_collisions link1="egp64_finger_left_link" link2="schunk_coupler" reason="Never" />
-    <disable_collisions link1="egp64_finger_right_link" link2="egp64_fingertip_right_link" reason="Adjacent" />
-    <disable_collisions link1="egp64_finger_right_link" link2="egp64_gripper_base_link" reason="Adjacent" />
-    <disable_collisions link1="egp64_finger_right_link" link2="schunk_coupler" reason="Never" />
-    <disable_collisions link1="egp64_fingertip_left_link" link2="egp64_gripper_base_link" reason="Never" />
-    <disable_collisions link1="egp64_fingertip_left_link" link2="schunk_coupler" reason="Never" />
-    <disable_collisions link1="egp64_fingertip_right_link" link2="egp64_gripper_base_link" reason="Never" />
-    <disable_collisions link1="egp64_fingertip_right_link" link2="schunk_coupler" reason="Never" />
-    <disable_collisions link1="egp64_gripper_base_link" link2="schunk_coupler" reason="Adjacent" />
-    <disable_collisions link1="link_6" link2="schunk_coupler" reason="Adjacent" />
+  <disable_collisions link1="egp64_finger_left_link" link2="egp64_fingertip_left_link" reason="Adjacent" />
+  <disable_collisions link1="egp64_finger_left_link" link2="egp64_gripper_base_link" reason="Adjacent" />
+  <disable_collisions link1="egp64_finger_left_link" link2="schunk_coupler" reason="Never" />
+  <disable_collisions link1="egp64_finger_right_link" link2="egp64_fingertip_right_link" reason="Adjacent" />
+  <disable_collisions link1="egp64_finger_right_link" link2="egp64_gripper_base_link" reason="Adjacent" />
+  <disable_collisions link1="egp64_finger_right_link" link2="schunk_coupler" reason="Never" />
+  <disable_collisions link1="egp64_fingertip_left_link" link2="egp64_gripper_base_link" reason="Never" />
+  <disable_collisions link1="egp64_fingertip_left_link" link2="schunk_coupler" reason="Never" />
+  <disable_collisions link1="egp64_fingertip_right_link" link2="egp64_gripper_base_link" reason="Never" />
+  <disable_collisions link1="egp64_fingertip_right_link" link2="schunk_coupler" reason="Never" />
+  <disable_collisions link1="egp64_gripper_base_link" link2="schunk_coupler" reason="Adjacent" />
+  <disable_collisions link1="link_6" link2="schunk_coupler" reason="Adjacent" />
 
 </robot>

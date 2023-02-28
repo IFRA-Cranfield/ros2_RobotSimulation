@@ -54,16 +54,34 @@
 
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
 
-  <xacro:macro name="irb120_gazebo" params="prefix" >
+  <xacro:macro name="irb120_ros2control" params="prefix EE_no EE_schunk" >
 
-    <gazebo>
-      <plugin filename="libgazebo_ros2_control.so" name="gazebo_ros2_control">
-        <robot_sim_type>gazebo_ros2_control/GazeboSystem</robot_sim_type>
-        <parameters>$(find irb120_ros2_gazebo)/config/irb120_controller.yaml</parameters>
-      </plugin>
-    </gazebo>
+    <!-- ROS2_CONTROL tag name: -->
+    <xacro:property name="name" value="GazeboSystem"/>
+
+    <!-- ===== Gazebo ROS2_CONTROL plugin ===== -->
+    <!-- No End-Effector: -->
+    <xacro:if value="${EE_no}">
+      <gazebo>
+        <plugin filename="libgazebo_ros2_control.so" name="gazebo_ros2_control">
+          <robot_sim_type>gazebo_ros2_control/GazeboSystem</robot_sim_type>
+          <parameters>$(find irb120_ros2_gazebo)/config/irb120_controller.yaml</parameters>
+        </plugin>
+      </gazebo>
+    </xacro:if>
+    <!-- End-Effector -> SCHUNK EGP-64 GRIPPER: -->
+    <xacro:if value="${EE_schunk}">
+      <gazebo>
+        <plugin filename="libgazebo_ros2_control.so" name="gazebo_ros2_control">
+          <robot_sim_type>gazebo_ros2_control/GazeboSystem</robot_sim_type>
+          <parameters>$(find irb120_ros2_gazebo)/config/irb120egp64_controller.yaml</parameters>
+        </plugin>
+      </gazebo>
+    </xacro:if>
     
-    <ros2_control name="GazeboSystem" type="system">
+    <!-- ========== ROS2 CONTROL ========== -->
+
+    <ros2_control name="${name}" type="system">
 
       <hardware>
         <plugin>gazebo_ros2_control/GazeboSystem</plugin>
@@ -83,7 +101,6 @@
         <state_interface name="velocity"/>
         <state_interface name="effort"/>
       </joint>
-
       <!-- irb120_joint2 -->
       <joint name="${prefix}joint_2">
         <command_interface name="position">
@@ -98,7 +115,6 @@
         <state_interface name="velocity"/>
         <state_interface name="effort"/>
       </joint>
-
       <!-- irb120_joint3 -->
       <joint name="${prefix}joint_3">
         <command_interface name="position">
@@ -113,7 +129,6 @@
         <state_interface name="velocity"/>
         <state_interface name="effort"/>
       </joint>
-
       <!-- irb120_joint4 -->
       <joint name="${prefix}joint_4">
         <command_interface name="position">
@@ -128,7 +143,6 @@
         <state_interface name="velocity"/>
         <state_interface name="effort"/>
       </joint>
-
       <!-- irb120_joint5 -->
       <joint name="${prefix}joint_5">
         <command_interface name="position">
@@ -143,7 +157,6 @@
         <state_interface name="velocity"/>
         <state_interface name="effort"/>
       </joint>
-
       <!-- irb120_joint6 -->
       <joint name="${prefix}joint_6">
         <command_interface name="position">
@@ -158,6 +171,54 @@
         <state_interface name="velocity"/>
         <state_interface name="effort"/>
       </joint>
+
+      <!-- =================================== -->
+      <!-- ========== END-EFFECTORS ========== -->
+
+      <!-- === SCHUNK EGP-64 GRIPPER === -->
+      <xacro:if value="${EE_schunk}">
+        <!-- egp64_finger_left_joint -->
+        <joint name="egp64_finger_left_joint">
+          <command_interface name="position">
+            <param name="min">-0.001</param>
+            <param name="max">0.04</param>
+          </command_interface>
+          <command_interface name="velocity">
+            <param name="min">-0.2</param>
+            <param name="max">0.2</param>
+          </command_interface>
+          <state_interface name="position"/>
+          <state_interface name="velocity"/>
+        </joint>
+        <!-- egp64_finger_right_joint -->
+        <joint name="egp64_finger_right_joint">
+          <command_interface name="position">
+            <param name="min">-0.001</param>
+            <param name="max">0.04</param>
+          </command_interface>
+          <command_interface name="velocity">
+            <param name="min">-0.2</param>
+            <param name="max">0.2</param>
+          </command_interface>
+          <state_interface name="position"/>
+          <state_interface name="velocity"/>
+        </joint>
+        <joint name="EE_egp64_joint">
+          <command_interface name="position">
+            <param name="min">0.0</param>
+            <param name="max">0.0</param>
+          </command_interface>
+          <command_interface name="velocity">
+            <param name="min">0.0</param>
+            <param name="max">0.0</param>
+          </command_interface>
+          <state_interface name="position">
+            <param name="initial_value">0.0</param>
+          </state_interface>
+          <state_interface name="velocity"/>
+        </joint> 
+      </xacro:if>
+      <!-- === SCHUNK EGP-64 GRIPPER === -->
 
     </ros2_control>
 
@@ -189,6 +250,29 @@
       <selfCollide>false</selfCollide>
       <material>Gazebo/Orange</material>
     </gazebo>
+
+    <!-- =================================== -->
+    <!-- ========== END-EFFECTORS ========== -->
+
+    <!-- === SCHUNK EGP-64 GRIPPER === -->
+    <xacro:if value="${EE_schunk}">
+      <gazebo reference="egp64_gripper_base_link">
+        <selfCollide>false</selfCollide>
+      </gazebo>
+      <gazebo reference="egp64_finger_left_link">
+        <selfCollide>false</selfCollide>
+      </gazebo>
+      <gazebo reference="egp64_fingertip_left_link">
+        <selfCollide>false</selfCollide>
+      </gazebo>  
+      <gazebo reference="egp64_finger_right_link">
+        <selfCollide>false</selfCollide>
+      </gazebo>
+      <gazebo reference="egp64_fingertip_right_link">
+        <selfCollide>false</selfCollide>
+      </gazebo> 
+    </xacro:if>
+    <!-- === SCHUNK EGP-64 GRIPPER === -->
 
     <gazebo reference="end_effector_frame_fixed_joint">
       <preserveFixedJoint>true</preserveFixedJoint>
