@@ -57,18 +57,21 @@
   <!-- Include additional ABB-Resources/MATERIALS+COLOUR xacro files: -->
   <xacro:include filename="$(find irb6640_ros2_gazebo)/urdf/abb_resources/common_materials.xacro"/>
 
-  <!-- Load TRANSMISSION file: -->
-  <xacro:include filename="$(find irb6640_ros2_gazebo)/urdf/irb6640_transmission.xacro" />
-  <!-- Load GAZEBO/ROS2_CONTROL file: -->
-  <xacro:include filename="$(find irb6640_ros2_gazebo)/urdf/irb6640_gazebo.xacro" />
-
-  <!-- XACRO-MACRO of ABB-irb6640: -->
-  <xacro:macro name="irb6640" params="prefix">
-
-    <!-- ABB-irb6640 TRANSMISSION: -->
-    <xacro:irb6640_transmission prefix=""/>
-    <!-- ABB-irb6640 GAZEBO - ROS2_CONTROL: -->
-    <xacro:irb6640_gazebo prefix=""/>
+  <!-- XACRO-MACRO of ABB-IRB6640: -->
+  <xacro:macro name="irb6640" params="prefix EE_no">
+  
+    <!-- Load ABB IRB6640 TRANSMISSION file: -->
+    <xacro:include filename="$(find irb6640_ros2_gazebo)/urdf/irb6640_transmission.xacro" />
+    <xacro:irb6640_transmission 
+      prefix=""
+    />
+    
+    <!-- Load ABB IRB6640 ROS2_CONTROL file: -->
+    <xacro:include filename="$(find irb6640_ros2_gazebo)/urdf/irb6640_ros2control.xacro" />
+    <xacro:irb6640_ros2control 
+      prefix=""
+      EE_no="${EE_no}"
+    />
 
     <!-- ***** ABB-irb6640 ROBOT .urdf SERIAL CHAIN ***** -->
 

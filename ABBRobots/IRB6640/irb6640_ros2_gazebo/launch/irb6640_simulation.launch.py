@@ -28,8 +28,8 @@
 # You can cite our work with the following statement:
 # IFRA (2022) ROS2.0 ROBOT SIMULATION. URL: https://github.com/IFRA-Cranfield/ros2_RobotSimulation.
 
-# irb1200_simulation.launch.py:
-# Launch file for the ABB-IRB1200 Robot GAZEBO SIMULATION in ROS2 Foxy:
+# irb6640_simulation.launch.py:
+# Launch file for the ABB-IRB6640 Robot GAZEBO SIMULATION in ROS2 Foxy:
 
 # Import libraries:
 import os
@@ -68,15 +68,15 @@ def generate_launch_description():
     
     # ***** GAZEBO ***** #   
     # DECLARE Gazebo WORLD file:
-    irb1200_ros2_gazebo = os.path.join(
-        get_package_share_directory('irb1200_ros2_gazebo'),
+    irb6640_ros2_gazebo = os.path.join(
+        get_package_share_directory('irb6640_ros2_gazebo'),
         'worlds',
-        'irb1200.world')
+        'irb6640.world')
     # DECLARE Gazebo LAUNCH file:
     gazebo = IncludeLaunchDescription(
                 PythonLaunchDescriptionSource([os.path.join(
                     get_package_share_directory('gazebo_ros'), 'launch'), '/gazebo.launch.py']),
-                launch_arguments={'world': irb1200_ros2_gazebo}.items(),
+                launch_arguments={'world': irb6640_ros2_gazebo}.items(),
              )
 
     # ========== COMMAND LINE ARGUMENTS ========== #
@@ -85,8 +85,8 @@ def generate_launch_description():
     print("        (c) IFRA Group        ")
     print("")
 
-    print("ros2_RobotSimulation --> ABB IRB-1200")
-    print("Launch file -> irb1200_simulation.launch.py")
+    print("ros2_RobotSimulation --> ABB IRB-6640")
+    print("Launch file -> irb6640_simulation.launch.py")
 
     print("")
     print("Robot configuration:")
@@ -99,7 +99,7 @@ def generate_launch_description():
     
     # error = True
     # while (error == True):
-    #     print("     + Option N1: ABB IRB-1200 alone.")
+    #     print("     + Option N1: ABB IRB-6640 alone.")
     #     print("     + Option N2: ***.")
     #     cell_layout = input ("  Please select: ")
     #     if (cell_layout == "1"):
@@ -137,14 +137,14 @@ def generate_launch_description():
     print("")
 
     # ***** ROBOT DESCRIPTION ***** #
-    # ABB-IRB1200 Description file package:
-    irb1200_description_path = os.path.join(
-        get_package_share_directory('irb1200_ros2_gazebo'))
-    # ABB-IRB1200 ROBOT urdf file path:
-    xacro_file = os.path.join(irb1200_description_path,
+    # ABB-IRB6640 Description file package:
+    irb6640_description_path = os.path.join(
+        get_package_share_directory('irb6640_ros2_gazebo'))
+    # ABB-IRB6640 ROBOT urdf file path:
+    xacro_file = os.path.join(irb6640_description_path,
                               'urdf',
-                              'irb1200.urdf.xacro')
-    # Generate ROBOT_DESCRIPTION for ABB-IRB1200:
+                              'irb6640.urdf.xacro')
+    # Generate ROBOT_DESCRIPTION for ABB-IRB6640:
     doc = xacro.parse(open(xacro_file))
     xacro.process_doc(doc, mappings={
         "cell_layout_1": cell_layout_1,
@@ -166,7 +166,7 @@ def generate_launch_description():
     # SPAWN ROBOT TO GAZEBO:
     spawn_entity = Node(package='gazebo_ros', executable='spawn_entity.py',
                         arguments=['-topic', 'robot_description',
-                                   '-entity', 'irb1200'],
+                                   '-entity', 'irb6640'],
                         output='screen')
 
     # ***** RETURN LAUNCH DESCRIPTION ***** #
