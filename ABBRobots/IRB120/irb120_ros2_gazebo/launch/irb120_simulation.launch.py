@@ -172,29 +172,6 @@ def generate_launch_description():
                                    '-entity', 'irb120'],
                         output='screen')
 
-    # ***** CONTROLLERS ***** #
-    # Joint STATE Controller:
-    load_joint_state_controller = ExecuteProcess(
-        cmd=['ros2', 'control', 'load_start_controller', 'joint_state_controller'],
-        output='screen'
-    )
-    # Joint TRAJECTORY Controller:
-    load_joint_trajectory_controller = ExecuteProcess(
-        cmd=['ros2', 'control', 'load_start_controller', 'joint_trajectory_controller'],
-        output='screen'
-    )
-    # === SCHUNK EGP-64 === #
-    if (EE_schunk == "true"):
-        load_egp64_finger_left_controller = ExecuteProcess(
-            cmd=['ros2', 'control', 'load_start_controller', 'egp64_finger_left_controller'],
-            output='screen'
-        )
-        load_egp64_finger_right_controller = ExecuteProcess(
-            cmd=['ros2', 'control', 'load_start_controller', 'egp64_finger_right_controller'],
-            output='screen'
-        )
-    # === SCHUNK EGP-64 === #
-
     # ***** RETURN LAUNCH DESCRIPTION ***** #
     return LaunchDescription([
         gazebo, 
