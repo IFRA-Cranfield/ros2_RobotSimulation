@@ -53,7 +53,7 @@
 
 <robot xmlns:xacro="http://wiki.ros.org/xacro">
 
-  <xacro:macro name="panda_transmission" >
+  <xacro:macro name="panda_transmission" params="prefix">
 
     <transmission name="panda_joint1_trans">
       <type>transmission_interface/SimpleTransmission</type>

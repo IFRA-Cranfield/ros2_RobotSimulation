@@ -53,17 +53,21 @@
 
 <robot xmlns:xacro="http://wiki.ros.org/xacro">
 
-  <!-- Load TRANSMISSION file: -->
-  <xacro:include filename="$(find panda_ros2_gazebo)/urdf/panda_transmission.xacro" />
-  <!-- Load GAZEBO/ROS2_CONTROL file: -->
-  <xacro:include filename="$(find panda_ros2_gazebo)/urdf/panda_gazebo.xacro" />
-
-  <xacro:macro name="panda_robot">
+  <!-- XACRO-MACRO of PANDA ROBOT: -->
+  <xacro:macro name="panda" params="prefix EE_no">
+  
+    <!-- Load PANDA ROBOT TRANSMISSION file: -->
+    <xacro:include filename="$(find panda_ros2_gazebo)/urdf/panda_transmission.xacro" />
+    <xacro:panda_transmission 
+      prefix=""
+    />
     
-    <!-- PANDA TRANSMISSION: -->
-    <xacro:panda_transmission />
-    <!-- PANDA GAZEBO - ROS2_CONTROL: -->
-    <xacro:panda_gazebo />
+    <!-- Load PANDA ROBOT ROS2_CONTROL file: -->
+    <xacro:include filename="$(find panda_ros2_gazebo)/urdf/panda_ros2control.xacro" />
+    <xacro:panda_ros2control 
+      prefix=""
+      EE_no="${EE_no}"
+    />
 
     <!-- ***** PANDA ROBOT .urdf SERIAL CHAIN ***** -->
     
