@@ -78,7 +78,7 @@
   <!-- ========== ========== ========== ========== ========== ========== -->
   <!-- CELL LAYOUT SELECTION: -->
 
-  <!-- CELL LAYOUT N1) ABB IRB120 Robot alone: -->
+  <!-- CELL LAYOUT N1) ABB IRB1200 Robot alone: -->
   <xacro:if value="${cell_layout_1}">
     <joint name="world-base_link-fixed" type="fixed">
       <parent link="world"/>
