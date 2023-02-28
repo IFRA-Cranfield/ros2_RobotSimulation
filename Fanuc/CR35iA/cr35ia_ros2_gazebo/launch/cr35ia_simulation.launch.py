@@ -79,17 +79,79 @@ def generate_launch_description():
                 launch_arguments={'world': cr35ia_ros2_gazebo}.items(),
              )
 
+    # ========== COMMAND LINE ARGUMENTS ========== #
+    print("")
+    print(" --- Cranfield University --- ")
+    print("        (c) IFRA Group        ")
+    print("")
+
+    print("ros2_RobotSimulation --> Fanuc CR35-iA")
+    print("Launch file -> cr35ia_simulation.launch.py")
+
+    print("")
+    print("Robot configuration:")
+    print("")
+
+    # Cell Layout:
+    print("- Cell layout:")
+    print("     + No cell layout variants for this robot.")
+    cell_layout_1 = "true"
+    
+    # error = True
+    # while (error == True):
+    #     print("     + Option N1: Fanuc CR35-iA alone.")
+    #     print("     + Option N2: ***.")
+    #     cell_layout = input ("  Please select: ")
+    #     if (cell_layout == "1"):
+    #         error = False
+    #         cell_layout_1 = "true"
+    #         cell_layout_2 = "false"
+    #     elif (cell_layout == "2"):
+    #         error = False
+    #         cell_layout_1 = "false"
+    #         cell_layout_2 = "true"
+    #     else:
+    #         print ("  Please select a valid option!")
+    print("")
+
+    # End-Effector:
+    print("- End-effector:")
+    print("     + No EE variants for this robot.")
+    EE_no = "true"
+    
+    # error = True
+    # while (error == True):
+    #     print("     + Option N1: No end-effector.")
+    #     print("     + Option N2: ***.")
+    #     end_effector = input ("  Please select: ")
+    #     if (end_effector == "1"):
+    #         error = False
+    #         EE_no = "true"
+    #         EE_*** = "false"
+    #     elif (end_effector == "2"):
+    #         error = False
+    #         EE_no = "false"
+    #         EE_*** = "true"
+    #     else:
+    #         print ("  Please select a valid option!")
+    print("")
+
     # ***** ROBOT DESCRIPTION ***** #
-    # FANUC CR35-iA Description file package:
+    # Fanuc CR35-iA Description file package:
     cr35ia_description_path = os.path.join(
         get_package_share_directory('cr35ia_ros2_gazebo'))
-    # FANUC CR35-iA ROBOT urdf file path:
+    # Fanuc CR35-iA ROBOT urdf file path:
     xacro_file = os.path.join(cr35ia_description_path,
                               'urdf',
                               'cr35ia.urdf.xacro')
-    # Generate ROBOT_DESCRIPTION for FANUC CR35-iA:
+    # Generate ROBOT_DESCRIPTION for Fanuc CR35-iA:
     doc = xacro.parse(open(xacro_file))
-    xacro.process_doc(doc)
+    xacro.process_doc(doc, mappings={
+        "cell_layout_1": cell_layout_1,
+        # "cell_layout_2": cell_layout_2,
+        "EE_no": EE_no,
+        # "EE_**": EE_**,
+        })
     robot_description_config = doc.toxml()
     robot_description = {'robot_description': robot_description_config}
 
@@ -106,18 +168,6 @@ def generate_launch_description():
                         arguments=['-topic', 'robot_description',
                                    '-entity', 'cr35ia'],
                         output='screen')
-
-    # ***** CONTROLLERS ***** #
-    # Joint STATE Controller:
-    load_joint_state_controller = ExecuteProcess(
-        cmd=['ros2', 'control', 'load_start_controller', 'joint_state_controller'],
-        output='screen'
-    )
-    # Joint TRAJECTORY Controller:
-    load_joint_trajectory_controller = ExecuteProcess(
-        cmd=['ros2', 'control', 'load_start_controller', 'joint_trajectory_controller'],
-        output='screen'
-    )
 
     # ***** RETURN LAUNCH DESCRIPTION ***** #
     return LaunchDescription([

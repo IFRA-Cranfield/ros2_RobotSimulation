@@ -53,16 +53,25 @@
 
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
 
-  <xacro:macro name="cr35ia_gazebo" params="prefix" >
+  <xacro:macro name="cr35ia_ros2control" params="prefix EE_no" >
 
-    <gazebo>
-      <plugin filename="libgazebo_ros2_control.so" name="gazebo_ros2_control">
-        <robot_sim_type>gazebo_ros2_control/GazeboSystem</robot_sim_type>
-        <parameters>$(find cr35ia_ros2_gazebo)/config/cr35ia_controller.yaml</parameters>
-      </plugin>
-    </gazebo>
+    <!-- ROS2_CONTROL tag name: -->
+    <xacro:property name="name" value="GazeboSystem"/>
+
+    <!-- ===== Gazebo ROS2_CONTROL plugin ===== -->
+    <!-- No End-Effector: -->
+    <xacro:if value="${EE_no}">
+      <gazebo>
+        <plugin filename="libgazebo_ros2_control.so" name="gazebo_ros2_control">
+          <robot_sim_type>gazebo_ros2_control/GazeboSystem</robot_sim_type>
+          <parameters>$(find cr35ia_ros2_gazebo)/config/cr35ia_controller.yaml</parameters>
+        </plugin>
+      </gazebo>
+    </xacro:if>
     
-    <ros2_control name="GazeboSystem" type="system">
+    <!-- ========== ROS2 CONTROL ========== -->
+
+    <ros2_control name="${name}" type="system">
 
       <hardware>
         <plugin>gazebo_ros2_control/GazeboSystem</plugin>

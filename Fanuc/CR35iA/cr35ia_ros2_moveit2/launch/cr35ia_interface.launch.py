@@ -20,7 +20,7 @@
 #           Seemal Asif      - s.asif@cranfield.ac.uk                                   #
 #           Phil Webb        - p.f.webb@cranfield.ac.uk                                 #
 #                                                                                       #
-#  Date: October, 2022.                                                                    #
+#  Date: September, 2022.                                                               #
 #                                                                                       #
 # ===================================== COPYRIGHT ===================================== #
 
@@ -29,7 +29,7 @@
 # IFRA (2022) ROS2.0 ROBOT SIMULATION. URL: https://github.com/IFRA-Cranfield/ros2_RobotSimulation.
 
 # cr35ia.launch.py:
-# Launch file for the FANUC CR35-iA Robot GAZEBO + MoveIt!2 SIMULATION (+ Robot/Gripper triggers) in ROS2 Foxy:
+# Launch file for the Fanuc CR35-iA Robot GAZEBO + MoveIt!2 SIMULATION in ROS2 Foxy:
 
 # Import libraries:
 import os
@@ -83,19 +83,82 @@ def generate_launch_description():
                 launch_arguments={'world': cr35ia_ros2_gazebo}.items(),
              )
 
+    # ========== COMMAND LINE ARGUMENTS ========== #
+    print("")
+    print(" --- Cranfield University --- ")
+    print("        (c) IFRA Group        ")
+    print("")
+
+    print("ros2_RobotSimulation --> Fanuc CR35-iA")
+    print("Launch file -> cr35ia_interface.launch.py")
+
+    print("")
+    print("Robot configuration:")
+    print("")
+
+    # Cell Layout:
+    print("- Cell layout:")
+    print("     + No cell layout variants for this robot.")
+    cell_layout_1 = "true"
+    
+    # error = True
+    # while (error == True):
+    #     print("     + Option N1: Fanuc CR35-iA alone.")
+    #     print("     + Option N2: ***.")
+    #     cell_layout = input ("  Please select: ")
+    #     if (cell_layout == "1"):
+    #         error = False
+    #         cell_layout_1 = "true"
+    #         cell_layout_2 = "false"
+    #     elif (cell_layout == "2"):
+    #         error = False
+    #         cell_layout_1 = "false"
+    #         cell_layout_2 = "true"
+    #     else:
+    #         print ("  Please select a valid option!")
+    print("")
+
+    # End-Effector:
+    print("- End-effector:")
+    print("     + No EE variants for this robot.")
+    EE_no = "true"
+    
+    # error = True
+    # while (error == True):
+    #     print("     + Option N1: No end-effector.")
+    #     print("     + Option N2: ***.")
+    #     end_effector = input ("  Please select: ")
+    #     if (end_effector == "1"):
+    #         error = False
+    #         EE_no = "true"
+    #         EE_*** = "false"
+    #     elif (end_effector == "2"):
+    #         error = False
+    #         EE_no = "false"
+    #         EE_*** = "true"
+    #     else:
+    #         print ("  Please select a valid option!")
+    print("")
+
     # ***** ROBOT DESCRIPTION ***** #
-    # FANUC CR35-iA Description file package:
+    # Fanuc CR35-iA Description file package:
     cr35ia_description_path = os.path.join(
         get_package_share_directory('cr35ia_ros2_gazebo'))
-    # FANUC CR35-iA ROBOT urdf file path:
+    # Fanuc CR35-iA ROBOT urdf file path:
     xacro_file = os.path.join(cr35ia_description_path,
                               'urdf',
                               'cr35ia.urdf.xacro')
-    # Generate ROBOT_DESCRIPTION for FANUC CR35-iA:
+    # Generate ROBOT_DESCRIPTION for Fanuc CR35-iA:
     doc = xacro.parse(open(xacro_file))
-    xacro.process_doc(doc)
+    xacro.process_doc(doc, mappings={
+        "cell_layout_1": cell_layout_1,
+        # "cell_layout_2": cell_layout_2,
+        "EE_no": EE_no,
+        # "EE_**": EE_**,
+        })
     robot_description_config = doc.toxml()
     robot_description = {'robot_description': robot_description_config}
+
     # SPAWN ROBOT TO GAZEBO:
     spawn_entity = Node(package='gazebo_ros', executable='spawn_entity.py',
                         arguments=['-topic', 'robot_description',
@@ -120,33 +183,8 @@ def generate_launch_description():
         parameters=[robot_description],
     )
 
-    # ***** CONTROLLERS ***** #
-    # cr35ia arm controller:
-    load_cr35ia_controller = ExecuteProcess(
-        cmd=['ros2', 'control', 'load_start_controller', 'cr35ia_controller'],
-        output='screen'
-    )
-    # Joint STATE Controller:
-    load_joint_state_controller = ExecuteProcess(
-        cmd=['ros2', 'control', 'load_start_controller', 'joint_state_controller'],
-        output='screen'
-    )
-    # ros2_control:
-    ros2_controllers_path = os.path.join(
-        get_package_share_directory("cr35ia_ros2_gazebo"),
-        "config",
-        "cr35ia_controller.yaml",
-    )
-    ros2_control_node = Node(
-        package="controller_manager",
-        executable="ros2_control_node",
-        parameters=[robot_description, ros2_controllers_path],
-        output={
-            "stdout": "screen",
-            "stderr": "screen",
-        },
-    )
-    # Load controllers: 
+    # ***** ROS2_CONTROL -> LOAD CONTROLLERS ***** #
+
     load_controllers = []
     for controller in [
         "cr35ia_controller",
@@ -169,27 +207,12 @@ def generate_launch_description():
     )
 
     # *** PLANNING CONTEXT *** #
-    # Robot description, URDF:
-    robot_description_config = xacro.process_file(
-        os.path.join(
-            get_package_share_directory("cr35ia_ros2_gazebo"),
-            "urdf",
-            "cr35ia.urdf.xacro",
-        )
-    )
-    robot_description = {"robot_description": robot_description_config.toxml()}
     # Robot description, SRDF:
-    robot_description_semantic_config = load_file(
-        "cr35ia_ros2_moveit2", "config/cr35ia.srdf"
-    )
-    robot_description_semantic = {
-        "robot_description_semantic": robot_description_semantic_config
-    }
-
+    robot_description_semantic_config = load_file("cr35ia_ros2_moveit2", "config/cr35ia.srdf")
+    robot_description_semantic = {"robot_description_semantic": robot_description_semantic_config }
+    
     # Kinematics.yaml file:
-    kinematics_yaml = load_yaml(
-        "cr35ia_ros2_moveit2", "config/kinematics.yaml"
-    )
+    kinematics_yaml = load_yaml("cr35ia_ros2_moveit2", "config/kinematics.yaml")
     robot_description_kinematics = {"robot_description_kinematics": kinematics_yaml}
 
     # Move group: OMPL Planning.
@@ -200,15 +223,11 @@ def generate_launch_description():
             "start_state_max_bounds_error": 0.1,
         }
     }
-    ompl_planning_yaml = load_yaml(
-        "cr35ia_ros2_moveit2", "config/ompl_planning.yaml"
-    )
+    ompl_planning_yaml = load_yaml("cr35ia_ros2_moveit2", "config/ompl_planning.yaml")
     ompl_planning_pipeline_config["move_group"].update(ompl_planning_yaml)
 
     # MoveIt!2 Controllers:
-    moveit_simple_controllers_yaml = load_yaml(
-        "cr35ia_ros2_moveit2", "config/cr35ia_controllers.yaml"
-    )
+    moveit_simple_controllers_yaml = load_yaml("cr35ia_ros2_moveit2", "config/cr35ia_controllers.yaml")
     moveit_controllers = {
         "moveit_simple_controller_manager": moveit_simple_controllers_yaml,
         "moveit_controller_manager": "moveit_simple_controller_manager/MoveItSimpleControllerManager",
@@ -244,7 +263,7 @@ def generate_launch_description():
 
     # RVIZ:
     load_RVIZfile = LaunchConfiguration("rviz_file")
-    rviz_base = os.path.join(get_package_share_directory("cr35ia_ros2_moveit2"), "launch")
+    rviz_base = os.path.join(get_package_share_directory("cr35ia_ros2_moveit2"), "config")
     rviz_full_config = os.path.join(rviz_base, "cr35ia_moveit2.rviz")
     rviz_node_full = Node(
         package="rviz2",
@@ -261,9 +280,7 @@ def generate_launch_description():
         condition=UnlessCondition(load_RVIZfile),
     )
 
-    # ====================== INTERFACES FOR MoveJ, MoveG, MoveXYZW... ====================== #
-
-    # ===== ACTIONS ===== #
+    # *********************** ROS2.0 Robot/End-Effector Actions/Triggers *********************** #
     # MoveJ ACTION:
     moveJ_interface = Node(
         name="moveJ_action",
@@ -272,6 +289,14 @@ def generate_launch_description():
         output="screen",
         parameters=[robot_description, robot_description_semantic, kinematics_yaml, {"ROB_PARAM": 'cr35ia_arm'}],
     )
+    # MoveG ACTION:
+    # moveG_interface = Node(
+    #     name="moveG_action",
+    #     package="ros2_actions",
+    #     executable="moveG_action",
+    #     output="screen",
+    #     parameters=[robot_description, robot_description_semantic, kinematics_yaml, {"ROB_PARAM": ''}],
+    # )
     # MoveXYZW ACTION:
     moveXYZW_interface = Node(
         name="moveXYZW_action",
@@ -320,17 +345,23 @@ def generate_launch_description():
         output="screen",
         parameters=[robot_description, robot_description_semantic, kinematics_yaml, {"ROB_PARAM": 'cr35ia_arm'}],
     )
-
+    # MoveRP ACTION:
+    moveRP_interface = Node(
+        name="moveRP_action",
+        package="ros2_actions",
+        executable="moveRP_action",
+        output="screen",
+        parameters=[robot_description, robot_description_semantic, kinematics_yaml, {"ROB_PARAM": 'cr35ia_arm'}],
+    )
+    
     return LaunchDescription(
         [
             # Gazebo nodes:
             gazebo, 
             spawn_entity,
-            
             # ROS2_CONTROL:
             static_tf,
             robot_state_publisher,
-            ros2_control_node,
             
             RegisterEventHandler(
                 OnProcessExit(
@@ -338,24 +369,31 @@ def generate_launch_description():
                     on_exit = [
 
                         # MoveIt!2:
-                        rviz_arg,
-                        run_move_group_node,
-
-                        # Interface:
-                        moveJ_interface,
-                        moveXYZW_interface,
-                        moveL_interface,
-                        moveR_interface,
-                        moveXYZ_interface,
-                        moveYPR_interface,
-                        moveROT_interface,
-
-                        # RVIZ - 5s delay:
                         TimerAction(
                             period=5.0,
-                            actions=[rviz_node_full],
-                        )
+                            actions=[
+                                rviz_arg,
+                                rviz_node_full,
+                                run_move_group_node
+                            ]
+                        ),
 
+                        # ROS2.0 Actions:
+                        TimerAction(
+                            period=2.0,
+                            actions=[
+                                moveJ_interface,
+                                # moveG_interface,
+                                moveL_interface,
+                                moveR_interface,
+                                moveXYZ_interface,
+                                moveXYZW_interface,
+                                moveYPR_interface,
+                                moveROT_interface,
+                                moveRP_interface,
+                            ]
+                        ),
+                        
                     ]
                 )
             )

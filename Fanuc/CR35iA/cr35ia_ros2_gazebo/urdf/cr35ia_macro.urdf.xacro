@@ -56,18 +56,21 @@
   <!-- Include additional FANUC-materials xacro files: -->
   <!-- <xacro:include filename="$(find cr35ia_ros2_gazebo)/urdf/fanuc_resources/common_materials.xacro" /> -->
 
-  <!-- Load TRANSMISSION file: -->
-  <xacro:include filename="$(find cr35ia_ros2_gazebo)/urdf/cr35ia_transmission.xacro" />
-  <!-- Load GAZEBO/ROS2_CONTROL file: -->
-  <xacro:include filename="$(find cr35ia_ros2_gazebo)/urdf/cr35ia_gazebo.xacro" />
-
-  <!-- XACRO-MACRO of FANUC CR35-iA: -->
-  <xacro:macro name="cr35ia" params="prefix">
-
-    <!-- FANUC CR35-iA TRANSMISSION: -->
-    <xacro:cr35ia_transmission prefix=""/>
-    <!-- FANUC CR35-iA GAZEBO - ROS2_CONTROL: -->
-    <xacro:cr35ia_gazebo prefix=""/>
+  <!-- XACRO-MACRO of Fanuc CR35-iA: -->
+  <xacro:macro name="cr35ia" params="prefix EE_no">
+  
+    <!-- Load Fanuc CR35-iA TRANSMISSION file: -->
+    <xacro:include filename="$(find cr35ia_ros2_gazebo)/urdf/cr35ia_transmission.xacro" />
+    <xacro:cr35ia_transmission 
+      prefix=""
+    />
+    
+    <!-- Load Fanuc CR35-iA ROS2_CONTROL file: -->
+    <xacro:include filename="$(find cr35ia_ros2_gazebo)/urdf/cr35ia_ros2control.xacro" />
+    <xacro:cr35ia_ros2control 
+      prefix=""
+      EE_no="${EE_no}"
+    />
 
     <!-- ***** FANUC CR35-iA ROBOT .urdf SERIAL CHAIN ***** -->
 
