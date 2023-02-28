@@ -53,22 +53,22 @@
 -->
 
 <robot xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <!-- XACRO-MACRO of FANUC LBR-iiwa: -->
+  <xacro:macro name="iiwa" params="prefix EE_no">
   
-  <!-- Include additional FANUC-materials xacro files: -->
-  <!-- <xacro:include filename="$(find iiwa_ros2_gazebo)/urdf/fanuc_resources/common_materials.xacro" /> -->
-
-  <!-- Load TRANSMISSION file: -->
-  <xacro:include filename="$(find iiwa_ros2_gazebo)/urdf/iiwa_transmission.xacro" />
-  <!-- Load GAZEBO/ROS2_CONTROL file: -->
-  <xacro:include filename="$(find iiwa_ros2_gazebo)/urdf/iiwa_gazebo.xacro" />
-
-  <!-- XACRO-MACRO of KUKA LBR-IIWA: -->
-  <xacro:macro name="iiwa" params="prefix">
-
-    <!-- KUKA LBR-IIWA TRANSMISSION: -->
-    <xacro:iiwa_transmission prefix=""/>
-    <!-- KUKA LBR-IIWA GAZEBO - ROS2_CONTROL: -->
-    <xacro:iiwa_gazebo prefix=""/>
+    <!-- Load FANUC LBR-iiwa TRANSMISSION file: -->
+    <xacro:include filename="$(find iiwa_ros2_gazebo)/urdf/iiwa_transmission.xacro" />
+    <xacro:iiwa_transmission 
+      prefix=""
+    />
+    
+    <!-- Load FANUC LBR-iiwa ROS2_CONTROL file: -->
+    <xacro:include filename="$(find iiwa_ros2_gazebo)/urdf/iiwa_ros2control.xacro" />
+    <xacro:iiwa_ros2control 
+      prefix=""
+      EE_no="${EE_no}"
+    />
 
     <!-- ***** KUKA LBR-IIWA ROBOT .urdf SERIAL CHAIN ***** -->
 
