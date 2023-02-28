@@ -425,15 +425,20 @@ def generate_launch_description():
                         ),
 
                         # ROS2.0 Actions:
-                        moveJ_interface,
-                        moveG_interface,
-                        moveL_interface,
-                        moveR_interface,
-                        moveXYZ_interface,
-                        moveXYZW_interface,
-                        moveYPR_interface,
-                        moveROT_interface,
-                        moveRP_interface,
+                        TimerAction(
+                            period=2.0,
+                            actions=[
+                                moveJ_interface,
+                                moveG_interface,
+                                moveL_interface,
+                                moveR_interface,
+                                moveXYZ_interface,
+                                moveXYZW_interface,
+                                moveYPR_interface,
+                                moveROT_interface,
+                                moveRP_interface,
+                            ]
+                        ),
 
                     ]
                 )
