@@ -20,7 +20,7 @@
 #           Seemal Asif      - s.asif@cranfield.ac.uk                                   #
 #           Phil Webb        - p.f.webb@cranfield.ac.uk                                 #
 #                                                                                       #
-#  Date: September, 2022.                                                                    #
+#  Date: September, 2022.                                                               #
 #                                                                                       #
 # ===================================== COPYRIGHT ===================================== #
 
@@ -79,6 +79,63 @@ def generate_launch_description():
                 launch_arguments={'world': irb1200_ros2_gazebo}.items(),
              )
 
+    # ========== COMMAND LINE ARGUMENTS ========== #
+    print("")
+    print(" --- Cranfield University --- ")
+    print("        (c) IFRA Group        ")
+    print("")
+
+    print("ros2_RobotSimulation --> ABB IRB-1200")
+    print("Launch file -> irb1200_simulation.launch.py")
+
+    print("")
+    print("Robot configuration:")
+    print("")
+
+    # Cell Layout:
+    print("- Cell layout:")
+    print("     + No cell layout variants for this robot.")
+    cell_layout_1 = "true"
+    
+    # error = True
+    # while (error == True):
+    #     print("     + Option N1: ABB IRB-1200 alone.")
+    #     print("     + Option N2: ***.")
+    #     cell_layout = input ("  Please select: ")
+    #     if (cell_layout == "1"):
+    #         error = False
+    #         cell_layout_1 = "true"
+    #         cell_layout_2 = "false"
+    #     elif (cell_layout == "2"):
+    #         error = False
+    #         cell_layout_1 = "false"
+    #         cell_layout_2 = "true"
+    #     else:
+    #         print ("  Please select a valid option!")
+    print("")
+
+    # End-Effector:
+    print("- End-effector:")
+    print("     + No EE variants for this robot.")
+    EE_no = "true"
+    
+    # error = True
+    # while (error == True):
+    #     print("     + Option N1: No end-effector.")
+    #     print("     + Option N2: ***.")
+    #     end_effector = input ("  Please select: ")
+    #     if (end_effector == "1"):
+    #         error = False
+    #         EE_no = "true"
+    #         EE_*** = "false"
+    #     elif (end_effector == "2"):
+    #         error = False
+    #         EE_no = "false"
+    #         EE_*** = "true"
+    #     else:
+    #         print ("  Please select a valid option!")
+    print("")
+
     # ***** ROBOT DESCRIPTION ***** #
     # ABB-IRB1200 Description file package:
     irb1200_description_path = os.path.join(
@@ -89,7 +146,12 @@ def generate_launch_description():
                               'irb1200.urdf.xacro')
     # Generate ROBOT_DESCRIPTION for ABB-IRB1200:
     doc = xacro.parse(open(xacro_file))
-    xacro.process_doc(doc)
+    xacro.process_doc(doc, mappings={
+        "cell_layout_1": cell_layout_1,
+        # "cell_layout_2": cell_layout_2,
+        "EE_no": EE_no,
+        # "EE_**": EE_**,
+        })
     robot_description_config = doc.toxml()
     robot_description = {'robot_description': robot_description_config}
 
@@ -106,18 +168,6 @@ def generate_launch_description():
                         arguments=['-topic', 'robot_description',
                                    '-entity', 'irb1200'],
                         output='screen')
-
-    # ***** CONTROLLERS ***** #
-    # Joint STATE Controller:
-    load_joint_state_controller = ExecuteProcess(
-        cmd=['ros2', 'control', 'load_start_controller', 'joint_state_controller'],
-        output='screen'
-    )
-    # Joint TRAJECTORY Controller:
-    load_joint_trajectory_controller = ExecuteProcess(
-        cmd=['ros2', 'control', 'load_start_controller', 'joint_trajectory_controller'],
-        output='screen'
-    )
 
     # ***** RETURN LAUNCH DESCRIPTION ***** #
     return LaunchDescription([

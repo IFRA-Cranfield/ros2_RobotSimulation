@@ -20,7 +20,7 @@
 #           Seemal Asif      - s.asif@cranfield.ac.uk                                   #
 #           Phil Webb        - p.f.webb@cranfield.ac.uk                                 #
 #                                                                                       #
-#  Date: September, 2022.                                                                    #
+#  Date: September, 2022.                                                               #
 #                                                                                       #
 # ===================================== COPYRIGHT ===================================== #
 
@@ -83,19 +83,82 @@ def generate_launch_description():
                 launch_arguments={'world': irb1200_ros2_gazebo}.items(),
              )
 
+    # ========== COMMAND LINE ARGUMENTS ========== #
+    print("")
+    print(" --- Cranfield University --- ")
+    print("        (c) IFRA Group        ")
+    print("")
+
+    print("ros2_RobotSimulation --> ABB IRB-1200")
+    print("Launch file -> irb1200.launch.py")
+
+    print("")
+    print("Robot configuration:")
+    print("")
+
+    # Cell Layout:
+    print("- Cell layout:")
+    print("     + No cell layout variants for this robot.")
+    cell_layout_1 = "true"
+    
+    # error = True
+    # while (error == True):
+    #     print("     + Option N1: ABB IRB-1200 alone.")
+    #     print("     + Option N2: ***.")
+    #     cell_layout = input ("  Please select: ")
+    #     if (cell_layout == "1"):
+    #         error = False
+    #         cell_layout_1 = "true"
+    #         cell_layout_2 = "false"
+    #     elif (cell_layout == "2"):
+    #         error = False
+    #         cell_layout_1 = "false"
+    #         cell_layout_2 = "true"
+    #     else:
+    #         print ("  Please select a valid option!")
+    print("")
+
+    # End-Effector:
+    print("- End-effector:")
+    print("     + No EE variants for this robot.")
+    EE_no = "true"
+    
+    # error = True
+    # while (error == True):
+    #     print("     + Option N1: No end-effector.")
+    #     print("     + Option N2: ***.")
+    #     end_effector = input ("  Please select: ")
+    #     if (end_effector == "1"):
+    #         error = False
+    #         EE_no = "true"
+    #         EE_*** = "false"
+    #     elif (end_effector == "2"):
+    #         error = False
+    #         EE_no = "false"
+    #         EE_*** = "true"
+    #     else:
+    #         print ("  Please select a valid option!")
+    print("")
+
     # ***** ROBOT DESCRIPTION ***** #
-    # ABB IRB-1200 Description file package:
+    # ABB-IRB1200 Description file package:
     irb1200_description_path = os.path.join(
         get_package_share_directory('irb1200_ros2_gazebo'))
-    # ABB IRB-1200 ROBOT urdf file path:
+    # ABB-IRB1200 ROBOT urdf file path:
     xacro_file = os.path.join(irb1200_description_path,
                               'urdf',
                               'irb1200.urdf.xacro')
-    # Generate ROBOT_DESCRIPTION for ABB IRB-1200:
+    # Generate ROBOT_DESCRIPTION for ABB-IRB1200:
     doc = xacro.parse(open(xacro_file))
-    xacro.process_doc(doc)
+    xacro.process_doc(doc, mappings={
+        "cell_layout_1": cell_layout_1,
+        # "cell_layout_2": cell_layout_2,
+        "EE_no": EE_no,
+        # "EE_**": EE_**,
+        })
     robot_description_config = doc.toxml()
     robot_description = {'robot_description': robot_description_config}
+
     # SPAWN ROBOT TO GAZEBO:
     spawn_entity = Node(package='gazebo_ros', executable='spawn_entity.py',
                         arguments=['-topic', 'robot_description',
@@ -120,33 +183,8 @@ def generate_launch_description():
         parameters=[robot_description],
     )
 
-    # ***** CONTROLLERS ***** #
-    # irb1200 arm controller:
-    load_irb1200_controller = ExecuteProcess(
-        cmd=['ros2', 'control', 'load_start_controller', 'irb1200_controller'],
-        output='screen'
-    )
-    # Joint STATE Controller:
-    load_joint_state_controller = ExecuteProcess(
-        cmd=['ros2', 'control', 'load_start_controller', 'joint_state_controller'],
-        output='screen'
-    )
-    # ros2_control:
-    ros2_controllers_path = os.path.join(
-        get_package_share_directory("irb1200_ros2_gazebo"),
-        "config",
-        "irb1200_controller.yaml",
-    )
-    ros2_control_node = Node(
-        package="controller_manager",
-        executable="ros2_control_node",
-        parameters=[robot_description, ros2_controllers_path],
-        output={
-            "stdout": "screen",
-            "stderr": "screen",
-        },
-    )
-    # Load controllers: 
+    # ***** ROS2_CONTROL -> LOAD CONTROLLERS ***** #
+
     load_controllers = []
     for controller in [
         "irb1200_controller",
@@ -169,27 +207,12 @@ def generate_launch_description():
     )
 
     # *** PLANNING CONTEXT *** #
-    # Robot description, URDF:
-    robot_description_config = xacro.process_file(
-        os.path.join(
-            get_package_share_directory("irb1200_ros2_gazebo"),
-            "urdf",
-            "irb1200.urdf.xacro",
-        )
-    )
-    robot_description = {"robot_description": robot_description_config.toxml()}
     # Robot description, SRDF:
-    robot_description_semantic_config = load_file(
-        "irb1200_ros2_moveit2", "config/irb1200.srdf"
-    )
-    robot_description_semantic = {
-        "robot_description_semantic": robot_description_semantic_config
-    }
-
+    robot_description_semantic_config = load_file("irb1200_ros2_moveit2", "config/irb1200.srdf")
+    robot_description_semantic = {"robot_description_semantic": robot_description_semantic_config }
+    
     # Kinematics.yaml file:
-    kinematics_yaml = load_yaml(
-        "irb1200_ros2_moveit2", "config/kinematics.yaml"
-    )
+    kinematics_yaml = load_yaml("irb1200_ros2_moveit2", "config/kinematics.yaml")
     robot_description_kinematics = {"robot_description_kinematics": kinematics_yaml}
 
     # Move group: OMPL Planning.
@@ -200,15 +223,11 @@ def generate_launch_description():
             "start_state_max_bounds_error": 0.1,
         }
     }
-    ompl_planning_yaml = load_yaml(
-        "irb1200_ros2_moveit2", "config/ompl_planning.yaml"
-    )
+    ompl_planning_yaml = load_yaml("irb1200_ros2_moveit2", "config/ompl_planning.yaml")
     ompl_planning_pipeline_config["move_group"].update(ompl_planning_yaml)
 
     # MoveIt!2 Controllers:
-    moveit_simple_controllers_yaml = load_yaml(
-        "irb1200_ros2_moveit2", "config/irb1200_controllers.yaml"
-    )
+    moveit_simple_controllers_yaml = load_yaml("irb1200_ros2_moveit2", "config/irb1200_controllers.yaml")
     moveit_controllers = {
         "moveit_simple_controller_manager": moveit_simple_controllers_yaml,
         "moveit_controller_manager": "moveit_simple_controller_manager/MoveItSimpleControllerManager",
@@ -244,7 +263,7 @@ def generate_launch_description():
 
     # RVIZ:
     load_RVIZfile = LaunchConfiguration("rviz_file")
-    rviz_base = os.path.join(get_package_share_directory("irb1200_ros2_moveit2"), "launch")
+    rviz_base = os.path.join(get_package_share_directory("irb1200_ros2_moveit2"), "config")
     rviz_full_config = os.path.join(rviz_base, "irb1200_moveit2.rviz")
     rviz_node_full = Node(
         package="rviz2",
@@ -266,11 +285,9 @@ def generate_launch_description():
             # Gazebo nodes:
             gazebo, 
             spawn_entity,
-            
             # ROS2_CONTROL:
             static_tf,
             robot_state_publisher,
-            ros2_control_node,
             
             RegisterEventHandler(
                 OnProcessExit(
@@ -278,14 +295,14 @@ def generate_launch_description():
                     on_exit = [
 
                         # MoveIt!2:
-                        rviz_arg,
-                        run_move_group_node,
-
-                        # RVIZ with 5s delay:
                         TimerAction(
                             period=5.0,
-                            actions=[rviz_node_full],
-                        )
+                            actions=[
+                                rviz_arg,
+                                rviz_node_full,
+                                run_move_group_node
+                            ]
+                        ),
 
                     ]
                 )

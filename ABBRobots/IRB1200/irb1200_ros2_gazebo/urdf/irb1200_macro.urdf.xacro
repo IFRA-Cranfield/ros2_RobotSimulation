@@ -57,23 +57,25 @@
   <!-- Include additional ABB-Resources/MATERIALS+COLOUR xacro files: -->
   <xacro:include filename="$(find irb1200_ros2_gazebo)/urdf/abb_resources/common_materials.xacro"/>
 
-  <!-- Load TRANSMISSION file: -->
-  <xacro:include filename="$(find irb1200_ros2_gazebo)/urdf/irb1200_transmission.xacro" />
-  <!-- Load GAZEBO/ROS2_CONTROL file: -->
-  <xacro:include filename="$(find irb1200_ros2_gazebo)/urdf/irb1200_gazebo.xacro" />
-
   <!-- XACRO-MACRO of ABB-IRB1200: -->
-  <xacro:macro name="irb1200" params="prefix">
-
-    <!-- ABB-IRB1200 TRANSMISSION: -->
-    <xacro:irb1200_transmission prefix=""/>
-    <!-- ABB-IRB1200 GAZEBO - ROS2_CONTROL: -->
-    <xacro:irb1200_gazebo prefix=""/>
+  <xacro:macro name="irb1200" params="prefix EE_no">
+  
+    <!-- Load ABB IRB1200 TRANSMISSION file: -->
+    <xacro:include filename="$(find irb1200_ros2_gazebo)/urdf/irb1200_transmission.xacro" />
+    <xacro:irb1200_transmission 
+      prefix=""
+    />
+    
+    <!-- Load ABB IRB1200 ROS2_CONTROL file: -->
+    <xacro:include filename="$(find irb1200_ros2_gazebo)/urdf/irb1200_ros2control.xacro" />
+    <xacro:irb1200_ros2control 
+      prefix=""
+      EE_no="${EE_no}"
+    />
 
     <!-- ***** ABB-IRB1200 ROBOT .urdf SERIAL CHAIN ***** -->
 
-    <!-- ===== LINK LIST ===== -->
-    
+    <!-- Link list: -->
     <!-- base_link -->
     <link name="${prefix}base_link">
       <inertial>
@@ -229,8 +231,7 @@
     </link>
     <!-- end of link list -->
 
-    <!-- ===== JOINT LIST ===== -->
-
+    <!-- Joint list: -->
     <!-- joint_1 -->
     <joint type="revolute" name="${prefix}joint_1">
       <origin xyz="0 0 0.3991" rpy="0 0 0"/>
@@ -315,5 +316,7 @@
       <parent link="${prefix}flange" />
       <child link="${prefix}tool0" />
     </joint>
+
   </xacro:macro>
+  
 </robot>

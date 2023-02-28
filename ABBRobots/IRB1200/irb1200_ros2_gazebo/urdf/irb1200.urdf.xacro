@@ -54,16 +54,36 @@
 
 <robot name="irb1200" xmlns:xacro="http://ros.org/wiki/xacro">
 
+  <!-- ===== ARGUMENTS ===== -->
+
+  <!-- CELL LAYOUT:  -->
+  <xacro:arg name="cell_layout_1" default="false"/>
+  <xacro:property name="cell_layout_1" value="$(arg cell_layout_1)"/>
+  
+  <!-- END-EFFECTOR:  -->
+  <xacro:arg name="EE_no" default="false"/>
+  <xacro:property name="EE_no" value="$(arg EE_no)"/>
+
+
   <!-- Include XACRO-MACRO file of the IRB1200: -->
   <xacro:include filename="$(find irb1200_ros2_gazebo)/urdf/irb1200_macro.urdf.xacro"/>	
-  <xacro:irb1200 prefix=""/>
+  <xacro:irb1200 
+    prefix=""
+    EE_no="${EE_no}"
+  />
 
-  <!-- Fix robot to Gazebo world -->
+  <!-- Gazebo world link: -->
   <link name="world"/>
 
-  <joint name="world-base_link-fixed" type="fixed">
-    <parent link="world"/>
-    <child link="base_link"/>
-  </joint>
+  <!-- ========== ========== ========== ========== ========== ========== -->
+  <!-- CELL LAYOUT SELECTION: -->
+
+  <!-- CELL LAYOUT N1) ABB IRB120 Robot alone: -->
+  <xacro:if value="${cell_layout_1}">
+    <joint name="world-base_link-fixed" type="fixed">
+      <parent link="world"/>
+      <child link="base_link"/>
+    </joint>
+  </xacro:if>
 
 </robot>
