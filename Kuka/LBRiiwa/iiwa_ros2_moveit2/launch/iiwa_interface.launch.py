@@ -280,9 +280,9 @@ def generate_launch_description():
     # *********************** ROS2.0 Robot/End-Effector Actions/Triggers *********************** #
     # MoveJ ACTION:
     moveJ_interface = Node(
-        name="moveJ_action",
+        name="moveJs_action",
         package="ros2_actions",
-        executable="moveJ_action",
+        executable="moveJs_action",
         output="screen",
         parameters=[robot_description, robot_description_semantic, kinematics_yaml, {"ROB_PARAM": 'iiwa_arm'}],
     )
@@ -312,9 +312,9 @@ def generate_launch_description():
     )
     # MoveR ACTION:
     moveR_interface = Node(
-        name="moveR_action",
+        name="moveRs_action",
         package="ros2_actions",
-        executable="moveR_action",
+        executable="moveRs_action",
         output="screen",
         parameters=[robot_description, robot_description_semantic, kinematics_yaml, {"ROB_PARAM": 'iiwa_arm'}],
     )

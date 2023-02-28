@@ -149,7 +149,7 @@ def generate_launch_description():
     doc = xacro.parse(open(xacro_file))
     xacro.process_doc(doc, mappings={
         "cell_layout_1": cell_layout_1,
-        # "cell_layout_2": cell_layout_2,
+        "cell_layout_2": cell_layout_2,
         "EE_no": EE_no,
         # "EE_**": EE_**,
         })
