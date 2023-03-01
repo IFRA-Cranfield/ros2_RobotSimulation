@@ -36,14 +36,6 @@ rosidl_generate_interfaces(${PROJECT_NAME}
   "action/MoveROT.action"
   "action/MoveRP.action"
 )
-
-# ros2-data executable (not relevant):
-add_executable(ros2-data src/ros2-data.cpp)
-target_include_directories(ros2-data PUBLIC
-  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-  $<INSTALL_INTERFACE:include>)
-install(TARGETS ros2-data
-  DESTINATION lib/${PROJECT_NAME})
   
 # IF ANY SCRIPT TO BE INSTALLED, add here:
 #install(PROGRAMS  
@@ -60,10 +52,5 @@ if(BUILD_TESTING)
   #set(ament_cmake_cpplint_FOUND TRUE)
   ament_lint_auto_find_test_dependencies()
 endif()
-
-install(DIRECTORY
-  launch
-  DESTINATION share/${PROJECT_NAME}/
-)
 
 ament_package()
