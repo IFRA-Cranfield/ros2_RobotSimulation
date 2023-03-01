@@ -184,7 +184,7 @@ panda_arm_hand:
     - SPARSkConfigDefault
     - SPARStwokConfigDefault
     - TrajOptDefault
-hand:
+panda_gripper:
   planner_configs:
     - SBLkConfigDefault
     - ESTkConfigDefault

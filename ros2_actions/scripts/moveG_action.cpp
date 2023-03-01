@@ -150,10 +150,9 @@ private:
         // Check GRIPPER LIMITS:
         double GPupper, GPlower = 0.0;
         bool LimitCheck = false;
-        if (my_param == "hand"){
+        if (my_param == "panda_gripper"){
             GPupper = 0.04;
             GPlower = 0.0;
-            my_param = "Panda Hand";
         } else if (my_param == "egp64"){
             GPupper = 0.025;
             GPlower = 0.0;

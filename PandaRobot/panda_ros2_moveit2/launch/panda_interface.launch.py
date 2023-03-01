@@ -294,7 +294,7 @@ def generate_launch_description():
         package="ros2_actions",
         executable="moveG_action",
         output="screen",
-        parameters=[robot_description, robot_description_semantic, kinematics_yaml, {"ROB_PARAM": 'hand'}],
+        parameters=[robot_description, robot_description_semantic, kinematics_yaml, {"ROB_PARAM": 'panda_gripper'}],
     )
     # MoveXYZW ACTION:
     moveXYZW_interface = Node(

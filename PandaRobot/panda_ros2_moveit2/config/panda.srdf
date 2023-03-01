@@ -97,7 +97,7 @@
   <!--JOINTS: When a joint is specified, the child link of that joint (which will always exist) is automatically included-->
   <!--CHAINS: When a chain is specified, all the links along the chain (including endpoints) are included in the group. Additionally, all the joints that are parents to included links are also included. This means that joints along the chain and the parent joint of the base link are included in the group-->
   <!--SUBGROUPS: Groups can also be formed by referencing to already defined group names-->
-  <group name="hand">
+  <group name="panda_gripper">
     <link name="panda_hand"/>
     <link name="panda_leftfinger"/>
     <link name="panda_rightfinger"/>
@@ -117,18 +117,18 @@
   <!--SUBGROUPS: Groups can also be formed by referencing to already defined group names-->
   <group name="panda_arm_hand">
     <group name="panda_arm"/>
-    <group name="hand"/>
+    <group name="panda_gripper"/>
   </group>
-  <group_state group="hand" name="open">
+  <group_state group="panda_gripper" name="open">
     <joint name="panda_finger_joint1" value="0.035"/>
     <joint name="panda_finger_joint2" value="0.035"/> 
   </group_state>
-  <group_state group="hand" name="close">
+  <group_state group="panda_gripper" name="close">
     <joint name="panda_finger_joint1" value="0"/>
     <joint name="panda_finger_joint2" value="0"/>
   </group_state>
   <!--END EFFECTOR: Purpose: Represent information about an end effector.-->
-  <end_effector group="hand" name="hand" parent_group="panda_arm" parent_link="panda_link8"/>
+  <end_effector group="panda_gripper" name="panda_gripper" parent_group="panda_arm" parent_link="panda_link8"/>
   <!--DISABLE COLLISIONS: By default it is assumed that any link of the robot could potentially come into collision with any other link in the robot. This tag disables collision checking between a specified pair of links. -->
   <disable_collisions link1="panda_hand" link2="panda_link3" reason="Never"/>
   <disable_collisions link1="panda_hand" link2="panda_link4" reason="Never"/>
