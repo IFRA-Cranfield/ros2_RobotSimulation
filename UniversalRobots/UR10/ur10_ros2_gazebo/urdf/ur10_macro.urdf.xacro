@@ -61,25 +61,25 @@
 
 <robot xmlns:xacro="http://wiki.ros.org/xacro">
 
-  <!-- Load PROPERTIES file: -->
-  <xacro:include filename="$(find ur10_ros2_gazebo)/urdf/ur10_common.xacro" />
-  <!-- Load TRANSMISSION file: -->
-  <xacro:include filename="$(find ur10_ros2_gazebo)/urdf/ur10_transmission.xacro" />
-  <!-- Load GAZEBO/ROS2_CONTROL file: -->
-  <xacro:include filename="$(find ur10_ros2_gazebo)/urdf/ur10_gazebo.xacro" />
-
-  <xacro:macro name="ur10_robot" params="
-    prefix
-    safety_limits
-    safety_pos_margin
-    safety_k_position" >
+  <!-- XACRO-MACRO of UR10 ROBOT: -->
+  <xacro:macro name="ur10" params="prefix EE_no safety_limits safety_pos_margin safety_k_position">
+  
+    <!-- Load UR10 ROBOT TRANSMISSION file: -->
+    <xacro:include filename="$(find ur10_ros2_gazebo)/urdf/ur10_transmission.xacro" />
+    <xacro:ur10_transmission 
+      prefix=""
+    />
     
-    <!-- ur10 SPECIFICATIONS/PARAMETERS: -->
+    <!-- Load UR10 ROBOT ROS2_CONTROL file: -->
+    <xacro:include filename="$(find ur10_ros2_gazebo)/urdf/ur10_ros2control.xacro" />
+    <xacro:ur10_ros2control 
+      prefix=""
+      EE_no="${EE_no}"
+    />
+
+    <!-- Load UR10 SPECIFICATIONS file: -->
+    <xacro:include filename="$(find ur10_ros2_gazebo)/urdf/ur10_common.xacro" />
     <xacro:ur10_common/>
-    <!-- ur10 TRANSMISSION: -->
-    <xacro:ur10_transmission prefix="${prefix}"/>
-    <!-- ur10 GAZEBO - ROS2_CONTROL: -->
-    <xacro:ur10_gazebo prefix="${prefix}"/>
 
     <!-- ***** ur10 ROBOT .urdf SERIAL CHAIN *****-->
     <!-- Links: -->

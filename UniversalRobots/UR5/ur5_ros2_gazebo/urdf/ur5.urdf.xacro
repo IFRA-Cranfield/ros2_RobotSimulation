@@ -61,66 +61,90 @@
 
 <robot xmlns:xacro="http://wiki.ros.org/xacro" name="ur5">
 
-    <!-- Include XACRO-MACRO FILE OF THE ur5 ROBOT -->
-    <xacro:include filename="$(find ur5_ros2_gazebo)/urdf/ur5_macro.urdf.xacro" />
+  <!-- Load and initialise UR5 INITIAL POSITIONS FILE: 
+  <xacro:arg name="initial_positions_file" default="$(find ur5_ros2_gazebo/config/initial_positions.yaml"/>
+  <xacro:property name="initial_positions_file" default="$(arg initial_positions_file)"/> -->
+  <!-- IF ADD TO UR5: initial_positions="${load_yaml(initial_positions_file)}" -->
+  
+  <!-- ===== ARGUMENTS ===== -->
 
-    <!-- Load and initialise ur5 INITIAL POSITIONS FILE: 
-    <xacro:arg name="initial_positions_file" default="$(find ur5_ros2_gazebo/config/initial_positions.yaml"/>
-    <xacro:property name="initial_positions_file" default="$(arg initial_positions_file)"/> -->
-    <!-- IF ADD TO ur5_robot: initial_positions="${load_yaml(initial_positions_file)}" -->
-    
-    <!-- Initialise PARAMS: -->
-    <xacro:arg name="safety_limits" default="false"/>
-    <xacro:arg name="safety_pos_margin" default="0.15"/>
-    <xacro:arg name="safety_k_position" default="20"/>
-    
-    <!-- Initialise ur5 ROBOT .urdf -->
-    <xacro:ur5_robot
-        prefix = ""
-        safety_limits="$(arg safety_limits)"
-        safety_pos_margin="$(arg safety_pos_margin)"
-        safety_k_position="$(arg safety_k_position)" 
-    />
-    
-    <link name="world"/>
+  <!-- CELL LAYOUT:  -->
+  <xacro:arg name="cell_layout_1" default="false"/>
+  <xacro:property name="cell_layout_1" value="$(arg cell_layout_1)"/>
+  <xacro:arg name="cell_layout_2" default="false"/>
+  <xacro:property name="cell_layout_2" value="$(arg cell_layout_2)"/>
+  
+  <!-- END-EFFECTOR:  -->
+  <xacro:arg name="EE_no" default="false"/>
+  <xacro:property name="EE_no" value="$(arg EE_no)"/>
+  
+  <!-- UR Robot PARAMS: -->
+  <xacro:arg name="safety_limits" default="false"/>
+  <xacro:arg name="safety_pos_margin" default="0.15"/>
+  <xacro:arg name="safety_k_position" default="20"/>
 
+  <!-- Include XACRO-MACRO file of the UR5 ROBOT: -->
+  <xacro:include filename="$(find ur5_ros2_gazebo)/urdf/ur5_macro.urdf.xacro"/>	
+  <xacro:ur5 
+    prefix=""
+    EE_no="${EE_no}"
+    safety_limits="$(arg safety_limits)"
+    safety_pos_margin="$(arg safety_pos_margin)"
+    safety_k_position="$(arg safety_k_position)"
+  />
+
+  <!-- Gazebo world link: -->
+  <link name="world"/>
+
+  <!-- ========== ========== ========== ========== ========== ========== -->
+  <!-- CELL LAYOUT SELECTION: -->
+
+  <!-- CELL LAYOUT N1) UR5 ROBOT alone: -->
+  <xacro:if value="${cell_layout_1}">
+    <joint name="world-base_link-fixed" type="fixed">
+      <parent link="world"/>
+      <child link="base_link"/>
+    </joint>
+  </xacro:if>
+
+  <!-- CELL LAYOUT N2) UR5 ROBOT on top of a pedestal: -->
+  <xacro:if value="${cell_layout_2}">
     <link name='ur_base'>
-    <inertial>
-      <origin xyz="0 0 0" rpy="0 0 0"/>
-      <mass value="100"/>
-      <inertia ixx="0.01"  ixy="0"  ixz="0" iyy="0.01" iyz="0" izz="0.01" />
-    </inertial>
-    <collision name='collision'>
-      <origin xyz="0 0 0" rpy=" 0 0 0"/> 
-      <geometry>
-        <box size = "0.2 0.2 1.3"/>
-      </geometry>
-    </collision>
-    <visual name='chassis_visual'>
-      <origin xyz="0 0 0" rpy=" 0 0 0"/>
-      <geometry>
-        <box size = "0.2 0.2 1.3"/>
-      </geometry>
-      <material name="red">
-        <color rgba="1 0 0 1"/>
-      </material>
-    </visual>
-  </link>
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="100"/>
+        <inertia ixx="0.01"  ixy="0"  ixz="0" iyy="0.01" iyz="0" izz="0.01" />
+      </inertial>
+      <collision name='collision'>
+        <origin xyz="0 0 0" rpy=" 0 0 0"/> 
+        <geometry>
+          <box size = "0.2 0.2 1.3"/>
+        </geometry>
+      </collision>
+      <visual name='chassis_visual'>
+        <origin xyz="0 0 0" rpy=" 0 0 0"/>
+        <geometry>
+          <box size = "0.2 0.2 1.3"/>
+        </geometry>
+        <material name="red">
+          <color rgba="1 0 0 1"/>
+        </material>
+      </visual>
+    </link>
+    <gazebo reference="ur_base">
+      <material>Gazebo/Red</material>
+    </gazebo>
 
-  <gazebo reference="ur_base">
-    <material>Gazebo/Red</material>
-  </gazebo>
-
-  <joint name="world_joint" type="fixed">
-    <parent link="world" />
-    <child link = "ur_base" />
-    <origin xyz="0.0 0.0 0.65" rpy="0.0 0.0 0.0" />
-  </joint>
-
-  <joint name="ur_joint" type="fixed">
-    <parent link="ur_base" />
-    <child link = "base_link" />
-    <origin xyz="0.0 0.0 0.655" rpy="0.0 0.0 0.0" /> 
-  </joint>
+    <joint name="world_joint" type="fixed">
+      <parent link="world" />
+      <child link = "ur_base" />
+      <origin xyz="0.0 0.0 0.65" rpy="0.0 0.0 0.0" />
+    </joint>
+    <joint name="ur_joint" type="fixed">
+      <parent link="ur_base" />
+      <child link = "base_link" />
+      <origin xyz="0.0 0.0 0.655" rpy="0.0 0.0 0.0" /> 
+    </joint>
+  </xacro:if>
 
 </robot>

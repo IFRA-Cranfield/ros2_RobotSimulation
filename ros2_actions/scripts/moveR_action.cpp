@@ -219,7 +219,7 @@ private:
             j5LL = -110;
             j6UL = 450;
             j6LL = -450;
-        } else if (my_param == "ur3_robot"){
+        } else if (my_param == "ur3_arm"){
             j1UL = 360;
             j1LL = -360;
             j2UL = 360;
@@ -232,7 +232,7 @@ private:
             j5LL = -360;
             j6UL = 360;
             j6LL = -360;
-        } else if (my_param == "ur5_robot"){
+        } else if (my_param == "ur5_arm"){
             j1UL = 360;
             j1LL = -360;
             j2UL = 360;
@@ -245,7 +245,7 @@ private:
             j5LL = -360;
             j6UL = 360;
             j6LL = -360;
-        } else if (my_param == "ur10_robot"){
+        } else if (my_param == "ur10_arm"){
             j1UL = 360;
             j1LL = -360;
             j2UL = 360;

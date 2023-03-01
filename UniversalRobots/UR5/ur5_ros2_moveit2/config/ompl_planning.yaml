@@ -132,7 +132,7 @@ planner_configs:
   TrajOptDefault:
     type: geometric::TrajOpt
 
-ur5_robot:
+ur5_arm:
   planner_configs:
     - SBLkConfigDefault
     - ESTkConfigDefault

@@ -61,26 +61,26 @@
 
 <robot xmlns:xacro="http://wiki.ros.org/xacro">
 
-  <!-- Load PROPERTIES file: -->
-  <xacro:include filename="$(find ur3_ros2_gazebo)/urdf/ur3_common.xacro" />
-  <!-- Load TRANSMISSION file: -->
-  <xacro:include filename="$(find ur3_ros2_gazebo)/urdf/ur3_transmission.xacro" />
-  <!-- Load GAZEBO/ROS2_CONTROL file: -->
-  <xacro:include filename="$(find ur3_ros2_gazebo)/urdf/ur3_gazebo.xacro" />
-
-  <xacro:macro name="ur3_robot" params="
-    prefix
-    safety_limits
-    safety_pos_margin
-    safety_k_position" >
+  <!-- XACRO-MACRO of UR3 ROBOT: -->
+  <xacro:macro name="ur3" params="prefix EE_no safety_limits safety_pos_margin safety_k_position">
+  
+    <!-- Load UR3 ROBOT TRANSMISSION file: -->
+    <xacro:include filename="$(find ur3_ros2_gazebo)/urdf/ur3_transmission.xacro" />
+    <xacro:ur3_transmission 
+      prefix=""
+    />
     
-    <!-- UR3 SPECIFICATIONS/PARAMETERS: -->
-    <xacro:ur3_common/>
-    <!-- UR3 TRANSMISSION: -->
-    <xacro:ur3_transmission prefix="${prefix}"/>
-    <!-- UR3 GAZEBO - ROS2_CONTROL: -->
-    <xacro:ur3_gazebo prefix="${prefix}"/>
+    <!-- Load UR3 ROBOT ROS2_CONTROL file: -->
+    <xacro:include filename="$(find ur3_ros2_gazebo)/urdf/ur3_ros2control.xacro" />
+    <xacro:ur3_ros2control 
+      prefix=""
+      EE_no="${EE_no}"
+    />
 
+    <!-- Load UR3 SPECIFICATIONS file: -->
+    <xacro:include filename="$(find ur3_ros2_gazebo)/urdf/ur3_common.xacro" />
+    <xacro:ur3_common/>
+    
     <!-- ***** UR3 ROBOT .urdf SERIAL CHAIN *****-->
     <!-- Links: -->
     <link name="${prefix}base_link"/>

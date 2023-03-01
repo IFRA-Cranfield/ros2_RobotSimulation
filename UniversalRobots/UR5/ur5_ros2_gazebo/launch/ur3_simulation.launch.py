@@ -33,7 +33,7 @@
 #   - Universal Robots ROS2 Gazebo Simulation: https://github.com/UniversalRobots/Universal_Robots_ROS2_Gazebo_Simulation
 
 # ur5_simulation.launch.py:
-# Launch file for the Universal Robots UR5 Robot GAZEBO SIMULATION in ROS2 Foxy:
+# Launch file for the Universal Robots UR5 Robot GAZEBO SIMULATION in ROS2 Foxy: 
 
 # Import libraries:
 import os
@@ -83,17 +83,76 @@ def generate_launch_description():
                 launch_arguments={'world': ur5_ros2_gazebo}.items(),
              )
 
+    # ========== COMMAND LINE ARGUMENTS ========== #
+    print("")
+    print(" --- Cranfield University --- ")
+    print("        (c) IFRA Group        ")
+    print("")
+
+    print("ros2_RobotSimulation --> UR5 ROBOT")
+    print("Launch file -> ur5_simulation.launch.py")
+
+    print("")
+    print("Robot configuration:")
+    print("")
+
+    # Cell Layout:
+    print("- Cell layout:")
+    error = True
+    while (error == True):
+        print("     + Option N1: UR5 ROBOT alone.")
+        print("     + Option N2: UR5 ROBOT on top of a pedestal.")
+        cell_layout = input ("  Please select: ")
+        if (cell_layout == "1"):
+            error = False
+            cell_layout_1 = "true"
+            cell_layout_2 = "false"
+        elif (cell_layout == "2"):
+            error = False
+            cell_layout_1 = "false"
+            cell_layout_2 = "true"
+        else:
+            print ("  Please select a valid option!")
+    print("")
+
+    # End-Effector:
+    print("- End-effector:")
+    print("     + No EE variants for this robot.")
+    EE_no = "true"
+    
+    # error = True
+    # while (error == True):
+    #     print("     + Option N1: No end-effector.")
+    #     print("     + Option N2: ***.")
+    #     end_effector = input ("  Please select: ")
+    #     if (end_effector == "1"):
+    #         error = False
+    #         EE_no = "true"
+    #         EE_*** = "false"
+    #     elif (end_effector == "2"):
+    #         error = False
+    #         EE_no = "false"
+    #         EE_*** = "true"
+    #     else:
+    #         print ("  Please select a valid option!")
+    print("")
+
     # ***** ROBOT DESCRIPTION ***** #
-    # UR5 Description file package:
+    # UR5 ROBOT Description file package:
     ur5_description_path = os.path.join(
         get_package_share_directory('ur5_ros2_gazebo'))
-    # UR5 ROBOT urdf file path:
+    # UR5 ROBOT ROBOT urdf file path:
     xacro_file = os.path.join(ur5_description_path,
                               'urdf',
                               'ur5.urdf.xacro')
-    # Generate ROBOT_DESCRIPTION for UR5:
+    # Generate ROBOT_DESCRIPTION for UR5 ROBOT:
     doc = xacro.parse(open(xacro_file))
-    xacro.process_doc(doc)
+    xacro.process_doc(doc, mappings={
+        "cell_layout_1": cell_layout_1,
+        "cell_layout_2": cell_layout_2,
+        "EE_no": EE_no,
+        # "EE_**": EE_**,
+        })
     robot_description_config = doc.toxml()
     robot_description = {'robot_description': robot_description_config}
 
@@ -111,28 +170,9 @@ def generate_launch_description():
                                    '-entity', 'ur5'],
                         output='screen')
 
-    # ***** CONTROLLERS ***** #
-    # Joint STATE Controller:
-    load_joint_state_controller = ExecuteProcess(
-        cmd=['ros2', 'control', 'load_start_controller', 'joint_state_controller'], 
-        output='screen'
-    )
-    # Joint TRAJECTORY Controller:
-    load_joint_trajectory_controller = ExecuteProcess(
-        cmd=['ros2', 'control', 'load_start_controller', 'ur5_robot_controller'], # 'joint_trajectory_controller'
-        output='screen'
-    )
-    #Static TF:
-    #static_tf = Node(package='tf2_ros',
-    #                executable='static_transform_publisher',
-    #                name='static_transform_publisher',
-    #                output='log',
-    #                arguments=['0.0', '0.0', '0.0', '0.0', '0.0', '0.0', 'world', 'ur_base'])
-
     # ***** RETURN LAUNCH DESCRIPTION ***** #
     return LaunchDescription([
         gazebo, 
         node_robot_state_publisher,
-    #   static_tf,
         spawn_entity
     ])

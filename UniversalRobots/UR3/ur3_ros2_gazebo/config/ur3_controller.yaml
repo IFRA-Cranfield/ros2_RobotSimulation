@@ -2,7 +2,7 @@ controller_manager:
   ros__parameters:
     update_rate: 100 #Hz
 
-    ur3_robot_controller:
+    ur3_controller:
       type: joint_trajectory_controller/JointTrajectoryController
       joints:
         - shoulder_pan_joint
@@ -23,7 +23,7 @@ controller_manager:
     joint_state_controller:
       type: joint_state_controller/JointStateController
 
-ur3_robot_controller:
+ur3_controller:
   ros__parameters:
     joints:
       - shoulder_pan_joint

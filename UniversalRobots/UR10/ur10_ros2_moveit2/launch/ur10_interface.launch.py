@@ -20,7 +20,7 @@
 #           Seemal Asif      - s.asif@cranfield.ac.uk                                   #
 #           Phil Webb        - p.f.webb@cranfield.ac.uk                                 #
 #                                                                                       #
-#  Date: July, 2022.                                                                    #
+#  Date: September, 2022.                                                               #
 #                                                                                       #
 # ===================================== COPYRIGHT ===================================== #
 
@@ -29,7 +29,7 @@
 # IFRA (2022) ROS2.0 ROBOT SIMULATION. URL: https://github.com/IFRA-Cranfield/ros2_RobotSimulation.
 
 # ur10.launch.py:
-# Launch file for the UR10 Robot GAZEBO + MoveIt!2 SIMULATION in ROS2 Foxy:
+# Launch file for the UR10 ROBOT GAZEBO + MoveIt!2 SIMULATION in ROS2 Foxy:
 
 # Import libraries:
 import os
@@ -68,11 +68,11 @@ def load_yaml(package_name, file_path):
 # ========== **GENERATE LAUNCH DESCRIPTION** ========== #
 def generate_launch_description():
 
-    
+
     # *********************** Gazebo *********************** # 
     
     # DECLARE Gazebo WORLD file:
-    ur10_gazebo = os.path.join(
+    ur10_ros2_gazebo = os.path.join(
         get_package_share_directory('ur10_ros2_gazebo'),
         'worlds',
         'ur10.world')
@@ -80,22 +80,82 @@ def generate_launch_description():
     gazebo = IncludeLaunchDescription(
                 PythonLaunchDescriptionSource([os.path.join(
                     get_package_share_directory('gazebo_ros'), 'launch'), '/gazebo.launch.py']),
-                launch_arguments={'world': ur10_gazebo}.items(),
+                launch_arguments={'world': ur10_ros2_gazebo}.items(),
              )
 
+    # ========== COMMAND LINE ARGUMENTS ========== #
+    print("")
+    print(" --- Cranfield University --- ")
+    print("        (c) IFRA Group        ")
+    print("")
+
+    print("ros2_RobotSimulation --> UR10 ROBOT")
+    print("Launch file -> ur10.launch.py")
+
+    print("")
+    print("Robot configuration:")
+    print("")
+
+    # Cell Layout:
+    print("- Cell layout:")
+    error = True
+    while (error == True):
+        print("     + Option N1: UR10 ROBOT alone.")
+        print("     + Option N2: UR10 ROBOT on top of a pedestal.")
+        cell_layout = input ("  Please select: ")
+        if (cell_layout == "1"):
+            error = False
+            cell_layout_1 = "true"
+            cell_layout_2 = "false"
+        elif (cell_layout == "2"):
+            error = False
+            cell_layout_1 = "false"
+            cell_layout_2 = "true"
+        else:
+            print ("  Please select a valid option!")
+    print("")
+
+    # End-Effector:
+    print("- End-effector:")
+    print("     + No EE variants for this robot.")
+    EE_no = "true"
+    
+    # error = True
+    # while (error == True):
+    #     print("     + Option N1: No end-effector.")
+    #     print("     + Option N2: ***.")
+    #     end_effector = input ("  Please select: ")
+    #     if (end_effector == "1"):
+    #         error = False
+    #         EE_no = "true"
+    #         EE_*** = "false"
+    #     elif (end_effector == "2"):
+    #         error = False
+    #         EE_no = "false"
+    #         EE_*** = "true"
+    #     else:
+    #         print ("  Please select a valid option!")
+    print("")
+
     # ***** ROBOT DESCRIPTION ***** #
-    # UR10 Description file package:
+    # UR10 ROBOT Description file package:
     ur10_description_path = os.path.join(
         get_package_share_directory('ur10_ros2_gazebo'))
     # UR10 ROBOT urdf file path:
     xacro_file = os.path.join(ur10_description_path,
                               'urdf',
                               'ur10.urdf.xacro')
-    # Generate ROBOT_DESCRIPTION for UR10:
+    # Generate ROBOT_DESCRIPTION for UR10 ROBOT:
     doc = xacro.parse(open(xacro_file))
-    xacro.process_doc(doc)
+    xacro.process_doc(doc, mappings={
+        "cell_layout_1": cell_layout_1,
+        "cell_layout_2": cell_layout_2,
+        "EE_no": EE_no,
+        # "EE_**": EE_**,
+        })
     robot_description_config = doc.toxml()
     robot_description = {'robot_description': robot_description_config}
+
     # SPAWN ROBOT TO GAZEBO:
     spawn_entity = Node(package='gazebo_ros', executable='spawn_entity.py',
                         arguments=['-topic', 'robot_description',
@@ -120,36 +180,11 @@ def generate_launch_description():
         parameters=[robot_description],
     )
 
-    # ***** CONTROLLERS ***** #
-    # ur10 robot controller:
-    load_ur10_robot_controller = ExecuteProcess(
-        cmd=['ros2', 'control', 'load_start_controller', 'ur10_robot_controller'],
-        output='screen'
-    )
-    # Joint STATE Controller:
-    load_joint_state_controller = ExecuteProcess(
-        cmd=['ros2', 'control', 'load_start_controller', 'joint_state_controller'],
-        output='screen'
-    )
-    # ros2_control:
-    ros2_controllers_path = os.path.join(
-        get_package_share_directory("ur10_ros2_gazebo"),
-        "config",
-        "ur10_controller.yaml",
-    )
-    ros2_control_node = Node(
-        package="controller_manager",
-        executable="ros2_control_node",
-        parameters=[robot_description, ros2_controllers_path],
-        output={
-            "stdout": "screen",
-            "stderr": "screen",
-        },
-    )
-    # Load controllers: 
+    # ***** ROS2_CONTROL -> LOAD CONTROLLERS ***** #
+
     load_controllers = []
     for controller in [
-        "ur10_robot_controller",
+        "ur10_controller",
         "joint_state_controller",
     ]:
         load_controllers += [
@@ -169,27 +204,12 @@ def generate_launch_description():
     )
 
     # *** PLANNING CONTEXT *** #
-    # Robot description, URDF:
-    robot_description_config = xacro.process_file(
-        os.path.join(
-            get_package_share_directory("ur10_ros2_gazebo"),
-            "urdf",
-            "ur10.urdf.xacro",
-        )
-    )
-    robot_description = {"robot_description": robot_description_config.toxml()}
     # Robot description, SRDF:
-    robot_description_semantic_config = load_file(
-        "ur10_ros2_moveit2", "config/ur10.srdf"
-    )
-    robot_description_semantic = {
-        "robot_description_semantic": robot_description_semantic_config
-    }
-
+    robot_description_semantic_config = load_file("ur10_ros2_moveit2", "config/ur10.srdf")
+    robot_description_semantic = {"robot_description_semantic": robot_description_semantic_config }
+    
     # Kinematics.yaml file:
-    kinematics_yaml = load_yaml(
-        "ur10_ros2_moveit2", "config/kinematics.yaml"
-    )
+    kinematics_yaml = load_yaml("ur10_ros2_moveit2", "config/kinematics.yaml")
     robot_description_kinematics = {"robot_description_kinematics": kinematics_yaml}
 
     # Move group: OMPL Planning.
@@ -200,15 +220,11 @@ def generate_launch_description():
             "start_state_max_bounds_error": 0.1,
         }
     }
-    ompl_planning_yaml = load_yaml(
-        "ur10_ros2_moveit2", "config/ompl_planning.yaml"
-    )
+    ompl_planning_yaml = load_yaml("ur10_ros2_moveit2", "config/ompl_planning.yaml")
     ompl_planning_pipeline_config["move_group"].update(ompl_planning_yaml)
 
     # MoveIt!2 Controllers:
-    moveit_simple_controllers_yaml = load_yaml(
-        "ur10_ros2_moveit2", "config/ur10_controllers.yaml"
-    )
+    moveit_simple_controllers_yaml = load_yaml("ur10_ros2_moveit2", "config/ur10_controllers.yaml")
     moveit_controllers = {
         "moveit_simple_controller_manager": moveit_simple_controllers_yaml,
         "moveit_controller_manager": "moveit_simple_controller_manager/MoveItSimpleControllerManager",
@@ -244,23 +260,8 @@ def generate_launch_description():
 
     # RVIZ:
     load_RVIZfile = LaunchConfiguration("rviz_file")
-    rviz_base = os.path.join(get_package_share_directory("ur10_ros2_moveit2"), "launch")
+    rviz_base = os.path.join(get_package_share_directory("ur10_ros2_moveit2"), "config")
     rviz_full_config = os.path.join(rviz_base, "ur10_moveit2.rviz")
-    rviz_empty_config = os.path.join(rviz_base, "ur10_moveit2_empty.rviz")
-    rviz_node_empty = Node(
-        package="rviz2",
-        executable="rviz2",
-        name="rviz2",
-        output="log",
-        arguments=["-d", rviz_empty_config],
-        parameters=[
-            robot_description,
-            robot_description_semantic,
-            ompl_planning_pipeline_config,
-            kinematics_yaml,
-        ],
-        condition=IfCondition(load_RVIZfile),
-    )
     rviz_node_full = Node(
         package="rviz2",
         executable="rviz2",
@@ -276,24 +277,30 @@ def generate_launch_description():
         condition=UnlessCondition(load_RVIZfile),
     )
 
-    # ====================== INTERFACES FOR MoveJ, MoveG, MoveXYZW... ====================== #
-
-    # ===== ACTIONS ===== #
+    # *********************** ROS2.0 Robot/End-Effector Actions/Triggers *********************** #
     # MoveJ ACTION:
     moveJ_interface = Node(
         name="moveJ_action",
         package="ros2_actions",
         executable="moveJ_action",
         output="screen",
-        parameters=[robot_description, robot_description_semantic, kinematics_yaml, {"ROB_PARAM": 'ur10_robot'}],
+        parameters=[robot_description, robot_description_semantic, kinematics_yaml, {"ROB_PARAM": 'ur10_arm'}],
     )
+    # MoveG ACTION:
+    # moveG_interface = Node(
+    #     name="moveG_action",
+    #     package="ros2_actions",
+    #     executable="moveG_action",
+    #     output="screen",
+    #     parameters=[robot_description, robot_description_semantic, kinematics_yaml, {"ROB_PARAM": 'ur10_gripper'}],
+    # )
     # MoveXYZW ACTION:
     moveXYZW_interface = Node(
         name="moveXYZW_action",
         package="ros2_actions",
         executable="moveXYZW_action",
         output="screen",
-        parameters=[robot_description, robot_description_semantic, kinematics_yaml, {"ROB_PARAM": 'ur10_robot'}],
+        parameters=[robot_description, robot_description_semantic, kinematics_yaml, {"ROB_PARAM": 'ur10_arm'}],
     )
     # MoveL ACTION:
     moveL_interface = Node(
@@ -301,7 +308,7 @@ def generate_launch_description():
         package="ros2_actions",
         executable="moveL_action",
         output="screen",
-        parameters=[robot_description, robot_description_semantic, kinematics_yaml, {"ROB_PARAM": 'ur10_robot'}],
+        parameters=[robot_description, robot_description_semantic, kinematics_yaml, {"ROB_PARAM": 'ur10_arm'}],
     )
     # MoveR ACTION:
     moveR_interface = Node(
@@ -309,7 +316,7 @@ def generate_launch_description():
         package="ros2_actions",
         executable="moveR_action",
         output="screen",
-        parameters=[robot_description, robot_description_semantic, kinematics_yaml, {"ROB_PARAM": 'ur10_robot'}],
+        parameters=[robot_description, robot_description_semantic, kinematics_yaml, {"ROB_PARAM": 'ur10_arm'}],
     )
     # MoveXYZ ACTION:
     moveXYZ_interface = Node(
@@ -317,7 +324,7 @@ def generate_launch_description():
         package="ros2_actions",
         executable="moveXYZ_action",
         output="screen",
-        parameters=[robot_description, robot_description_semantic, kinematics_yaml, {"ROB_PARAM": 'ur10_robot'}],
+        parameters=[robot_description, robot_description_semantic, kinematics_yaml, {"ROB_PARAM": 'ur10_arm'}],
     )
     # MoveYPR ACTION:
     moveYPR_interface = Node(
@@ -325,7 +332,7 @@ def generate_launch_description():
         package="ros2_actions",
         executable="moveYPR_action",
         output="screen",
-        parameters=[robot_description, robot_description_semantic, kinematics_yaml, {"ROB_PARAM": 'ur10_robot'}],
+        parameters=[robot_description, robot_description_semantic, kinematics_yaml, {"ROB_PARAM": 'ur10_arm'}],
     )
     # MoveROT ACTION:
     moveROT_interface = Node(
@@ -333,19 +340,25 @@ def generate_launch_description():
         package="ros2_actions",
         executable="moveROT_action",
         output="screen",
-        parameters=[robot_description, robot_description_semantic, kinematics_yaml, {"ROB_PARAM": 'ur10_robot'}],
+        parameters=[robot_description, robot_description_semantic, kinematics_yaml, {"ROB_PARAM": 'ur10_arm'}],
     )
-
+    # MoveRP ACTION:
+    moveRP_interface = Node(
+        name="moveRP_action",
+        package="ros2_actions",
+        executable="moveRP_action",
+        output="screen",
+        parameters=[robot_description, robot_description_semantic, kinematics_yaml, {"ROB_PARAM": 'ur10_arm'}],
+    )
+    
     return LaunchDescription(
         [
             # Gazebo nodes:
             gazebo, 
             spawn_entity,
-            
             # ROS2_CONTROL:
             static_tf,
             robot_state_publisher,
-            ros2_control_node,
             
             RegisterEventHandler(
                 OnProcessExit(
@@ -353,24 +366,31 @@ def generate_launch_description():
                     on_exit = [
 
                         # MoveIt!2:
-                        rviz_arg,
-                        run_move_group_node,
-
-                        # Interface:
-                        moveJ_interface,
-                        moveXYZW_interface,
-                        moveL_interface,
-                        moveR_interface,
-                        moveXYZ_interface,
-                        moveYPR_interface,
-                        moveROT_interface,
-
-                        # RVIZ - 5s delay:
                         TimerAction(
                             period=5.0,
-                            actions=[rviz_node_full],
-                        )
+                            actions=[
+                                rviz_arg,
+                                rviz_node_full,
+                                run_move_group_node
+                            ]
+                        ),
 
+                        # ROS2.0 Actions:
+                        TimerAction(
+                            period=2.0,
+                            actions=[
+                                moveJ_interface,
+                                # moveG_interface,
+                                moveL_interface,
+                                moveR_interface,
+                                moveXYZ_interface,
+                                moveXYZW_interface,
+                                moveYPR_interface,
+                                moveROT_interface,
+                                moveRP_interface,
+                            ]
+                        ),
+                        
                     ]
                 )
             )

@@ -6,9 +6,9 @@ trajectory_execution:
 moveit_controller_manager: moveit_simple_controller_manager/MoveItSimpleControllerManager
 
 controller_names:
-  - ur5_robot_controller
+  - ur5_controller
 
-ur5_robot_controller:
+ur5_controller:
   action_ns: follow_joint_trajectory
   type: FollowJointTrajectory
   default: true

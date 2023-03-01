@@ -28,7 +28,7 @@
 
 # ===================================== COPYRIGHT ===================================== #
 #                                                                                       #
-#  Some of the information used to build the ROS2 UR3-Robot .urdf files in this ROS2    #
+#  Some of the information used to build the ROS2 UR5-Robot .urdf files in this ROS2    #
 #  repository has been taken from the following resources:                              #
 #       - Universal Robots ROS2 Description:                                            #
 #         https://github.com/UniversalRobots/Universal_Robots_ROS2_Description          #
@@ -61,53 +61,29 @@
 
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
 
-  <xacro:macro name="ur3_gazebo" params="prefix">
+  <xacro:macro name="ur5_ros2control" params="prefix EE_no" >
 
-    <gazebo>
-      <plugin filename="libgazebo_ros2_control.so" name="gazebo_ros2_control">
-        <robot_sim_type>gazebo_ros2_control/GazeboSystem</robot_sim_type>
-        <parameters>$(find ur3_ros2_gazebo)/config/ur3_controller.yaml</parameters>
-      </plugin>
-    </gazebo>
+    <!-- ROS2_CONTROL tag name: -->
+    <xacro:property name="name" value="GazeboSystem"/>
+
+    <!-- ===== Gazebo ROS2_CONTROL plugin ===== -->
+    <!-- No End-Effector: -->
+    <xacro:if value="${EE_no}">
+      <gazebo>
+        <plugin filename="libgazebo_ros2_control.so" name="gazebo_ros2_control">
+          <robot_sim_type>gazebo_ros2_control/GazeboSystem</robot_sim_type>
+          <parameters>$(find ur5_ros2_gazebo)/config/ur5_controller.yaml</parameters>
+        </plugin>
+      </gazebo>
+    </xacro:if>
     
-    <ros2_control name="GazeboSystem" type="system">
+    <!-- ========== ROS2 CONTROL ========== -->
+
+    <ros2_control name="${name}" type="system">
 
       <hardware>
         <plugin>gazebo_ros2_control/GazeboSystem</plugin>
       </hardware>
-      
-      <!--
-      <hardware>
-        <xacro:if value="${use_fake_hardware}">
-          <plugin>fake_components/GenericSystem</plugin>
-          <param name="fake_sensor_commands">${fake_sensor_commands}</param>
-          <param name="state_following_offset">0.0</param>
-        </xacro:if>
-        <xacro:unless value="${use_fake_hardware}">
-          <plugin>ur_robot_driver/URPositionHardwareInterface</plugin>
-          <param name="robot_ip">${robot_ip}</param>
-          <param name="script_filename">${script_filename}</param>
-          <param name="output_recipe_filename">${output_recipe_filename}</param>
-          <param name="input_recipe_filename">${input_recipe_filename}</param>
-          <param name="headless_mode">0</param>
-          <param name="reverse_port">50001</param>
-          <param name="script_sender_port">50002</param>
-          <param name="tf_prefix">"${tf_prefix}"</param>
-          <param name="non_blocking_read">0</param>
-          <param name="servoj_gain">2000</param>
-          <param name="servoj_lookahead_time">0.03</param>
-          <param name="use_tool_communication">0</param>
-          <param name="kinematics/hash">${hash_kinematics}</param>
-          <param name="tool_voltage">0</param>
-          <param name="tool_parity">0</param>
-          <param name="tool_baud_rate">115200</param>
-          <param name="tool_stop_bits">1</param>
-          <param name="tool_rx_idle_chars">1.5</param>
-          <param name="tool_tx_idle_chars">3.5</param>
-          <param name="tool_device_name">/tmp/ttyUR</param>
-          <param name="tool_tcp_port">54321</param>
-        </xacro:unless>
-      </hardware> -->
 
       <joint name="${prefix}shoulder_pan_joint">
         <command_interface name="position">
@@ -157,8 +133,8 @@
           <param name="max">${2*pi}</param>
         </command_interface>
         <command_interface name="velocity">
-          <param name="min">-6.28</param>
-          <param name="max">6.28</param>
+          <param name="min">-3.2</param>
+          <param name="max">3.2</param>
         </command_interface>
         <state_interface name="position"/>
         <state_interface name="velocity"/>
@@ -171,8 +147,8 @@
           <param name="max">${2*pi}</param>
         </command_interface>
         <command_interface name="velocity">
-          <param name="min">-6.28</param>
-          <param name="max">6.28</param>
+          <param name="min">-3.2</param>
+          <param name="max">3.2</param>
         </command_interface>
         <state_interface name="position"/>
         <state_interface name="velocity"/>
@@ -185,24 +161,14 @@
           <param name="max">${2*pi}</param>
         </command_interface>
         <command_interface name="velocity">
-          <param name="min">-6.28</param>
-          <param name="max">6.28</param>
+          <param name="min">-3.2</param>
+          <param name="max">3.2</param>
         </command_interface>
         <state_interface name="position"/>
         <state_interface name="velocity"/>
         <state_interface name="effort"/>
         <!-- <param name="initial_position">${initial_positions['wrist_3_joint']}</param>   initial position for the FakeSystem -->
       </joint>
-      
-      <!--
-      <sensor name="tcp_fts_sensor">
-        <state_interface name="force.x"/>
-        <state_interface name="force.y"/>
-        <state_interface name="force.z"/>
-        <state_interface name="torque.x"/>
-        <state_interface name="torque.y"/>
-        <state_interface name="torque.z"/>
-      </sensor> -->
 
     </ros2_control>
 
