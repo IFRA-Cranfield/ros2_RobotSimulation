@@ -1,0 +1,6 @@
+string object               # Name of the object to be attached.
+string endeffector          # Name of the link that the object will be attached to.
+---
+string result
+---
+string feedback

@@ -400,6 +400,14 @@ def generate_launch_description():
         parameters=[robot_description, robot_description_semantic, kinematics_yaml, {"ROB_PARAM": 'irb120_arm'}],
     )
 
+    # ATTACHER action for ros2_grasping plugin:
+    Attacher = Node(
+        name="ATTACHER_action",
+        package="ros2_grasping",
+        executable="attacher_action.py",
+        output="screen",
+    )
+
     return LaunchDescription(
         [
             # Gazebo nodes:
@@ -437,6 +445,7 @@ def generate_launch_description():
                                 moveYPR_interface,
                                 moveROT_interface,
                                 moveRP_interface,
+                                Attacher,
                             ]
                         ),
 
