@@ -1,0 +1,12 @@
+{'action': 'MoveJ', 'value': {'joint1': 0.0, 'joint2': 0.0, 'joint3': 0.0, 'joint4': 0.0, 'joint5': 0.0, 'joint6': 0.0}}
+{'action': 'MoveJ', 'value': {'joint1': -58.10, 'joint2': 25.75, 'joint3': 27.17, 'joint4': -63.59, 'joint5': -71.41, 'joint6': 77.67}}
+{'action': 'MoveL', 'value': {'movex': 0.06, 'movey': 0.0, 'movez': -0.1}}
+{'action': 'Attach', 'value': {'object': 'box', 'endeffector': 'EE_egp64'}}
+{'action': 'GripperClose'}
+{'action': 'MoveL', 'value': {'movex': 0.0, 'movey': 0.0, 'movez': 0.1}}
+{'action': 'MoveJ', 'value': {'joint1': 50.30, 'joint2': 31.26, 'joint3': 18.75, 'joint4': 57.55, 'joint5': -65.78, 'joint6': 12.14}}
+{'action': 'MoveL', 'value': {'movex': 0.0, 'movey': 0.0, 'movez': -0.09}}
+{'action': 'GripperOpen'}
+{'action': 'Detach', 'value': {'object': 'box'}}
+{'action': 'MoveL', 'value': {'movex': -0.06, 'movey': 0.0, 'movez': 0.09}}
+{'action': 'MoveJ', 'value': {'joint1': 0.0, 'joint2': 0.0, 'joint3': 0.0, 'joint4': 0.0, 'joint5': 0.0, 'joint6': 0.0}}
