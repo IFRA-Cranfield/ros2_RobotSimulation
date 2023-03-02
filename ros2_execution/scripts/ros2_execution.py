@@ -80,10 +80,11 @@ class MoveJclient(Node):
         self._action_client.wait_for_server()
         print ("MoveJ ACTION SERVER detected.")
     
-    def send_goal(self, GoalJP):
+    def send_goal(self, GoalJP, JointSPEED):
         # 1. Assign variables:
         goal_msg = MoveJ.Goal()
         goal_msg.goal = GoalJP
+        goal_msg.speed = JointSPEED
         # 2. ACTION CALL:
         self._send_goal_future = self._action_client.send_goal_async(goal_msg, feedback_callback=self.feedback_callback)
         self._send_goal_future.add_done_callback(self.goal_response_callback)
@@ -122,10 +123,11 @@ class MoveJsclient(Node):
         self._action_client.wait_for_server()
         print ("MoveJs ACTION SERVER detected.")
     
-    def send_goal(self, GoalJPS):
+    def send_goal(self, GoalJPS, JointSPEED):
         # 1. Assign variables:
         goal_msg = MoveJs.Goal()
         goal_msg.goal = GoalJPS
+        goal_msg.speed = JointSPEED
         # 2. ACTION CALL:
         self._send_goal_future = self._action_client.send_goal_async(goal_msg, feedback_callback=self.feedback_callback)
         self._send_goal_future.add_done_callback(self.goal_response_callback)
@@ -164,12 +166,13 @@ class MoveLclient(Node):
         self._action_client.wait_for_server()
         print ("MoveL ACTION SERVER detected.")
     
-    def send_goal(self, GoalLx, GoalLy, GoalLz):
+    def send_goal(self, GoalLx, GoalLy, GoalLz, JointSPEED):
         # 1. Assign variables:
         goal_msg = MoveL.Goal()
         goal_msg.movex = GoalLx
         goal_msg.movey = GoalLy
         goal_msg.movez = GoalLz
+        goal_msg.speed = JointSPEED
         # 2. ACTION CALL:
         self._send_goal_future = self._action_client.send_goal_async(goal_msg, feedback_callback=self.feedback_callback)
         self._send_goal_future.add_done_callback(self.goal_response_callback)
@@ -208,11 +211,12 @@ class MoveRclient(Node):
         self._action_client.wait_for_server()
         print ("MoveR ACTION SERVER detected.")
     
-    def send_goal(self, GoalRjoint, GoalRvalue):
+    def send_goal(self, GoalRjoint, GoalRvalue, JointSPEED):
         # 1. Assign variables:
         goal_msg = MoveR.Goal()
         goal_msg.joint = GoalRjoint
         goal_msg.value = GoalRvalue
+        goal_msg.speed = JointSPEED
         # 2. ACTION CALL:
         self._send_goal_future = self._action_client.send_goal_async(goal_msg, feedback_callback=self.feedback_callback)
         self._send_goal_future.add_done_callback(self.goal_response_callback)
@@ -251,7 +255,7 @@ class MoveXYZWclient(Node):
         self._action_client.wait_for_server()
         print ("MoveXYZW ACTION SERVER detected.")
     
-    def send_goal(self, GoalXYZWx, GoalXYZWy, GoalXYZWz, GoalXYZWyaw, GoalXYZWpitch, GoalXYZWroll):
+    def send_goal(self, GoalXYZWx, GoalXYZWy, GoalXYZWz, GoalXYZWyaw, GoalXYZWpitch, GoalXYZWroll, JointSPEED):
         # 1. Assign variables:
         goal_msg = MoveXYZW.Goal()
         goal_msg.positionx = GoalXYZWx
@@ -260,6 +264,7 @@ class MoveXYZWclient(Node):
         goal_msg.yaw = GoalXYZWyaw
         goal_msg.pitch = GoalXYZWpitch
         goal_msg.roll = GoalXYZWroll
+        goal_msg.speed = JointSPEED
         # 2. ACTION CALL:
         self._send_goal_future = self._action_client.send_goal_async(goal_msg, feedback_callback=self.feedback_callback)
         self._send_goal_future.add_done_callback(self.goal_response_callback)
@@ -298,12 +303,13 @@ class MoveXYZclient(Node):
         self._action_client.wait_for_server()
         print ("MoveXYZ ACTION SERVER detected.")
     
-    def send_goal(self, GoalXYZx, GoalXYZy, GoalXYZz):
+    def send_goal(self, GoalXYZx, GoalXYZy, GoalXYZz, JointSPEED):
         # 1. Assign variables:
         goal_msg = MoveXYZ.Goal()
         goal_msg.positionx = GoalXYZx
         goal_msg.positionx = GoalXYZy
-        goal_msg.positionx = GoalXYZz        
+        goal_msg.positionx = GoalXYZz
+        goal_msg.speed = JointSPEED         
         # 2. ACTION CALL:
         self._send_goal_future = self._action_client.send_goal_async(goal_msg, feedback_callback=self.feedback_callback)
         self._send_goal_future.add_done_callback(self.goal_response_callback)
@@ -342,12 +348,13 @@ class MoveYPRclient(Node):
         self._action_client.wait_for_server()
         print ("MoveYPR ACTION SERVER detected.")
     
-    def send_goal(self, GoalYPRyaw, GoalYPRpitch, GoalYPRroll):
+    def send_goal(self, GoalYPRyaw, GoalYPRpitch, GoalYPRroll, JointSPEED):
         # 1. Assign variables:'ros2_RobotBringup', 'irb120egp64_ros2_bringup',
         goal_msg = MoveYPR.Goal()
         goal_msg.yaw = GoalYPRyaw
         goal_msg.pitch = GoalYPRpitch
         goal_msg.roll = GoalYPRroll
+        goal_msg.speed = JointSPEED
         # 2. ACTION CALL:
         self._send_goal_future = self._action_client.send_goal_async(goal_msg, feedback_callback=self.feedback_callback)
         self._send_goal_future.add_done_callback(self.goal_response_callback)
@@ -386,12 +393,13 @@ class MoveROTclient(Node):
         self._action_client.wait_for_server()
         print ("MoveROT ACTION SERVER detected.")
     
-    def send_goal(self, GoalROTyaw, GoalROTpitch, GoalROTroll):
+    def send_goal(self, GoalROTyaw, GoalROTpitch, GoalROTroll, JointSPEED):
         # 1. Assign variables:
         goal_msg = MoveROT.Goal()
         goal_msg.yaw = GoalROTyaw
         goal_msg.pitch = GoalROTpitch
         goal_msg.roll = GoalROTroll
+        goal_msg.speed = JointSPEED
         # 2. ACTION CALL:
         self._send_goal_future = self._action_client.send_goal_async(goal_msg, feedback_callback=self.feedback_callback)
         self._send_goal_future.add_done_callback(self.goal_response_callback)
@@ -430,7 +438,7 @@ class MoveRPclient(Node):
         self._action_client.wait_for_server()
         print ("MoveRP ACTION SERVER detected.")
     
-    def send_goal(self, GoalRPyaw, GoalRPpitch, GoalRProll, GoalRPx, GoalRPy, GoalRPz):
+    def send_goal(self, GoalRPyaw, GoalRPpitch, GoalRProll, GoalRPx, GoalRPy, GoalRPz, JointSPEED):
         # 1. Assign variables:
         goal_msg = MoveRP.Goal()
         goal_msg.yaw = GoalRPyaw
@@ -439,6 +447,7 @@ class MoveRPclient(Node):
         goal_msg.x = GoalRPx
         goal_msg.y = GoalRPy
         goal_msg.z = GoalRPz
+        goal_msg.speed = JointSPEED
         # 2. ACTION CALL:
         self._send_goal_future = self._action_client.send_goal_async(goal_msg, feedback_callback=self.feedback_callback)
         self._send_goal_future.add_done_callback(self.goal_response_callback)
@@ -773,6 +782,14 @@ def main(args=None):
             print("STEP NUMBER " + str(i) + " -> MoveJ:")
             print(trigger['value'])
 
+            # Joint SPEED:
+            JointSPEED = trigger['speed']
+            if (JointSPEED <= 0 or JointSPEED > 1):
+                print ("Joint speed -> " + str(JointSPEED) + " not valid. Must be (0,1]. Assigned: 0.01")
+                JointSPEED = 0.01
+            else:
+                print("Joint speed -> " + str(JointSPEED))
+
             JP = JointPose()
             JP.joint1 = trigger['value']['joint1']
             JP.joint2 = trigger['value']['joint2']
@@ -780,7 +797,7 @@ def main(args=None):
             JP.joint4 = trigger['value']['joint4']
             JP.joint5 = trigger['value']['joint5']
             JP.joint6 = trigger['value']['joint6']
-            MoveJ_CLIENT.send_goal(JP)
+            MoveJ_CLIENT.send_goal(JP, JointSPEED)
 
             while rclpy.ok():
                 rclpy.spin_once(MoveJ_CLIENT)
@@ -804,6 +821,14 @@ def main(args=None):
             print("STEP NUMBER " + str(i) + " -> MoveJs:")
             print(trigger['value'])
 
+            # Joint SPEED:
+            JointSPEED = trigger['speed']
+            if (JointSPEED <= 0 or JointSPEED > 1):
+                print ("Joint speed -> " + str(JointSPEED) + " not valid. Must be (0,1]. Assigned: 0.01")
+                JointSPEED = 0.01
+            else:
+                print("Joint speed -> " + str(JointSPEED))
+
             JPS = JointPoseS()
             JPS.joint1 = trigger['value']['joint1']
             JPS.joint2 = trigger['value']['joint2']
@@ -812,7 +837,7 @@ def main(args=None):
             JPS.joint5 = trigger['value']['joint5']
             JPS.joint6 = trigger['value']['joint6']
             JPS.joint7 = trigger['value']['joint7']
-            MoveJs_CLIENT.send_goal(JPS)
+            MoveJs_CLIENT.send_goal(JPS, JointSPEED)
 
             while rclpy.ok():
                 rclpy.spin_once(MoveJs_CLIENT)
@@ -836,10 +861,18 @@ def main(args=None):
             print("STEP NUMBER " + str(i) + " -> MoveL:")
             print(trigger['value'])
 
+            # Joint SPEED:
+            JointSPEED = trigger['speed']
+            if (JointSPEED <= 0 or JointSPEED > 1):
+                print ("Joint speed -> " + str(JointSPEED) + " not valid. Must be (0,1]. Assigned: 0.01")
+                JointSPEED = 0.01
+            else:
+                print("Joint speed -> " + str(JointSPEED))
+
             MoveX = trigger['value']['movex']
             MoveY = trigger['value']['movey']
             MoveZ = trigger['value']['movez']
-            MoveL_CLIENT.send_goal(MoveX,MoveY,MoveZ)
+            MoveL_CLIENT.send_goal(MoveX,MoveY,MoveZ, JointSPEED)
             
             while rclpy.ok():
                 rclpy.spin_once(MoveL_CLIENT)
@@ -863,9 +896,17 @@ def main(args=None):
             print("STEP NUMBER " + str(i) + " -> MoveR:")
             print(trigger['value'])
 
+            # Joint SPEED:
+            JointSPEED = trigger['speed']
+            if (JointSPEED <= 0 or JointSPEED > 1):
+                print ("Joint speed -> " + str(JointSPEED) + " not valid. Must be (0,1]. Assigned: 0.01")
+                JointSPEED = 0.01
+            else:
+                print("Joint speed -> " + str(JointSPEED))
+
             joint = trigger['value']['joint']
             value = trigger['value']['value']
-            MoveR_CLIENT.send_goal(joint,value)
+            MoveR_CLIENT.send_goal(joint,value, JointSPEED)
             
             while rclpy.ok():
                 rclpy.spin_once(MoveR_CLIENT)
@@ -889,6 +930,14 @@ def main(args=None):
             print("STEP NUMBER " + str(i) + " -> MoveXYZW:")
             print(trigger['value'])
 
+            # Joint SPEED:
+            JointSPEED = trigger['speed']
+            if (JointSPEED <= 0 or JointSPEED > 1):
+                print ("Joint speed -> " + str(JointSPEED) + " not valid. Must be (0,1]. Assigned: 0.01")
+                JointSPEED = 0.01
+            else:
+                print("Joint speed -> " + str(JointSPEED))
+
             positionx = trigger['value']['positionx']
             positiony = trigger['value']['positiony']
             positionz = trigger['value']['positionz']
@@ -896,7 +945,7 @@ def main(args=None):
             pitch = trigger['value']['pitch']
             roll = trigger['value']['roll']
             
-            MoveXYZW_CLIENT.send_goal(positionx,positiony,positionz,yaw,pitch,roll)
+            MoveXYZW_CLIENT.send_goal(positionx,positiony,positionz,yaw,pitch,roll, JointSPEED)
             
             while rclpy.ok():
                 rclpy.spin_once(MoveXYZW_CLIENT)
@@ -920,10 +969,18 @@ def main(args=None):
             print("STEP NUMBER " + str(i) + " -> MoveXYZ:")
             print(trigger['value'])
 
+            # Joint SPEED:
+            JointSPEED = trigger['speed']
+            if (JointSPEED <= 0 or JointSPEED > 1):
+                print ("Joint speed -> " + str(JointSPEED) + " not valid. Must be (0,1]. Assigned: 0.01")
+                JointSPEED = 0.01
+            else:
+                print("Joint speed -> " + str(JointSPEED))
+
             positionx = trigger['value']['positionx']
             positiony = trigger['value']['positiony']
             positionz = trigger['value']['positionz']
-            MoveXYZ_CLIENT.send_goal(positionx,positiony,positionz)
+            MoveXYZ_CLIENT.send_goal(positionx,positiony,positionz, JointSPEED)
             
             while rclpy.ok():
                 rclpy.spin_once(MoveXYZ_CLIENT)
@@ -947,10 +1004,18 @@ def main(args=None):
             print("STEP NUMBER " + str(i) + " -> MoveYPR:")
             print(trigger['value'])
 
+            # Joint SPEED:
+            JointSPEED = trigger['speed']
+            if (JointSPEED <= 0 or JointSPEED > 1):
+                print ("Joint speed -> " + str(JointSPEED) + " not valid. Must be (0,1]. Assigned: 0.01")
+                JointSPEED = 0.01
+            else:
+                print("Joint speed -> " + str(JointSPEED))
+
             yaw = trigger['value']['yaw']
             pitch = trigger['value']['pitch']
             roll = trigger['value']['roll']
-            MoveYPR_CLIENT.send_goal(yaw,pitch,roll)
+            MoveYPR_CLIENT.send_goal(yaw,pitch,roll, JointSPEED)
             
             while rclpy.ok():
                 rclpy.spin_once(MoveYPR_CLIENT)
@@ -974,10 +1039,18 @@ def main(args=None):
             print("STEP NUMBER " + str(i) + " -> MoveROT:")
             print(trigger['value'])
 
+            # Joint SPEED:
+            JointSPEED = trigger['speed']
+            if (JointSPEED <= 0 or JointSPEED > 1):
+                print ("Joint speed -> " + str(JointSPEED) + " not valid. Must be (0,1]. Assigned: 0.01")
+                JointSPEED = 0.01
+            else:
+                print("Joint speed -> " + str(JointSPEED))
+
             yaw = trigger['value']['yaw']
             pitch = trigger['value']['pitch']
             roll = trigger['value']['roll']
-            MoveROT_CLIENT.send_goal(yaw,pitch,roll)
+            MoveROT_CLIENT.send_goal(yaw,pitch,roll, JointSPEED)
             
             while rclpy.ok():
                 rclpy.spin_once(MoveROT_CLIENT)
@@ -1001,13 +1074,21 @@ def main(args=None):
             print("STEP NUMBER " + str(i) + " -> MoveRP:")
             print(trigger['value'])
 
+            # Joint SPEED:
+            JointSPEED = trigger['speed']
+            if (JointSPEED <= 0 or JointSPEED > 1):
+                print ("Joint speed -> " + str(JointSPEED) + " not valid. Must be (0,1]. Assigned: 0.01")
+                JointSPEED = 0.01
+            else:
+                print("Joint speed -> " + str(JointSPEED))
+
             yaw = trigger['value']['yaw']
             pitch = trigger['value']['pitch']
             roll = trigger['value']['roll']
             x = trigger['value']['x']
             y = trigger['value']['y']
             z = trigger['value']['z']
-            MoveRP_CLIENT.send_goal(yaw,pitch,roll,x,y,z)
+            MoveRP_CLIENT.send_goal(yaw,pitch,roll,x,y,z, JointSPEED)
             
             while rclpy.ok():
                 rclpy.spin_once(MoveRP_CLIENT)

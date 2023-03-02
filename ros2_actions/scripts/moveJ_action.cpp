@@ -137,6 +137,11 @@ private:
         // Obtain input value (goal -- JointPose):
         const auto goal = goal_handle->get_goal();
         auto JointGoal = goal->goal;
+
+        // Obtain JOINT SPEED and apply it into MoveIt!2:
+        auto SPEED = goal->speed;
+        move_group_interface.setMaxVelocityScalingFactor(SPEED);
+        move_group_interface.setMaxAccelerationScalingFactor(1.0);
         
         // FEEDBACK?
         // No feedback needed for MoveJ Action Calls.
@@ -365,10 +370,6 @@ int main(int argc, char ** argv)
   // Create the MoveIt PlanningScene Interface:
   using moveit::planning_interface::PlanningSceneInterface;
   auto planning_scene_interface = PlanningSceneInterface();
-
-  // Set max. VELOCITY and ACELLERATION scaling values to unit:
-  move_group_interface.setMaxVelocityScalingFactor(0.7);
-  move_group_interface.setMaxAccelerationScalingFactor(0.7);
   
   // Declare and spin ACTION SERVER:
   auto action_server = std::make_shared<ActionServer>();

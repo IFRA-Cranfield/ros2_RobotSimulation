@@ -1,4 +1,5 @@
 JointPoseS goal
+float64 speed
 ---
 string result
 ---
