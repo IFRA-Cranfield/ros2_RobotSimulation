@@ -68,18 +68,26 @@
       <a href="#about">About</a>
       <ul>
         <li><a href="#intelligent-flexible-robotics-and-assembly-group">IFRA Group</a></li>
-        <li><a href="#ros2robotsimulation-repository">ros2_RobotSimulation Repository</a></li>
+        <li><a href="#ros2_robotsimulation-repository">ros2_RobotSimulation Repository</a></li>
       </ul>
     </li>
     <li>
       <a href="#getting-started">Getting Started</a>
       <ul>
         <li><a href="#ros20-foxy-environment-set-up">ROS2.0 Foxy Environment Set-Up</a></li>
-        <li><a href="#installation">Installation</a></li>
+        <li><a href="#import-and-install-ros2_robotsimulation-repository">Import and install ros2_RobotSimulation Repository</a></li>
       </ul>
     </li>
     <li><a href="#supported-robots">Supported Robots</a></li>
-    <li><a href="#usage">Usage</a></li>
+    <li>
+      <a href="#ros2-packages">ROS2 Packages</a>
+      <ul>
+        <li><a href="#ros2_data">ros2_data</a></li>
+        <li><a href="#ros2_actions">ros2_actions</a></li>
+        <li><a href="#ros2_execution">ros2_execution</a></li>
+        <li><a href="#ros2_grasping">ros2_grasping</a></li>
+      </ul>
+    </li>
     <li><a href="#contributing">Contributing</a></li>
     <li><a href="#license">License</a></li>
     <li><a href="#cite-our-work">Cite our work</a></li>
@@ -96,8 +104,6 @@
 The IFRA (Intelligent Flexible Robotics and Assembly) Group is part of the Centre for Structures, Assembly and Intelligent Automation at Cranfield University.
 
 IFRA Group pushes technical boundaries. At IFRA we provide high tech automation & assembly solutions, and we support smart manufacturing with Smart Industry technologies and solutions. Flexible Manufacturing Systems (FMS) are a clear example. They can improve overall operations and throughput quality by adapting to real-time changes and situations, supporting and pushing the transition towards flexible, intelligent and responsive automation, which we continuously seek and support.
-
-The implementation of IIoT and the use of computer numerical control equipment enable interconnectivity and the exchange of data across the shop floor, and the interconnected shop floor enables the automation of work machines to support FMS. In a nutshell, Automated Industrial Processes bring agility to production cycles and enable shop floor equipment to pivot facility operations when dealing with changing demand cycles.
 
 The IFRA Group undertakes innovative research to design, create and improve Intelligent, Responsive and Flexible automation & assembly solutions, and this series of GitHub repositories provide background information and resources of how these developments are supported.
 
@@ -156,6 +162,7 @@ All packages in this repository have been developed, executed and tested in an U
     * Command for [binary install](https://moveit.ros.org/install-moveit2/binary):
         ```sh
         sudo apt install ros-foxy-moveit
+        # Binaries are recommended for a cleaner MoveIt!2 install and usage.
         ```
 5. Create and onfigure the ROS2.0 Foxy ~/dev_ws environment/workspace:
     * Follow instructions in: [ROS2 Foxy Tutorials - Create a Workspace](https://docs.ros.org/en/foxy/Tutorials/Beginner-Client-Libraries/Creating-A-Workspace/Creating-A-Workspace.html)
@@ -163,91 +170,39 @@ All packages in this repository have been developed, executed and tested in an U
         ```sh
         source ~/dev_ws/install/local_setup.bash
         ```
-6. Install some additional (but required) packages:
-    * rqt:
+6. Install ROS2 packages, which are required to launch ROS2 Robot Simulation and Control environments:
+    * ROS2 Control:
         ```sh
-        sudo apt install ~nros-foxy-rqt*
+        sudo apt install ros-foxy-ros2-control
         ```
-    * rosdep:
+    * ROS2 Controllers:
         ```sh
-        sudo apt-get install python3-rosdep
+        sudo apt install ros-foxy-ros2-controllers
+        sudo apt install ros-foxy-gripper-controllers
         ```
-    * colcon:
-        ```sh
-        sudo apt install python3-colcon-common-extensions
-        ```
-    * vcstool:
-        ```sh
-        sudo apt install python3-vcstool
-        ```
-7. Create the ~/dev_ws/src/ros2setup folder for all packages required for Robot Simulation and Control in ROS2.
-    ```sh
-    mkdir -p ~/dev_ws/src/ros2setup
-    ```
-8. Install ROS2-Control:
-    * Import and install some required packages using git:
-        ```sh
-        cd ~/dev_ws/src/ros2setup
-        git clone https://github.com/ros-controls/realtime_tools.git -b foxy-devel
-        git clone https://github.com/ros2/rcl_interfaces.git -b foxy # Copy test_msgs folder, paste it onto /ros2setup folder and remove rcl_interfaces folder.
-        git clone https://github.com/ros2/test_interface_files.git -b foxy
-        cd ~/dev_ws
-        colcon build
-        ```
-    * Import and install [ros2_control](https://github.com/ros-controls/ros2_control) repository:
-        ```sh
-        cd ~/dev_ws/src/ros2setup
-        git clone https://github.com/ros-controls/ros2_control.git -b foxy
-        cd ~/dev_ws
-        colcon build
-        ```
-9. Install ROS2-Controllers:
-    * Import and install some required packages using git:
-        ```sh
-        cd ~/dev_ws/src/ros2setup
-        git clone https://github.com/ros-controls/control_toolbox.git -b ros2-master
-        cd ~/dev_ws
-        colcon build
-        ```
-    * Import and install [ros2_controllers](https://github.com/ros-controls/ros2_controllers) repository:
-        ```sh
-        cd ~/dev_ws/src/ros2setup
-        git clone https://github.com/ros-controls/ros2_controllers.git -b foxy 
-        cd ~/dev_ws
-        colcon build
-        ```
-10. Install Gazebo Simulator for ROS2 Foxy:
-    * Install Gazebo-11 Simulator:
+    * Gazebo-ROS2:
         ```sh
         sudo apt install gazebo11
-        ```
-    * Install gazebo-ros-pkgs for ROS2 Foxy:
-        ```sh
+        sudo apt install ros-foxy-gazebo-ros2-control
         sudo apt install ros-foxy-gazebo-ros-pkgs
         ```
-    * Import and install Gazebo-ROS2-Control:
+    * xacro:
         ```sh
-        cd ~/dev_ws/src/ros2setup
-        git clone https://github.com/ros-controls/gazebo_ros2_control.git -b foxy
-        cd ~/dev_ws
-        colcon build
+        sudo apt install ros-foxy-xacro
         ```
 
 
-### Move Group Interface
+### Import and install ros2_RobotSimulation Repository
+Required to run ros2_RobotSimulation ROS2.0 packages:
 
-A small improvement of the move_group_interface.h file has been developed in order to execute the Robot/Gripper triggers in this repository. Both the upgraded file and the instructions of how to implement it can be found here:
-* [move_group_interface_improved.h](https://github.com/IFRA-Cranfield/ros2_RobotSimulation/tree/master/include)
-
-
-### Installation
-
-```sh
-cd ~/dev_ws/src
-git clone https://github.com/IFRA-Cranfield/ros2_RobotSimulation.git 
-cd ~/dev_ws/
-colcon build
-```
+7. A small improvement of the move_group_interface.h file has been developed in order to execute the Robot/Gripper triggers in this repository. Both the upgraded file and the instructions of how to implement it can be found here: [move_group_interface_improved.h](https://github.com/IFRA-Cranfield/ros2_RobotSimulation/tree/master/include)
+8. Installation:
+    ```sh
+    cd ~/dev_ws/src
+    git clone https://github.com/IFRA-Cranfield/ros2_RobotSimulation.git 
+    cd ~/dev_ws/
+    colcon build
+    ```
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -268,208 +223,54 @@ The Simulation & Control packages of the following Robots are currently availabl
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
-<!-- USAGE EXAMPLES -->
-## Usage
+<!-- ROS2.0 Packages: Explanation -->
+## ROS2 Packages 
 
-<h4><u>Execute Robot Simulation</u></h4>
+### ros2_data
+This repository contains all the custom data structures that are used for the ROS2 Robot Actions/Triggers in ros2_RobotSimulation. Every single ROS2 Action that is used to trigger a robot movement refers to a .action data structure, which contains all the data needed to run that specidic action. For further detail, please click [here](https://github.com/IFRA-Cranfield/ros2_RobotSimulation/tree/master/ros2_data).
 
-* Panda Robot:
-  ```sh
-  ros2 launch panda_ros2_gazebo panda_simulation.launch.py
-  ```
-* ABB IRB-120:
-  ```sh
-  ros2 launch irb120_ros2_gazebo irb120_simulation.launch.py
-  ```
-* ABB IRB-120 + Schunk EGP-64:
-  ```sh
-  ros2 launch irb120egp64_ros2_gazebo irb120egp64_simulation.launch.py
-  ```
-* ABB IRB-1200:
-  ```sh
-  ros2 launch irb1200_ros2_gazebo irb1200_simulation.launch.py
-  ```
-* ABB IRB-6640:
-  ```sh
-  ros2 launch irb6640_ros2_gazebo irb6640_simulation.launch.py
-  ```
-* UR3:
-  ```sh
-  ros2 launch ur3_ros2_gazebo ur3_simulation.launch.py
-  ```
-* UR5:
-  ```sh
-  ros2 launch ur5_ros2_gazebo ur5_simulation.launch.py
-  ```
-* UR10:
-  ```sh
-  ros2 launch ur10_ros2_gazebo ur10_simulation.launch.py
-  ```
-* Fanuc CR35-iA:
-  ```sh
-  ros2 launch cr35ia_ros2_gazebo cr35ia_simulation.launch.py
-  ```
-* Kuka LBR-IIWA:
-  ```sh
-  ros2 launch iiwa_ros2_gazebo iiwa_simulation.launch.py
-  ```
+### ros2_actions
+The ros2_actions package gathers all the ROS2 Action Servers that execute ROS2 Robot Actions/Triggers. Every specific robot movement is contained in a ROS2 Action Server (.cpp script), which can be externally "called" (triggered) and returns some feedback after the execution. For further detail, please click [here](https://github.com/IFRA-Cranfield/ros2_RobotSimulation/tree/master/ros2_actions).
 
-<h4><u>Execute Robot Simulation w/ MoveIt!2</u></h4>
+The following video shows an individual ROS2 Robot Action call from the Ubuntu Terminal:
 
-* Panda Robot:
-  ```sh
-  ros2 launch panda_ros2_moveit2 panda.launch.py
-  ```
-* ABB IRB-120:
-  ```sh
-  ros2 launch irb120_ros2_moveit2 irb120.launch.py
-  ```
-* ABB IRB-120 + Schunk EGP-64:
-  ```sh
-  ros2 launch irb120egp64_ros2_moveit2 irb120egp64.launch.py
-  ```
-* ABB IRB-1200:
-  ```sh
-  ros2 launch irb1200_ros2_moveit2 irb1200.launch.py
-  ```
-* ABB IRB-6640:
-  ```sh
-  ros2 launch irb6640_ros2_moveit2 irb6640.launch.py
-  ```
-* UR3:
-  ```sh
-  ros2 launch ur3_ros2_moveit2 ur3.launch.py
-  ```
-* UR5:
-  ```sh
-  ros2 launch ur5_ros2_moveit2 ur5.launch.py
-  ```
-* UR10:
-  ```sh
-  ros2 launch ur10_ros2_moveit2 ur10.launch.py
-  ```
-* Fanuc CR35-iA:
-  ```sh
-  ros2 launch cr35ia_ros2_moveit2 cr35ia.launch.py
-  ```
-* Kuka LBR-IIWA:
-  ```sh
-  ros2 launch iiwa_ros2_moveit2 iiwa.launch.py
-  ```
+{include video}
 
-<h4><u>Execute Robot Simulation w/ MoveIt!2 and Robot/Gripper Triggers (Action Servers)</u></h4>
+### ros2_execution
+It is a cool feature to be able to execute different ROS2 actions and trigger different movements in a Robot in Gazebo, but Robotics Applications are made of sequences that execute different commands one after the other. In a nutshell, that is what this ros2_execution package does. The ros2_execution.py script contains all the Action Clients that connect to the Action Servers generated in ros2_actions, and executes robot movements one after the other according to a pre-defined sequence, which is inputted as a .txt file. For further information, please click [here](https://github.com/IFRA-Cranfield/ros2_RobotSimulation/tree/master/ros2_execution).
 
-* Panda Robot:
-  ```sh
-  ros2 launch panda_ros2_moveit2 panda_interface.launch.py
-  ```
-* ABB IRB-120:
-  ```sh
-  ros2 launch irb120_ros2_moveit2 irb120_interface.launch.py
-  ```
-* ABB IRB-120 + Schunk EGP-64:
-  ```sh
-  ros2 launch irb120egp64_ros2_moveit2 irb120egp64_interface.launch.py
-  ```
-* ABB IRB-1200:
-  ```sh
-  ros2 launch irb1200_ros2_moveit2 irb1200_interface.launch.py
-  ```
-* ABB IRB-6640:
-  ```sh
-  ros2 launch irb6640_ros2_moveit2 irb6640_interface.launch.py
-  ```
-* UR3:
-  ```sh
-  ros2 launch ur3_ros2_moveit2 ur3_interface.launch.py
-  ```
-* UR5:
-  ```sh
-  ros2 launch ur5_ros2_moveit2 ur5_interface.launch.py
-  ```
-* UR10:
-  ```sh
-  ros2 launch ur10_ros2_moveit2 ur10_interface.launch.py
-  ```
-* Fanuc CR35-iA:
-  ```sh
-  ros2 launch cr35ia_ros2_moveit2 cr35ia_interface.launch.py
-  ```
-* Kuka LBR-IIWA:
-  ```sh
-  ros2 launch iiwa_ros2_moveit2 iiwa_interface.launch.py
-  ```
+One of the main advantages of using this ros2_execution package, combined with ros2_data/ros2_actions and the Robot Simulation packages contained in this repository, is that programs/sequences can be executed in the exact same way for different Robots, which is a completely novel feature and has been made possible thanks to the MoveIt!2 framework.
 
-<h4><u>Robot/Gripper Triggers: ROS2.0 Action Calls</u></h4>
+The following video showcases the execution of a program (a sequence of movements -> {MoveJ, MoveL, MoveROT, MoveR}) executed in the exact same way for the ABB-IRB120, UR3 and KUKA LBR-iiwa robots:
 
-The list below contains all different Robot/Gripper Triggers that have been implemented in this repository, and how these are executed by making different ROS2.0 Action Calls from a terminal shell:
+{include video}
 
-* MoveJ: The Robot moves to the specific waypoint, which is specified by Joint Pose values.
-  ```sh
-  ros2 action send_goal -f /MoveJ ros2_data/action/MoveJ "{goal: {joint1: 0.00, joint2: 0.00, joint3: 0.00, joint4: 0.00, joint5: 0.00, joint6: 0.00}}" # (6-DOF)
-  ros2 action send_goal -f /MoveJs ros2_data/action/MoveJs "{goal: {joint1: 0.00, joint2: 0.00, joint3: 0.00, joint4: 0.00, joint5: 0.00, joint6: 0.00, joint7: 0.00}}" # For Panda and Kuka LBR-IIWA Robots. (7-DOF)
-  ```
+### ros2_grasping
+Unfortunately, Gazebo and ROS2 do not provide an effective method to properly pick and place (manipulate) objects in simulation (if it exists, it has not been found). This feature is essential in order to test and simulate different applications, and that is the main reason why this ros2_grasping package has been created.
 
-* MoveG: The Gripper fingers move to the specific pose.
-  ```sh
-  ros2 action send_goal -f /MoveG ros2_data/action/MoveG "{goal: 0.00}"
-  ```
+The attacher_action.py script contains a ROS2 Action Server that performs the task of attaching/detaching a specific object to a specific end-effector in Gazebo. Apart from the attaching functionality, the spawn_object.py script enables the user to spawn custom objects (contained in .urdf of .xacro files) to a Gazebo simulation environment. For further detail, please click [here](https://github.com/IFRA-Cranfield/ros2_RobotSimulation/tree/master/ros2_grasping).
 
-* MoveL: The Robot executes a CARTESIAN/LINEAR path. The End-Effector orientation is kept constant, and the position changes by +-(x,y,z).
-  ```sh
-  ros2 action send_goal -f /MoveL ros2_data/action/MoveL "{movex: 0.00, movey: 0.00, movez: 0.00}"
-  ```
+The video below showcases a simple cube pick and place task executed by an ABB-IRB120 robot:
 
-* MoveR: The Robot rotates the selected joint a specific amount of degrees.
-  ```sh
-  ros2 action send_goal -f /MoveR ros2_data/action/MoveR "{joint: '---', value: 0.00}"
-  ```
-
-* MoveXYZW: The Robot moves to the specific waypoint, which is represented by the Position(x,y,z) + EulerAngles(yaw,pitch,roll) End-Effector coordinates.
-  ```sh
-  ros2 action send_goal -f /MoveXYZW ros2_data/action/MoveXYZW "{positionx: 0.00, positiony: 0.00, positionz: 0.00, yaw: 0.00, pitch: 0.00, roll: 0.00}"
-  ```
-
-* MoveXYZ: The Robot moves to the specific waypoint -> Position(x,y,z) maintaining the End-Effector orientation.
-  ```sh
-  ros2 action send_goal -f /MoveXYZ ros2_data/action/MoveXYZ "{positionx: 0.00, positiony: 0.00, positionz: 0.00}"
-  ```
-
-* MoveYPR: The Robot rotates/orientates the End-Effector frame according to the input: EulerAngles(yaw,pitch,roll). The YPR(yaw,pitch,roll)determines the FINAL ROTATION of the End-Effector, which is related to the GLOBAL COORDINATE FRAME.
-  ```sh
-  ros2 action send_goal -f /MoveYPR ros2_data/action/MoveYPR "{yaw: 0.00, pitch: 0.00, roll: 0.00}"
-  ```
-
-* MoveROT: The Robot rotates/orientates the End-Effector frame according to the input: EulerAngles(yaw,pitch,roll). THE ROT(yaw,pitch,roll) determines the ADDED ROTATION of the End-Effector, which is applied to the END-EFFECTOR COORDINATE FRAME.
-  ```sh
-  ros2 action send_goal -f /MoveROT ros2_data/action/MoveROT "{yaw: 0.00, pitch: 0.00, roll: 0.00}"
-  ```
-
-* MoveRP: End-Effector rotation AROUND A POINT -> The Robot rotates/orientates + moves the End-Effector frame according to the input: EulerAngles(yaw,pitch,roll) + Point(x,y,z). THE ROT(yaw,pitch,roll) determines the ADDED ROTATION of the End-Effector, which is applied to the END-EFFECTOR COORDINATE FRAME, AROUND THE (x,y,z) POINT.
-  ```sh
-  ros2 action send_goal -f /MoveRP ros2_data/action/MoveRP "{yaw: 0.00, pitch: 0.00, roll: 0.00, x: 0.0, y: 0.0, z: 0.0}"
-  ``
-
-* NOTE: For the (Yaw - Pitch - Roll) Euler Angles rotation, the following [coordinate system](TBD) has been used as the reference frame for the rotations. In fact, all YPR action calls rotate the robot end-effector to the orientation specified by the (input) Euler Angles, relative to the reference frame.
-
-<h4><u>Example</u>: ABB IRB120 + Schunk EGP64</h4>
-https://user-images.githubusercontent.com/98389310/176437077-6e583a0f-50e6-4e00-ae09-56e233f976f5.mp4
+{include video}
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 <!-- CONTRIBUTING -->
 ## Contributing
 
-Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
+Please find below a list of potential improvements and new features that have been identified for this repository:
+* Create a ROS2.0 Humble branch for ros2_RobotSimulation.
+* Improve the ros2_grasping package. The attaching/detaching feature works well in Gazebo, but the movement (in simulation) is not very clean. The Action Server subscribes to the motion of the end-effector and replicates it into the object selected, and this is not the cleanest way to simulate a pick and place task. 
+* Implement cartesian speed control. The speed control works well for all ROS2 Robot Triggers, except for the MoveL motion. This is because MoveIt!2 generates a custom (linear) trajectory in this case, where joint speed control is not applicable. A linear speed control feature has been identified in ROS1, but it is missing in ROS2.
+* Remove all unnecessary warnings/logs when launching the robot simulation environments.
 
-If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also simply open an issue with the tag "enhancement".
-Don't forget to give the project a star! Thanks again!
+This repo contains only a few number of robots, end-effectors and simulation environments (layouts). Please do let us know if you wish to include a specific robot/end-effector or application into ros2_RobotSimulation!
 
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+The exact same thing for the ROS2 Robot Actions/Triggers: A few number of robot movements have been implemented, therefore please do let us know if you have any ideas of a potential Robot motion for our repo!
+
+Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**. If you have a suggestion that would make this better, or you find a solution to any of the issues/improvements presented above, please fork the repo and create a pull request. You can also simply open an issue with the tag "enhancement".
+Don't forget to give the project a star! Thanks you very much!
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -491,13 +292,13 @@ Don't forget to give the project a star! Thanks again!
   <br />
   <a href="https://www.cranfield.ac.uk/">Cranfield University</a>
   <br />
-  School of Aerospace, Transport and Manufacturing
+  School of Aerospace, Transport and Manufacturing (SATM)
   <br />
-    <a href="https://www.cranfield.ac.uk/centres/centre-for-structures-assembly-and-intelligent-automation">Centre for Structures, Assembly and Intelligent Automation</a>
+    <a href="https://www.cranfield.ac.uk/centres/centre-for-robotics-and-assembly">Centre for Robotics and Assembly</a>
   <br />
   College Road, Cranfield
   <br />
-  MK43 0AL, UK
+  MK43 0AL, Bedfordshire, UK
   <br />
 </p>
 
@@ -524,6 +325,8 @@ Don't forget to give the project a star! Thanks again!
   <br />
   LinkedIn: https://www.linkedin.com/in/mikel-bueno-viso/
   <br />
+  Profile: https://www.cranfield.ac.uk/people/mikel-bueno-viso-32884399
+  <br />
   <br />
   Dr. Seemal Asif - Lecturer in Artificial Intelligence and Robotics at Cranfield University
   <br />
@@ -531,12 +334,16 @@ Don't forget to give the project a star! Thanks again!
   <br />
   LinkedIn: https://www.linkedin.com/in/dr-seemal-asif-ceng-fhea-miet-9370515a/
   <br />
+  Profile: https://www.cranfield.ac.uk/people/dr-seemal-asif-695915
+  <br />
   <br />
   Professor Phil Webb - Professor of Aero-Structure Design and Assembly at Cranfield University
   <br />
   E-mail: p.f.webb@cranfield.ac.uk
   <br />
   LinkedIn: https://www.linkedin.com/in/phil-webb-64283223/
+  <br />
+  Profile: https://www.cranfield.ac.uk/people/professor-phil-webb-746415 
   <br />
 </p>
 
