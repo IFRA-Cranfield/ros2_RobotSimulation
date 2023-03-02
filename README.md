@@ -232,18 +232,22 @@ This repository contains all the custom data structures that are used for the RO
 ### ros2_actions
 The ros2_actions package gathers all the ROS2 Action Servers that execute ROS2 Robot Actions/Triggers. Every specific robot movement is contained in a ROS2 Action Server (.cpp script), which can be externally "called" (triggered) and returns some feedback after the execution. For further detail, please click [here](https://github.com/IFRA-Cranfield/ros2_RobotSimulation/tree/foxy/ros2_actions).
 
-The following video shows an individual ROS2 Robot Action call from the Ubuntu Terminal:
+The following video shows how ROS2 Robot Action calls are done from the Ubuntu Terminal:
 
-{include video}
+https://user-images.githubusercontent.com/98389310/222485465-bbf4190a-7b26-41b8-8bbb-46c18407ac44.mp4
 
 ### ros2_execution
 It is a cool feature to be able to execute different ROS2 actions and trigger different movements in a Robot in Gazebo, but Robotics Applications are made of sequences that execute different commands one after the other. In a nutshell, that is what this ros2_execution package does. The ros2_execution.py script contains all the Action Clients that connect to the Action Servers generated in ros2_actions, and executes robot movements one after the other according to a pre-defined sequence, which is inputted as a .txt file. For further information, please click [here](https://github.com/IFRA-Cranfield/ros2_RobotSimulation/tree/foxy/ros2_execution).
 
 One of the main advantages of using this ros2_execution package, combined with ros2_data/ros2_actions and the Robot Simulation packages contained in this repository, is that programs/sequences can be executed in the exact same way for different Robots, which is a completely novel feature and has been made possible thanks to the MoveIt!2 framework.
 
-The following video showcases the execution of a program (a sequence of movements -> {MoveJ, MoveL, MoveROT, MoveR}) executed in the exact same way for the ABB-IRB120, UR3 and KUKA LBR-iiwa robots:
+The following videos showcase the execution of a program (a sequence of movements -> {MoveJ, MoveL, MoveROT, MoveR}) executed in the exact same way for the ABB-IRB120 and UR3 robots:
 
-{include video}
+https://user-images.githubusercontent.com/98389310/222486797-e5bc2010-4e66-40bb-af23-108a6bbef23e.mp4
+
+<br />
+
+https://user-images.githubusercontent.com/98389310/222486828-5e74ca57-befb-417c-b618-e3e8718c1743.mp4
 
 ### ros2_grasping
 Unfortunately, Gazebo and ROS2 do not provide an effective method to properly pick and place (manipulate) objects in simulation (if it exists, it has not been found). This feature is essential in order to test and simulate different applications, and that is the main reason why this ros2_grasping package has been created.
@@ -252,7 +256,7 @@ The attacher_action.py script contains a ROS2 Action Server that performs the ta
 
 The video below showcases a simple cube pick and place task executed by an ABB-IRB120 robot:
 
-{include video}
+https://user-images.githubusercontent.com/98389310/222487175-4b44e1cb-49c4-4287-aa21-5ba374b8c529.mp4
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
