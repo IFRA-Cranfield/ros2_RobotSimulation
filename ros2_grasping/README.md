@@ -1,5 +1,4 @@
-TBD.
+TBD:
 
 Explain how ros2_grasping has been designed.
-
-Show video of cubePP.
+Introduce weaknesses and potential improvements.
