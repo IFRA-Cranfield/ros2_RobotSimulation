@@ -338,7 +338,6 @@
           <geometry>
             <mesh filename="file://$(find irb120_ros2_gazebo)/meshes/egp64/Schunk Gripper - ADAPTER.dae" />
           </geometry>
-          <material name="flat_black"/>
         </visual>
         <collision>
           <geometry>
@@ -361,7 +360,7 @@
       <gazebo reference="schunk_coupler">
         <mu1>0.9</mu1>
         <mu2>0.9</mu2>
-        <material>Gazebo/FlatBlack</material>
+        <material>Gazebo/Black</material>
       </gazebo>
 
       <link name="egp64_gripper_base_link">
