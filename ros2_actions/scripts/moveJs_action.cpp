@@ -259,31 +259,31 @@ private:
 
             if(success) {
 
-                RCLCPP_INFO(this->get_logger(), "%s - MoveJ: Planning successful!", my_param.c_str());
+                RCLCPP_INFO(this->get_logger(), "%s - MoveJs: Planning successful!", my_param.c_str());
                 move_group_interface.move();
                 
                 // Do if GOAL CANCELLED:
                 if (goal_handle->is_canceling()) {
                     RCLCPP_INFO(this->get_logger(), "Goal canceled.");
-                    result->result = "MoveJ:CANCELED";
+                    result->result = "MoveJs:CANCELED";
                     goal_handle->canceled(result);
                     return;
                 } else {
-                    RCLCPP_INFO(this->get_logger(), "%s - MoveJ: Movement executed!", my_param.c_str());
-                    result->result = "MoveJ:SUCCESS";
+                    RCLCPP_INFO(this->get_logger(), "%s - MoveJs: Movement executed!", my_param.c_str());
+                    result->result = "MoveJs:SUCCESS";
                     goal_handle->succeed(result);
                 }
 
             } else {
-                RCLCPP_INFO(this->get_logger(), "%s - MoveJ: Planning failed!", my_param.c_str());
-                result->result = "MoveJ:FAILED";
+                RCLCPP_INFO(this->get_logger(), "%s - MoveJs: Planning failed!", my_param.c_str());
+                result->result = "MoveJs:FAILED";
                 goal_handle->succeed(result);
             }    
 
         } else {
 
-            RCLCPP_INFO(this->get_logger(), "%s - MoveJ: Planning failed, JOINT LIMITS exceeded!", my_param.c_str());
-            result->result = "MoveJ:FAILED";
+            RCLCPP_INFO(this->get_logger(), "%s - MoveJs: Planning failed, JOINT LIMITS exceeded!", my_param.c_str());
+            result->result = "MoveJs:FAILED";
             goal_handle->succeed(result);
 
         }
@@ -302,7 +302,7 @@ int main(int argc, char ** argv)
   rclcpp::spin_some(node_PARAM);
 
   // Launch and spin (EXECUTOR) MoveIt!2 Interface node:
-  auto name = "_MoveJ_interface";
+  auto name = "_MoveJs_interface";
   auto node2name = my_param + name;
   auto const node2 = std::make_shared<rclcpp::Node>(
       node2name, rclcpp::NodeOptions().automatically_declare_parameters_from_overrides(true));
