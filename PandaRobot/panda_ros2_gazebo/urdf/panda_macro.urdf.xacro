@@ -125,6 +125,7 @@
       <child link="panda_link1"/>
       <axis xyz="0 0 1"/>
       <limit effort="87" lower="-2.8973" upper="2.8973" velocity="2.1750"/>
+      <dynamics damping="50.0" friction="1.0"/>
     </joint>
 
     <!-- panda_link2 -->
@@ -157,6 +158,7 @@
       <child link="panda_link2"/>
       <axis xyz="0 0 1"/>
       <limit effort="87" lower="-1.7628" upper="1.7628" velocity="2.1750"/>
+      <dynamics damping="50.0" friction="1.0"/>
     </joint>
 
     <!-- panda_link3 -->
@@ -189,6 +191,7 @@
       <child link="panda_link3"/>
       <axis xyz="0 0 1"/>
       <limit effort="87" lower="-2.8973" upper="2.8973" velocity="2.1750"/>
+      <dynamics damping="10.0" friction="1.0"/>
     </joint>
 
     <!-- panda_link4-->
@@ -222,6 +225,7 @@
       <axis xyz="0 0 1"/>
       <limit effort="87" lower="-3.0718" upper="0.0698" velocity="2.1750"/>
       <!-- upper should be -0.0698, but that brakes simulation when initial position for this joint is 0.0 -->
+      <dynamics damping="10.0" friction="1.0"/>
     </joint>
 
     <!-- panda_link5 -->
@@ -254,6 +258,7 @@
       <child link="panda_link5"/>
       <axis xyz="0 0 1"/>
       <limit effort="12" lower="-2.8973" upper="2.8973" velocity="2.6100"/>
+      <dynamics damping="5.0" friction="1.0"/>
     </joint>
 
     <!-- panda_link6 -->
@@ -286,6 +291,7 @@
       <child link="panda_link6"/>
       <axis xyz="0 0 1"/>
       <limit effort="12" lower="-0.0175" upper="3.7525" velocity="2.6100"/>
+      <dynamics damping="5.0" friction="1.0"/>
     </joint>
 
     <!-- panda_link7 -->
@@ -318,6 +324,7 @@
       <child link="panda_link7"/>
       <axis xyz="0 0 1"/>
       <limit effort="12" lower="-3.15" upper="3.15" velocity="2.6100"/>
+      <dynamics damping="1.0" friction="1.0"/>
     </joint>
 
     <!-- panda_link8 -->
@@ -411,6 +418,7 @@
       <origin rpy="0 0 0" xyz="0 0 0.0584"/>
       <axis xyz="0 1 0"/>
       <limit effort="20" lower="-0.001" upper="0.04" velocity="0.3"/>
+      <dynamics damping="1.0" friction="1.0"/>
     </joint>
     <joint name="panda_finger_joint2" type="prismatic">
       <parent link="panda_hand"/>
@@ -418,6 +426,7 @@
       <origin rpy="0 0 0" xyz="0 0 0.0584"/>
       <axis xyz="0 -1 0"/>
       <limit effort="20" lower="-0.001" upper="0.04" velocity="0.3"/>
+      <dynamics damping="1.0" friction="1.0"/>
     </joint>
 
     <!-- End-Effector frame -->

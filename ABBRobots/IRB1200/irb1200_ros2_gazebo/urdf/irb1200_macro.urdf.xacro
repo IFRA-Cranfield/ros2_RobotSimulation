@@ -22,13 +22,13 @@
 #           Seemal Asif      - s.asif@cranfield.ac.uk                                   #
 #           Phil Webb        - p.f.webb@cranfield.ac.uk                                 #
 #                                                                                       #
-#  Date: September, 2022.                                                                    #
+#  Date: September, 2022.                                                               #
 #                                                                                       #
 # ===================================== COPYRIGHT ===================================== #
 
 # ===================================== COPYRIGHT ===================================== #
 #                                                                                       #
-#  Some of the information used to build the ROS2 ABB-IRB1200 .urdf files in this ROS2   #
+#  Some of the information used to build the ROS2 ABB-IRB1200 .urdf files in this ROS2  #
 #  repository has been taken from the following resource:                               #
 #       - abb_experimental (https://github.com/ros-industrial/abb_experimental)         #
 #                                                                                       #

@@ -29,7 +29,7 @@
 # IFRA (2022) ROS2.0 ROBOT SIMULATION. URL: https://github.com/IFRA-Cranfield/ros2_RobotSimulation.
 
 # panda.launch.py:
-# Launch file for the PANDA ROBOT GAZEBO + MoveIt!2 SIMULATION in ROS2 Foxy:
+# Launch file for the PANDA ROBOT GAZEBO + MoveIt!2 SIMULATION in ROS2 Humble:
 
 # Import libraries:
 import os
@@ -173,29 +173,41 @@ def generate_launch_description():
     )
     # Publish TF:
     robot_state_publisher = Node(
-        package="robot_state_publisher",
-        executable="robot_state_publisher",
-        name="robot_state_publisher",
-        output="both",
-        parameters=[robot_description],
+        package='robot_state_publisher',
+        executable='robot_state_publisher',
+        output='both',
+        parameters=[
+            robot_description,
+            {"use_sim_time": True}
+        ]
     )
 
     # ***** ROS2_CONTROL -> LOAD CONTROLLERS ***** #
 
-    load_controllers = []
-    for controller in [
-        "panda_arm_controller",
-        "panda_handleft_controller",
-        "panda_handright_controller",
-        "joint_state_controller",
-    ]:
-        load_controllers += [
-            ExecuteProcess(
-                cmd=["ros2 run controller_manager spawner.py {}".format(controller)],
-                shell=True,
-                output="screen",
-            )
-        ]
+    # Joint STATE BROADCASTER:
+    joint_state_broadcaster_spawner = Node(
+        package="controller_manager",
+        executable="spawner",
+        arguments=["joint_state_broadcaster", "--controller-manager", "/controller_manager"],
+    )
+    # Joint TRAJECTORY Controller:
+    joint_trajectory_controller_spawner = Node(
+        package="controller_manager",
+        executable="spawner",
+        arguments=["panda_arm_controller", "-c", "/controller_manager"],
+    )
+    
+    # === Panda HAND === #
+    panda_handleft_controller_spawner = Node(
+        package="controller_manager",
+        executable="spawner",
+        arguments=["panda_handleft_controller", "-c", "/controller_manager"],
+    )
+    panda_handright_controller_spawner = Node(
+        package="controller_manager",
+        executable="spawner",
+        arguments=["panda_handright_controller", "-c", "/controller_manager"],
+    )
 
 
     # *********************** MoveIt!2 *********************** #   
@@ -257,6 +269,7 @@ def generate_launch_description():
             trajectory_execution,
             moveit_controllers,
             planning_scene_monitor_parameters,
+            {"use_sim_time": True}, 
         ],
     )
 
@@ -275,6 +288,7 @@ def generate_launch_description():
             robot_description_semantic,
             ompl_planning_pipeline_config,
             kinematics_yaml,
+            {"use_sim_time": True}, 
         ],
         condition=UnlessCondition(load_RVIZfile),
     )
@@ -286,7 +300,7 @@ def generate_launch_description():
         package="ros2_actions",
         executable="moveJs_action",
         output="screen",
-        parameters=[robot_description, robot_description_semantic, kinematics_yaml, {"ROB_PARAM": 'panda_arm'}],
+        parameters=[robot_description, robot_description_semantic, kinematics_yaml, {"use_sim_time": True}, {"ROB_PARAM": 'panda_arm'}],
     )
     # MoveG ACTION:
     moveG_interface = Node(
@@ -294,7 +308,7 @@ def generate_launch_description():
         package="ros2_actions",
         executable="moveG_action",
         output="screen",
-        parameters=[robot_description, robot_description_semantic, kinematics_yaml, {"ROB_PARAM": 'panda_gripper'}],
+        parameters=[robot_description, robot_description_semantic, kinematics_yaml, {"use_sim_time": True}, {"ROB_PARAM": 'panda_gripper'}],
     )
     # MoveXYZW ACTION:
     moveXYZW_interface = Node(
@@ -302,7 +316,7 @@ def generate_launch_description():
         package="ros2_actions",
         executable="moveXYZW_action",
         output="screen",
-        parameters=[robot_description, robot_description_semantic, kinematics_yaml, {"ROB_PARAM": 'panda_arm'}],
+        parameters=[robot_description, robot_description_semantic, kinematics_yaml, {"use_sim_time": True}, {"ROB_PARAM": 'panda_arm'}],
     )
     # MoveL ACTION:
     moveL_interface = Node(
@@ -310,7 +324,7 @@ def generate_launch_description():
         package="ros2_actions",
         executable="moveL_action",
         output="screen",
-        parameters=[robot_description, robot_description_semantic, kinematics_yaml, {"ROB_PARAM": 'panda_arm'}],
+        parameters=[robot_description, robot_description_semantic, kinematics_yaml, {"use_sim_time": True}, {"ROB_PARAM": 'panda_arm'}],
     )
     # MoveR ACTION:
     moveR_interface = Node(
@@ -318,7 +332,7 @@ def generate_launch_description():
         package="ros2_actions",
         executable="moveRs_action",
         output="screen",
-        parameters=[robot_description, robot_description_semantic, kinematics_yaml, {"ROB_PARAM": 'panda_arm'}],
+        parameters=[robot_description, robot_description_semantic, kinematics_yaml, {"use_sim_time": True}, {"ROB_PARAM": 'panda_arm'}],
     )
     # MoveXYZ ACTION:
     moveXYZ_interface = Node(
@@ -326,7 +340,7 @@ def generate_launch_description():
         package="ros2_actions",
         executable="moveXYZ_action",
         output="screen",
-        parameters=[robot_description, robot_description_semantic, kinematics_yaml, {"ROB_PARAM": 'panda_arm'}],
+        parameters=[robot_description, robot_description_semantic, kinematics_yaml, {"use_sim_time": True}, {"ROB_PARAM": 'panda_arm'}],
     )
     # MoveYPR ACTION:
     moveYPR_interface = Node(
@@ -334,7 +348,7 @@ def generate_launch_description():
         package="ros2_actions",
         executable="moveYPR_action",
         output="screen",
-        parameters=[robot_description, robot_description_semantic, kinematics_yaml, {"ROB_PARAM": 'panda_arm'}],
+        parameters=[robot_description, robot_description_semantic, kinematics_yaml, {"use_sim_time": True}, {"ROB_PARAM": 'panda_arm'}],
     )
     # MoveROT ACTION:
     moveROT_interface = Node(
@@ -342,7 +356,7 @@ def generate_launch_description():
         package="ros2_actions",
         executable="moveROT_action",
         output="screen",
-        parameters=[robot_description, robot_description_semantic, kinematics_yaml, {"ROB_PARAM": 'panda_arm'}],
+        parameters=[robot_description, robot_description_semantic, kinematics_yaml, {"use_sim_time": True}, {"ROB_PARAM": 'panda_arm'}],
     )
     # MoveRP ACTION:
     moveRP_interface = Node(
@@ -350,7 +364,7 @@ def generate_launch_description():
         package="ros2_actions",
         executable="moveRP_action",
         output="screen",
-        parameters=[robot_description, robot_description_semantic, kinematics_yaml, {"ROB_PARAM": 'panda_arm'}],
+        parameters=[robot_description, robot_description_semantic, kinematics_yaml, {"use_sim_time": True}, {"ROB_PARAM": 'panda_arm'}],
     )
 
     # ATTACHER action for ros2_grasping plugin:
@@ -370,9 +384,43 @@ def generate_launch_description():
             static_tf,
             robot_state_publisher,
             
+            # ROS2 Controllers:
             RegisterEventHandler(
                 OnProcessExit(
                     target_action = spawn_entity,
+                    on_exit = [
+                        joint_state_broadcaster_spawner,
+                    ]
+                )
+            ),
+            RegisterEventHandler(
+                OnProcessExit(
+                    target_action = joint_state_broadcaster_spawner,
+                    on_exit = [
+                        joint_trajectory_controller_spawner,
+                    ]
+                )
+            ),
+            RegisterEventHandler(
+                OnProcessExit(
+                    target_action = joint_trajectory_controller_spawner,
+                    on_exit = [
+                        panda_handleft_controller_spawner,
+                    ]
+                )
+            ),
+            RegisterEventHandler(
+                OnProcessExit(
+                    target_action = panda_handleft_controller_spawner,
+                    on_exit = [
+                        panda_handright_controller_spawner,
+                    ]
+                )
+            ),
+
+            RegisterEventHandler(
+                OnProcessExit(
+                    target_action = panda_handright_controller_spawner,
                     on_exit = [
 
                         # MoveIt!2:
@@ -401,10 +449,9 @@ def generate_launch_description():
                                 Attacher,
                             ]
                         ),
-                        
+
                     ]
                 )
             )
         ]
-        + load_controllers
     )

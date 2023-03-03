@@ -29,7 +29,7 @@
 # IFRA (2022) ROS2.0 ROBOT SIMULATION. URL: https://github.com/IFRA-Cranfield/ros2_RobotSimulation.
 
 # cr35ia_simulation.launch.py:
-# Launch file for the FANUC CR35-iA Robot GAZEBO SIMULATION in ROS2 Foxy:
+# Launch file for the FANUC CR35-iA Robot GAZEBO SIMULATION in ROS2 Humble:
 
 # Import libraries:
 import os
@@ -159,8 +159,11 @@ def generate_launch_description():
     node_robot_state_publisher = Node(
         package='robot_state_publisher',
         executable='robot_state_publisher',
-        output='screen',
-        parameters=[robot_description]
+        output='both',
+        parameters=[
+            robot_description,
+            {"use_sim_time": True}
+        ]
     )
 
     # SPAWN ROBOT TO GAZEBO:
@@ -169,9 +172,42 @@ def generate_launch_description():
                                    '-entity', 'cr35ia'],
                         output='screen')
 
+    # ***** CONTROLLERS ***** #
+    # Joint state broadcaster:
+    joint_state_broadcaster_spawner = Node(
+        package="controller_manager",
+        executable="spawner",
+        arguments=["joint_state_broadcaster", "--controller-manager", "/controller_manager"],
+    )
+    # Joint trajectory controller:
+    joint_trajectory_controller_spawner = Node(
+        package="controller_manager",
+        executable="spawner",
+        arguments=["cr35ia_controller", "-c", "/controller_manager"],
+    )
+
     # ***** RETURN LAUNCH DESCRIPTION ***** #
     return LaunchDescription([
+        
         gazebo, 
         node_robot_state_publisher,
-        spawn_entity
+        spawn_entity,
+
+        RegisterEventHandler(
+            OnProcessExit(
+                target_action = spawn_entity,
+                on_exit = [
+                    joint_state_broadcaster_spawner,
+                ]
+            )
+        ),
+        RegisterEventHandler(
+            OnProcessExit(
+                target_action = joint_state_broadcaster_spawner,
+                on_exit = [
+                    joint_trajectory_controller_spawner,
+                ]
+            )
+        ),
+
     ])

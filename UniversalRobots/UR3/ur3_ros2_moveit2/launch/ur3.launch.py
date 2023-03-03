@@ -29,7 +29,7 @@
 # IFRA (2022) ROS2.0 ROBOT SIMULATION. URL: https://github.com/IFRA-Cranfield/ros2_RobotSimulation.
 
 # ur3.launch.py:
-# Launch file for the UR3 ROBOT GAZEBO + MoveIt!2 SIMULATION in ROS2 Foxy:
+# Launch file for the UR3 ROBOT GAZEBO + MoveIt!2 SIMULATION in ROS2 Humble:
 
 # Import libraries:
 import os
@@ -173,27 +173,29 @@ def generate_launch_description():
     )
     # Publish TF:
     robot_state_publisher = Node(
-        package="robot_state_publisher",
-        executable="robot_state_publisher",
-        name="robot_state_publisher",
-        output="both",
-        parameters=[robot_description],
+        package='robot_state_publisher',
+        executable='robot_state_publisher',
+        output='both',
+        parameters=[
+            robot_description,
+            {"use_sim_time": True}
+        ]
     )
 
     # ***** ROS2_CONTROL -> LOAD CONTROLLERS ***** #
 
-    load_controllers = []
-    for controller in [
-        "ur3_controller",
-        "joint_state_controller",
-    ]:
-        load_controllers += [
-            ExecuteProcess(
-                cmd=["ros2 run controller_manager spawner.py {}".format(controller)],
-                shell=True,
-                output="screen",
-            )
-        ]
+    # Joint STATE BROADCASTER:
+    joint_state_broadcaster_spawner = Node(
+        package="controller_manager",
+        executable="spawner",
+        arguments=["joint_state_broadcaster", "--controller-manager", "/controller_manager"],
+    )
+    # Joint TRAJECTORY Controller:
+    joint_trajectory_controller_spawner = Node(
+        package="controller_manager",
+        executable="spawner",
+        arguments=["ur3_controller", "-c", "/controller_manager"],
+    )
 
 
     # *********************** MoveIt!2 *********************** #   
@@ -255,6 +257,7 @@ def generate_launch_description():
             trajectory_execution,
             moveit_controllers,
             planning_scene_monitor_parameters,
+            {"use_sim_time": True}, 
         ],
     )
 
@@ -273,10 +276,11 @@ def generate_launch_description():
             robot_description_semantic,
             ompl_planning_pipeline_config,
             kinematics_yaml,
+            {"use_sim_time": True}, 
         ],
         condition=UnlessCondition(load_RVIZfile),
     )
-
+    
     return LaunchDescription(
         [
             # Gazebo nodes:
@@ -286,9 +290,27 @@ def generate_launch_description():
             static_tf,
             robot_state_publisher,
             
+            # ROS2 Controllers:
             RegisterEventHandler(
                 OnProcessExit(
                     target_action = spawn_entity,
+                    on_exit = [
+                        joint_state_broadcaster_spawner,
+                    ]
+                )
+            ),
+            RegisterEventHandler(
+                OnProcessExit(
+                    target_action = joint_state_broadcaster_spawner,
+                    on_exit = [
+                        joint_trajectory_controller_spawner,
+                    ]
+                )
+            ),
+
+            RegisterEventHandler(
+                OnProcessExit(
+                    target_action = joint_trajectory_controller_spawner,
                     on_exit = [
 
                         # MoveIt!2:
@@ -305,5 +327,4 @@ def generate_launch_description():
                 )
             )
         ]
-        + load_controllers
     )

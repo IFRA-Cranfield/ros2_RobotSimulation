@@ -285,7 +285,7 @@
       <parent link="${prefix}base_link"/>
       <child link="${prefix}link_1"/>
       <limit effort="0" lower="-2.967" upper="2.967" velocity="1.7453"/>
-      <dynamics damping="0.0" friction="0.0"/>
+      <dynamics damping="50.0" friction="1.0"/>
     </joint>
 
     <!-- joint_2 -->
@@ -295,7 +295,7 @@
       <parent link="${prefix}link_1"/>
       <child link="${prefix}link_2"/>
       <limit effort="0" lower="-1.134" upper="1.4855" velocity="1.5707"/>
-      <dynamics damping="0.0" friction="0.0"/>
+      <dynamics damping="50.0" friction="1.0"/>
     </joint>
 
     <!-- joint_3 -->
@@ -305,7 +305,7 @@
       <parent link="${prefix}link_2"/>
       <child link="${prefix}link_3"/>
       <limit effort="0" lower="-3.142" upper="1.222" velocity="1.5707"/>
-      <dynamics damping="0.0" friction="0.0"/>
+      <dynamics damping="10.0" friction="1.0"/>
     </joint>
 
     <!-- joint_4 -->
@@ -315,7 +315,7 @@
       <parent link="${prefix}link_3"/>
       <child link="${prefix}link_4"/>
       <limit effort="0" lower="-5.236" upper="5.236" velocity="2.9671"/>
-      <dynamics damping="0.0" friction="0.0"/>
+      <dynamics damping="5.0" friction="1.0"/>
     </joint>
 
     <!-- joint_5 -->
@@ -325,6 +325,7 @@
       <parent link="${prefix}link_4"/>
       <child link="${prefix}link_5"/>
       <limit effort="0" lower="-2.094" upper="2.094" velocity="2.4435"/>
+      <dynamics damping="2.0" friction="1.0"/>
     </joint>
 
     <!-- joint_6 -->
@@ -334,7 +335,7 @@
       <parent link="${prefix}link_5"/>
       <child link="${prefix}link_6"/>
       <limit effort="0" lower="-6.283" upper="6.283" velocity="3.3161"/>
-      <dynamics damping="0.0" friction="0.0"/>
+      <dynamics damping="1.0" friction="1.0"/>
     </joint>
     <!-- end of joint list -->
 
@@ -353,7 +354,7 @@
       <parent link="${prefix}link_1"/>
       <child link="${prefix}link_cylinder"/>
       <mimic joint="${prefix}joint_2" multiplier="-0.25"/>
-      <dynamics damping="0.0" friction="0.0"/>
+      <dynamics damping="10.0" friction="1.0"/>
     </joint>
 
     <!-- piston joint  

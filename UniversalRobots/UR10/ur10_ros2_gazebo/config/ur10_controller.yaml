@@ -4,24 +4,9 @@ controller_manager:
 
     ur10_controller:
       type: joint_trajectory_controller/JointTrajectoryController
-      joints:
-        - shoulder_pan_joint
-        - shoulder_lift_joint
-        - elbow_joint
-        - wrist_1_joint
-        - wrist_2_joint
-        - wrist_3_joint
-      publish_rate: 50
-      write_op_modes:
-        - shoulder_pan_joint
-        - shoulder_lift_joint
-        - elbow_joint
-        - wrist_1_joint
-        - wrist_2_joint
-        - wrist_3_joint
 
-    joint_state_controller:
-      type: joint_state_controller/JointStateController
+    joint_state_broadcaster:
+      type: joint_state_broadcaster/JointStateBroadcaster
 
 ur10_controller:
   ros__parameters:

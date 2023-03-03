@@ -125,4 +125,4 @@ In order to cancel the action and detach the object:
 ctrl+c in the window where the action was called # Option 1 (best).
 ros2 topic pub --rate 999999999 /ros2_Detach std_msgs/msg/String "{data: 'True'}" # Option 2.
 ```
-In order to know how the /Attacher action is called in ros2_execution, please have a look [here](https://github.com/IFRA-Cranfield/ros2_RobotSimulation/tree/foxy/ros2_execution).
+In order to know how the /Attacher action is called in ros2_execution, please have a look [here](https://github.com/IFRA-Cranfield/ros2_RobotSimulation/tree/humble/ros2_execution).

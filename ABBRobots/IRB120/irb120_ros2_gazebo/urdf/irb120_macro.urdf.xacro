@@ -248,7 +248,7 @@
       <child link="${prefix}link_1"/>
       <limit effort="0" lower="-2.87979" upper="2.87979" velocity="4.36332"/>
       <axis xyz="0 0 1"/>
-      <dynamics damping="0.0" friction="0.0"/>
+      <dynamics damping="50.0" friction="1.0"/>
     </joint>
 
     <!-- joint_2 -->
@@ -258,7 +258,7 @@
       <child link="${prefix}link_2"/>
       <limit effort="0" lower="-1.91986" upper="1.91986" velocity="4.36332"/>
       <axis xyz="0 1 0"/>
-      <dynamics damping="0.0" friction="0.0"/>
+      <dynamics damping="50.0" friction="1.0"/>
     </joint>
 
     <!-- joint_3 -->
@@ -268,7 +268,7 @@
       <child link="${prefix}link_3"/>
       <limit effort="0" lower="-1.91986" upper="1.22173" velocity="4.36332"/>
       <axis xyz="0 1 0"/>
-      <dynamics damping="0.0" friction="0.0"/>
+      <dynamics damping="10.0" friction="1.0"/>
     </joint>
 
     <!-- joint_4 -->
@@ -278,7 +278,7 @@
       <child link="${prefix}link_4"/>
       <limit effort="0" lower="-2.79253" upper="2.79253" velocity="5.58505"/>
       <axis xyz="1 0 0"/>
-      <dynamics damping="0.0" friction="0.0"/>
+      <dynamics damping="5.0" friction="1.0"/>
     </joint>
 
     <!-- joint_5 -->
@@ -288,7 +288,7 @@
       <child link="${prefix}link_5"/>
       <limit effort="0" lower="-2.094395" upper="2.094395" velocity="5.58505"/>
       <axis xyz="0 1 0"/>
-      <dynamics damping="0.0" friction="0.0"/>
+      <dynamics damping="2.0" friction="1.0"/>
     </joint>
 
     <!-- joint_6 -->
@@ -298,7 +298,7 @@
       <child link="${prefix}link_6"/>
       <limit effort="0" lower="-6.98132" upper="6.98132" velocity="7.33038"/>
       <axis xyz="1 0 0"/>
-      <dynamics damping="0.0" friction="0.0"/>
+      <dynamics damping="1.0" friction="1.0"/>
     </joint>
     <!-- end of joint list -->
 
@@ -336,13 +336,12 @@
       <link name="schunk_coupler">
         <visual>
           <geometry>
-            <mesh filename="file://$(find irb120_ros2_gazebo)/meshes/egp64/Schunk Gripper - ADAPTER.dae" />
+            <mesh filename="file://$(find irb120_ros2_gazebo)/meshes/egp64/egp64_Adapter.dae" />
           </geometry>
-          <material name="flat_black"/>
         </visual>
         <collision>
           <geometry>
-            <mesh filename="file://$(find irb120_ros2_gazebo)/meshes/egp64/Schunk Gripper - ADAPTER.dae" />
+            <mesh filename="file://$(find irb120_ros2_gazebo)/meshes/egp64/egp64_Adapter.dae" />
           </geometry>
         </collision>
         <inertial>
@@ -361,7 +360,7 @@
       <gazebo reference="schunk_coupler">
         <mu1>0.9</mu1>
         <mu2>0.9</mu2>
-        <material>Gazebo/FlatBlack</material>
+        <material>Gazebo/Black</material>
       </gazebo>
 
       <link name="egp64_gripper_base_link">
@@ -372,7 +371,7 @@
         </inertial>
         <visual>
           <geometry>
-            <mesh filename="file://$(find irb120_ros2_gazebo)/meshes/egp64/Schunk Gripper - BASE noAdapter.dae" />
+            <mesh filename="file://$(find irb120_ros2_gazebo)/meshes/egp64/egp64_BaseNoAdapter.dae" />
           </geometry>
           <material name="blue">
             <color rgba="0 0 1 1"/>
@@ -380,7 +379,7 @@
         </visual>
         <collision>
           <geometry>
-            <mesh filename="file://$(find irb120_ros2_gazebo)/meshes/egp64/Schunk Gripper - BASE noAdapter.dae" />
+            <mesh filename="file://$(find irb120_ros2_gazebo)/meshes/egp64/egp64_BaseNoAdapter.dae" />
           </geometry>
           <material name="blue"/>
         </collision>
@@ -402,7 +401,7 @@
         </inertial>
         <visual>
           <geometry>
-            <mesh filename="file://$(find irb120_ros2_gazebo)/meshes/egp64/Schunk Gripper - LEFT FINGER BASE.dae" />
+            <mesh filename="file://$(find irb120_ros2_gazebo)/meshes/egp64/egp64_LeftFingerBase.dae" />
           </geometry>
           <material name="black">
             <color rgba="0 0 0 1"/>
@@ -410,7 +409,7 @@
         </visual>
         <collision>
           <geometry>
-            <mesh filename="file://$(find irb120_ros2_gazebo)/meshes/egp64/Schunk Gripper - LEFT FINGER BASE.dae" />
+            <mesh filename="file://$(find irb120_ros2_gazebo)/meshes/egp64/egp64_LeftFingerBase.dae" />
           </geometry>
           <material name="black" />
         </collision>
@@ -422,6 +421,7 @@
         <limit effort="100" lower="-0.001" upper="0.04" velocity="0.2"/>
         <origin xyz="0.01483 -0.00782 0" rpy="0 0 0" />
         <axis xyz="-1 0 0" />
+        <dynamics damping="1.0" friction="1.0"/>
       </joint>
       
       <!-- LEFT FINGERTIP -->
@@ -434,7 +434,7 @@
         </inertial>
         <visual>
           <geometry>
-            <mesh filename="file://$(find irb120_ros2_gazebo)/meshes/egp64/Schunk Gripper - LEFT FINGER.dae" />
+            <mesh filename="file://$(find irb120_ros2_gazebo)/meshes/egp64/egp64_LeftFinger.dae" />
           </geometry>
           <material name="silver">
             <color rgba="0.8 0.8 0.8 1"/>
@@ -442,7 +442,7 @@
         </visual>
         <collision>
           <geometry>
-            <mesh filename="file://$(find irb120_ros2_gazebo)/meshes/egp64/Schunk Gripper - LEFT FINGER.dae" />
+            <mesh filename="file://$(find irb120_ros2_gazebo)/meshes/egp64/egp64_LeftFinger.dae" />
           </geometry>
           <material name="black"/>
         </collision>
@@ -465,13 +465,13 @@
         </inertial>
         <visual>
           <geometry>
-            <mesh filename="file://$(find irb120_ros2_gazebo)/meshes/egp64/Schunk Gripper - RIGHT FINGER BASE.dae" />
+            <mesh filename="file://$(find irb120_ros2_gazebo)/meshes/egp64/egp64_RightFingerBase.dae" />
           </geometry>
           <material name="black"/>
         </visual>
         <collision>
           <geometry>
-            <mesh filename="file://$(find irb120_ros2_gazebo)/meshes/egp64/Schunk Gripper - RIGHT FINGER BASE.dae" />
+            <mesh filename="file://$(find irb120_ros2_gazebo)/meshes/egp64/egp64_RightFingerBase.dae" />
           </geometry>
           <material name="black"/>
         </collision>
@@ -483,6 +483,7 @@
         <limit effort="100" lower="-0.001" upper="0.04" velocity="0.2"/>
         <origin xyz="-0.0153 -0.00602 0" rpy="0 0 0" />
         <axis xyz="1 0 0" />
+        <dynamics damping="1.0" friction="1.0"/>
       </joint>
       
       <!-- RIGHT FINGERTIP -->
@@ -495,13 +496,13 @@
         </inertial>
         <visual>
           <geometry>
-            <mesh filename="file://$(find irb120_ros2_gazebo)/meshes/egp64/Schunk Gripper - RIGHT FINGER.dae" />
+            <mesh filename="file://$(find irb120_ros2_gazebo)/meshes/egp64/egp64_RightFinger.dae" />
           </geometry>
           <material name="silver" />
         </visual>
         <collision>
           <geometry>
-            <mesh filename="file://$(find irb120_ros2_gazebo)/meshes/egp64/Schunk Gripper - RIGHT FINGER.dae" />
+            <mesh filename="file://$(find irb120_ros2_gazebo)/meshes/egp64/egp64_RightFinger.dae" />
           </geometry>
           <material name="black"/>
       </collision>
@@ -534,6 +535,7 @@
         <limit effort="10000" lower="0.0" upper="0.0" velocity="0.0"/>
         <axis xyz="1 0 0" />
         <origin xyz="0.033 -0.018 0.15" rpy="0 0 0"/>
+        <dynamics damping="1.0" friction="1.0"/>
       </joint>
 
     </xacro:if>

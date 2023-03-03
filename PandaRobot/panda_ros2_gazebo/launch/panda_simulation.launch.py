@@ -29,7 +29,7 @@
 # IFRA (2022) ROS2.0 ROBOT SIMULATION. URL: https://github.com/IFRA-Cranfield/ros2_RobotSimulation.
 
 # panda_simulation.launch.py:
-# Launch file for the Panda Robot GAZEBO SIMULATION in ROS2 Foxy:
+# Launch file for the Panda Robot GAZEBO SIMULATION in ROS2 Humble:
 
 # Import libraries:
 import os
@@ -156,8 +156,11 @@ def generate_launch_description():
     node_robot_state_publisher = Node(
         package='robot_state_publisher',
         executable='robot_state_publisher',
-        output='screen',
-        parameters=[robot_description]
+        output='both',
+        parameters=[
+            robot_description,
+            {"use_sim_time": True}
+        ]
     )
 
     # SPAWN ROBOT TO GAZEBO:
@@ -166,9 +169,70 @@ def generate_launch_description():
                                    '-entity', 'panda'],
                         output='screen')
 
+    # ***** CONTROLLERS ***** #
+    # Joint state broadcaster:
+    joint_state_broadcaster_spawner = Node(
+        package="controller_manager",
+        executable="spawner",
+        arguments=["joint_state_broadcaster", "--controller-manager", "/controller_manager"],
+    )
+    # Joint trajectory controller:
+    joint_trajectory_controller_spawner = Node(
+        package="controller_manager",
+        executable="spawner",
+        arguments=["panda_arm_controller", "-c", "/controller_manager"],
+    )
+    # End effector controllers:
+    # Panda HAND:
+    panda_handleft_controller_spawner = Node(
+        package="controller_manager",
+        executable="spawner",
+        arguments=["panda_handleft_controller", "-c", "/controller_manager"],
+    )
+    panda_handright_controller_spawner = Node(
+        package="controller_manager",
+        executable="spawner",
+        arguments=["panda_handright_controller", "-c", "/controller_manager"],
+    )
+
     # ***** RETURN LAUNCH DESCRIPTION ***** #
     return LaunchDescription([
+        
         gazebo, 
         node_robot_state_publisher,
-        spawn_entity
+        spawn_entity,
+
+        RegisterEventHandler(
+            OnProcessExit(
+                target_action = spawn_entity,
+                on_exit = [
+                    joint_state_broadcaster_spawner,
+                ]
+            )
+        ),
+        RegisterEventHandler(
+            OnProcessExit(
+                target_action = joint_state_broadcaster_spawner,
+                on_exit = [
+                    joint_trajectory_controller_spawner,
+                ]
+            )
+        ),
+        RegisterEventHandler(
+            OnProcessExit(
+                target_action = joint_trajectory_controller_spawner,
+                on_exit = [
+                    panda_handleft_controller_spawner,
+                ]
+            )
+        ),
+        RegisterEventHandler(
+            OnProcessExit(
+                target_action = panda_handleft_controller_spawner,
+                on_exit = [
+                    panda_handright_controller_spawner,
+                ]
+            )
+        ),
+
     ])

@@ -57,7 +57,7 @@ class ros2_RobotTrigger : public rclcpp::Node
 public:
     ros2_RobotTrigger() : Node("ros2_RobotTrigger_PARAM") 
     {
-        this->declare_parameter("ROB_PARAM");
+        this->declare_parameter("ROB_PARAM", "null");
         my_param = this->get_parameter("ROB_PARAM").get_parameter_value().get<std::string>();
         RCLCPP_INFO(this->get_logger(), "ROB_PARAM received -> %s", my_param.c_str());
     }

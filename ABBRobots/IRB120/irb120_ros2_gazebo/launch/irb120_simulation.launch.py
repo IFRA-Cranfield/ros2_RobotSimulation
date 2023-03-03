@@ -29,7 +29,7 @@
 # IFRA (2022) ROS2.0 ROBOT SIMULATION. URL: https://github.com/IFRA-Cranfield/ros2_RobotSimulation.
 
 # irb120_simulation.launch.py:
-# Launch file for the ABB-IRB120 Robot GAZEBO SIMULATION in ROS2 Foxy:
+# Launch file for the ABB-IRB120 Robot GAZEBO SIMULATION in ROS2 Humble:
 
 # Import libraries:
 import os
@@ -162,8 +162,11 @@ def generate_launch_description():
     node_robot_state_publisher = Node(
         package='robot_state_publisher',
         executable='robot_state_publisher',
-        output='screen',
-        parameters=[robot_description]
+        output='both',
+        parameters=[
+            robot_description,
+            {"use_sim_time": True}
+        ]
     )
 
     # SPAWN ROBOT TO GAZEBO:
@@ -171,10 +174,71 @@ def generate_launch_description():
                         arguments=['-topic', 'robot_description',
                                    '-entity', 'irb120'],
                         output='screen')
+    
+    # ***** CONTROLLERS ***** #
+    # Joint state broadcaster:
+    joint_state_broadcaster_spawner = Node(
+        package="controller_manager",
+        executable="spawner",
+        arguments=["joint_state_broadcaster", "--controller-manager", "/controller_manager"],
+    )
+    # Joint trajectory controller:
+    joint_trajectory_controller_spawner = Node(
+        package="controller_manager",
+        executable="spawner",
+        arguments=["irb120_controller", "-c", "/controller_manager"],
+    )
+    # End effector controllers:
+    # Schunk EGP-64:
+    egp64left_controller_spawner = Node(
+        package="controller_manager",
+        executable="spawner",
+        arguments=["egp64_finger_left_controller", "-c", "/controller_manager"],
+    )
+    egp64right_controller_spawner = Node(
+        package="controller_manager",
+        executable="spawner",
+        arguments=["egp64_finger_right_controller", "-c", "/controller_manager"],
+    )
 
     # ***** RETURN LAUNCH DESCRIPTION ***** #
     return LaunchDescription([
+        
         gazebo, 
         node_robot_state_publisher,
-        spawn_entity
+        spawn_entity,
+
+        RegisterEventHandler(
+            OnProcessExit(
+                target_action = spawn_entity,
+                on_exit = [
+                    joint_state_broadcaster_spawner,
+                ]
+            )
+        ),
+        RegisterEventHandler(
+            OnProcessExit(
+                target_action = joint_state_broadcaster_spawner,
+                on_exit = [
+                    joint_trajectory_controller_spawner,
+                ]
+            )
+        ),
+        RegisterEventHandler(
+            OnProcessExit(
+                target_action = joint_trajectory_controller_spawner,
+                on_exit = [
+                    egp64left_controller_spawner,
+                ]
+            )
+        ),
+        RegisterEventHandler(
+            OnProcessExit(
+                target_action = egp64left_controller_spawner,
+                on_exit = [
+                    egp64right_controller_spawner,
+                ]
+            )
+        ),
+
     ])

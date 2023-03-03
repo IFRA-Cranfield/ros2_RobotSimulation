@@ -22,7 +22,7 @@ Thus, the fact that MoveGroupInterface is declared as a global variable avoids h
 
 ### Installation
 
-The original move_group_interface.h header file is included in the ~/opt/ros/foxy/include/moveit/move_group_interface folder in your Ubuntu 20.04 machine (if MoveIt!2 has been installed). This folder has restricted access, thus the following steps must be followed to paste the move_group_interface_improved.h file into that path:
+The original move_group_interface.h header file is included in the ~/opt/ros/humble/include/moveit/move_group_interface folder in your Ubuntu 22.04 machine (if MoveIt!2 has been installed). This folder has restricted access, thus the following steps must be followed to paste the move_group_interface_improved.h file into that path:
 1. Install Nautilus Admin:
     ```sh
     sudo apt-get install nautilus-admin
@@ -31,5 +31,5 @@ The original move_group_interface.h header file is included in the ~/opt/ros/fox
     ```sh
     nautilus -q
     ```
-3. Open the ~/opt/ros/foxy/include/moveit/move_group_interface folder -> Right click -> Open as administrator.
+3. Open the ~/opt/ros/humble/include/moveit/move_group_interface folder -> Right click -> Open as administrator.
 4. Paste the move_group_interface_improved.h file.

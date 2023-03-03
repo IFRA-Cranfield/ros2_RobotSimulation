@@ -3,7 +3,7 @@
 <package format="3">
   <name>ros2_grasping</name>
   <version>0.0.0</version>
-  <description>IFRA Group - Cranfield University. Gazebo plugin (ROS2.0) for effective pick and place of objects. *** Foxy *** </description>
+  <description>IFRA Group - Cranfield University. Gazebo plugin (ROS2.0) for effective pick and place of objects. *** Humble *** </description>
 
   <author>Mikel Bueno Viso</author>
   <maintainer email="Mikel.Bueno-Viso@cranfield.ac.uk">Mikel Bueno Viso</maintainer>

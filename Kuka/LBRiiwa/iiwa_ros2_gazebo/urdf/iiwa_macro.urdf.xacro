@@ -265,6 +265,7 @@
       <child link="${prefix}link_1" />
       <axis xyz="0 0 1" />
       <limit lower="-2.9668" upper="2.9668" effort="0" velocity="1.4834" />
+      <dynamics damping="0.5" friction="1.0"/>
     </joint>
     <joint name="${prefix}joint_2" type="revolute">
       <origin xyz="-0.00043624 0 0.36" rpy="0 0 0" />
@@ -272,6 +273,7 @@
       <child link="${prefix}link_2" />
       <axis xyz="0 1 0" />
       <limit lower="-2.0942" upper="2.0942" effort="0" velocity="1.4834" />
+      <dynamics damping="0.5" friction="1.0"/>
     </joint>
     <joint name="${prefix}joint_3" type="revolute">
       <origin xyz="0 0 0" rpy="0 0 0" />
@@ -279,6 +281,7 @@
       <child link="${prefix}link_3" />
       <axis xyz="0 0 1" />
       <limit lower="-2.9668" upper="2.9668" effort="0" velocity="1.7452" />
+      <dynamics damping="0.5" friction="1.0"/>
     </joint>
     <joint name="${prefix}joint_4" type="revolute">
       <origin xyz="0.00043624 0 0.42" rpy="0 0 0" />
@@ -286,6 +289,7 @@
       <child link="${prefix}link_4" />
       <axis xyz="0 -1 0" />
       <limit lower="-2.0942" upper="2.0942" effort="0" velocity="1.3089" />
+      <dynamics damping="0.5" friction="1.0"/>
     </joint>
     <joint name="${prefix}joint_5" type="revolute">
       <origin xyz="0 0 0" rpy="0 0 0" />
@@ -293,6 +297,7 @@
       <child link="${prefix}link_5" />
       <axis xyz="0 0 1" />
       <limit lower="-2.9668" upper="2.9668" effort="0" velocity="2.2688" />
+      <dynamics damping="0.5" friction="1.0"/>
     </joint>
     <joint name="${prefix}joint_6" type="revolute">
       <origin xyz="0 0 0.4" rpy="0 0 0" />
@@ -300,6 +305,7 @@
       <child link="${prefix}link_6" />
       <axis xyz="0 1 0" />
       <limit lower="-2.0942" upper="2.0942" effort="0" velocity="2.356" />
+      <dynamics damping="0.5" friction="1.0"/>
     </joint>
     <joint name="${prefix}joint_7" type="revolute">
       <origin xyz="0 0 0" rpy="0 0 0" />
@@ -307,6 +313,7 @@
       <child link="${prefix}link_7" />
       <axis xyz="0 0 1" />
       <limit lower="-3.0541" upper="3.0541" effort="0" velocity="2.356" />
+      <dynamics damping="0.5" friction="1.0"/>
     </joint>
     <!-- end of joint list -->
 

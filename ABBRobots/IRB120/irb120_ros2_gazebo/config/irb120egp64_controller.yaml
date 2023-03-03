@@ -4,21 +4,6 @@ controller_manager:
 
     irb120_controller:
       type: joint_trajectory_controller/JointTrajectoryController
-      joints:
-        - joint_1
-        - joint_2
-        - joint_3
-        - joint_4
-        - joint_5
-        - joint_6
-      publish_rate: 50
-      write_op_modes:
-        - joint_1
-        - joint_2
-        - joint_3
-        - joint_4
-        - joint_5
-        - joint_6
 
     egp64_finger_left_controller:
       type: position_controllers/GripperActionController
@@ -26,8 +11,8 @@ controller_manager:
     egp64_finger_right_controller:
       type: position_controllers/GripperActionController
 
-    joint_state_controller:
-      type: joint_state_controller/JointStateController
+    joint_state_broadcaster:
+      type: joint_state_broadcaster/JointStateBroadcaster
 
 irb120_controller:
   ros__parameters:
