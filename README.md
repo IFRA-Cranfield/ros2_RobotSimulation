@@ -164,7 +164,7 @@ All packages in this repository have been developed, executed and tested in an U
         sudo apt install ros-foxy-moveit
         # Binaries are recommended for a cleaner MoveIt!2 install and usage.
         ```
-5. Create and onfigure the ROS2.0 Foxy ~/dev_ws environment/workspace:
+5. Create and configure the ROS2.0 Foxy ~/dev_ws environment/workspace:
     * Follow instructions in: [ROS2 Foxy Tutorials - Create a Workspace](https://docs.ros.org/en/foxy/Tutorials/Beginner-Client-Libraries/Creating-A-Workspace/Creating-A-Workspace.html)
     * Source ~/dev_ws workspace in .bashrc file:
         ```sh

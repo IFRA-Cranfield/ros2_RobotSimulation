@@ -90,7 +90,7 @@ def generate_launch_description():
     print("")
 
     print("ros2_RobotSimulation --> ABB IRB-120")
-    print("Launch file -> irb120.launch.py")
+    print("Launch file -> irb120_interface.launch.py")
 
     print("")
     print("Robot configuration:")

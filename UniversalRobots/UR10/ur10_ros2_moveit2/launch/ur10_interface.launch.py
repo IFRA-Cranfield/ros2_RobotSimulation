@@ -90,7 +90,7 @@ def generate_launch_description():
     print("")
 
     print("ros2_RobotSimulation --> UR10 ROBOT")
-    print("Launch file -> ur10.launch.py")
+    print("Launch file -> ur10_interface.launch.py")
 
     print("")
     print("Robot configuration:")
