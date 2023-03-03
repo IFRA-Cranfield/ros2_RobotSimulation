@@ -49,7 +49,7 @@
 
   <br />
 
-  <h2 align="center">ROS2.0 ROBOT SIMULATION</h2>
+  <h2 align="center">ROS2.0 ROBOT SIMULATION - ROS2.0 Foxy</h2>
 
   <p align="center">
     IFRA (Intelligent Flexible Robotics and Assembly) Group
@@ -264,7 +264,6 @@ https://user-images.githubusercontent.com/98389310/222487175-4b44e1cb-49c4-4287-
 ## Contributing
 
 Please find below a list of potential improvements and new features that have been identified for this repository:
-* Create a ROS2.0 Humble branch for ros2_RobotSimulation.
 * Improve the ros2_grasping package. The attaching/detaching feature works well in Gazebo, but the movement (in simulation) is not very clean. The Action Server subscribes to the motion of the end-effector and replicates it into the object selected, and this is not the cleanest way to simulate a pick and place task. 
 * Implement cartesian speed control. The speed control works well for all ROS2 Robot Triggers, except for the MoveL motion. This is because MoveIt!2 generates a custom (linear) trajectory in this case, where joint speed control is not applicable. A linear speed control feature has been identified in ROS1, but it is missing in ROS2.
 * Remove all unnecessary warnings/logs when launching the robot simulation environments.

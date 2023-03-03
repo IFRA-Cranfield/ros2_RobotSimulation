@@ -8,7 +8,7 @@ The Robot Actions/Triggers are independent ROS2 Actions that execute different r
   ```
 * MoveG: The Gripper fingers move to the specific pose.
   ```sh
-  ros2 action send_goal -f /MoveG ros2_data/action/MoveG "{goal: 0.00, speed: 1.0}"
+  ros2 action send_goal -f /MoveG ros2_data/action/MoveG "{goal: 0.00}"
   ```
 * MoveL: The Robot executes a CARTESIAN/LINEAR path. The End-Effector orientation is kept constant, and the position changes by +-(x,y,z).
   ```sh
