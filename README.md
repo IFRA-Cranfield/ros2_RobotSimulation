@@ -49,7 +49,7 @@
 
   <br />
 
-  <h2 align="center">ROS2.0 ROBOT SIMULATION</h2>
+  <h2 align="center">ROS2.0 ROBOT SIMULATION - ROS2.0 Humble</h2>
 
   <p align="center">
     IFRA (Intelligent Flexible Robotics and Assembly) Group
