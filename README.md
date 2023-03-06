@@ -54,7 +54,7 @@
   <p align="center">
     IFRA (Intelligent Flexible Robotics and Assembly) Group
     <br />
-    Centre for Structures, Assembly and Intelligent Automation
+    Centre for Robotics and Assembly
     <br />
     Cranfield University
   </p>
@@ -101,7 +101,7 @@
 
 ### Intelligent Flexible Robotics and Assembly Group
 
-The IFRA (Intelligent Flexible Robotics and Assembly) Group is part of the Centre for Structures, Assembly and Intelligent Automation at Cranfield University.
+The IFRA (Intelligent Flexible Robotics and Assembly) Group is part of the Centre for Robotics and Assembly at Cranfield University.
 
 IFRA Group pushes technical boundaries. At IFRA we provide high tech automation & assembly solutions, and we support smart manufacturing with Smart Industry technologies and solutions. Flexible Manufacturing Systems (FMS) are a clear example. They can improve overall operations and throughput quality by adapting to real-time changes and situations, supporting and pushing the transition towards flexible, intelligent and responsive automation, which we continuously seek and support.
 
