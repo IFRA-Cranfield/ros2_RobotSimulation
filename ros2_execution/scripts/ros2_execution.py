@@ -53,9 +53,6 @@ from ros2_data.action import MoveRP
 from ros2_data.action import MoveG
 from ros2_grasping.action import Attacher 
 
-# Import SERVICES:
-from abb_robot_msgs.srv import SetIOSignal
-
 # Import MESSAGES:
 from ros2_data.msg import JointPose
 from ros2_data.msg import JointPoseS
