@@ -172,31 +172,24 @@
 
     <gazebo reference="${prefix}base_link">
       <selfCollide>false</selfCollide>
-      <material>Gazebo/Orange</material>
     </gazebo>
     <gazebo reference="${prefix}link_1">
       <selfCollide>false</selfCollide>
-      <material>Gazebo/Orange</material>
     </gazebo>
     <gazebo reference="${prefix}link_2">
       <selfCollide>false</selfCollide>
-      <material>Gazebo/Orange</material>
     </gazebo>
     <gazebo reference="${prefix}link_3">
       <selfCollide>false</selfCollide>
-      <material>Gazebo/Orange</material>
     </gazebo>
     <gazebo reference="${prefix}link_4">
       <selfCollide>false</selfCollide>
-      <material>Gazebo/Orange</material>
     </gazebo>
     <gazebo reference="${prefix}link_5">
       <selfCollide>false</selfCollide>
-      <material>Gazebo/Orange</material>
     </gazebo>
     <gazebo reference="${prefix}link_6">
       <selfCollide>false</selfCollide>
-      <material>Gazebo/Orange</material>
     </gazebo>
 
     <gazebo reference="end_effector_frame_fixed_joint">
