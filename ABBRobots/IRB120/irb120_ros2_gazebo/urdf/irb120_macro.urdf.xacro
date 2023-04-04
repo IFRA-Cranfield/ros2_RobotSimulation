@@ -88,7 +88,7 @@
       <visual>
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <mesh filename="file://$(find irb120_ros2_gazebo)/meshes/visual/base_link.stl"/>
+          <mesh filename="file://$(find irb120_ros2_gazebo)/meshes/visual/base_link.dae"/>
         </geometry>
         <xacro:material_abb_orange />
       </visual>
@@ -111,7 +111,7 @@
       <visual>
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <mesh filename="file://$(find irb120_ros2_gazebo)/meshes/visual/link_1.stl"/>
+          <mesh filename="file://$(find irb120_ros2_gazebo)/meshes/visual/link_1.dae"/>
         </geometry>
         <xacro:material_abb_orange />
       </visual>
@@ -134,7 +134,7 @@
       <visual>
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <mesh filename="file://$(find irb120_ros2_gazebo)/meshes/visual/link_2.stl"/>
+          <mesh filename="file://$(find irb120_ros2_gazebo)/meshes/visual/link_2.dae"/>
         </geometry>
         <xacro:material_abb_orange />
       </visual>
@@ -157,7 +157,7 @@
       <visual>
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <mesh filename="file://$(find irb120_ros2_gazebo)/meshes/visual/link_3.stl"/>
+          <mesh filename="file://$(find irb120_ros2_gazebo)/meshes/visual/link_3.dae"/>
         </geometry>
         <xacro:material_abb_orange />
       </visual>
@@ -180,7 +180,7 @@
       <visual>
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <mesh filename="file://$(find irb120_ros2_gazebo)/meshes/visual/link_4.stl"/>
+          <mesh filename="file://$(find irb120_ros2_gazebo)/meshes/visual/link_4.dae"/>
         </geometry>
         <xacro:material_abb_orange />
       </visual>
@@ -203,7 +203,7 @@
       <visual>
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <mesh filename="file://$(find irb120_ros2_gazebo)/meshes/visual/link_5.stl"/>
+          <mesh filename="file://$(find irb120_ros2_gazebo)/meshes/visual/link_5.dae"/>
         </geometry>
         <xacro:material_abb_orange />
       </visual>
@@ -226,7 +226,7 @@
       <visual>
         <origin xyz="0 0 0" rpy="0 0 0"/>
         <geometry>
-          <mesh filename="file://$(find irb120_ros2_gazebo)/meshes/visual/link_6.stl"/>
+          <mesh filename="file://$(find irb120_ros2_gazebo)/meshes/visual/link_6.dae"/>
         </geometry>
         <xacro:material_abb_black />
       </visual>

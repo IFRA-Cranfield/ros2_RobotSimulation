@@ -223,51 +223,39 @@
 
     <gazebo reference="panda_link0">
       <selfCollide>false</selfCollide>
-      <material>Gazebo/Orange</material>
     </gazebo>
     <gazebo reference="panda_link1">
       <selfCollide>false</selfCollide>
-      <material>Gazebo/Orange</material>
     </gazebo>
     <gazebo reference="panda_link2">
       <selfCollide>false</selfCollide>
-      <material>Gazebo/Orange</material>
     </gazebo>
     <gazebo reference="panda_link3">
       <selfCollide>false</selfCollide>
-      <material>Gazebo/Orange</material>
     </gazebo>
     <gazebo reference="panda_link4">
       <selfCollide>false</selfCollide>
-      <material>Gazebo/Orange</material>
     </gazebo>
     <gazebo reference="panda_link5">
       <selfCollide>false</selfCollide>
-      <material>Gazebo/Orange</material>
     </gazebo>
     <gazebo reference="panda_link6">
       <selfCollide>false</selfCollide>
-      <material>Gazebo/Orange</material>
     </gazebo>
     <gazebo reference="panda_link7">
       <selfCollide>false</selfCollide>
-      <material>Gazebo/Orange</material>
     </gazebo>
     <gazebo reference="panda_link8">
       <selfCollide>false</selfCollide>
-      <material>Gazebo/Orange</material>
     </gazebo>
     <gazebo reference="panda_hand">
       <selfCollide>false</selfCollide>
-      <material>Gazebo/Orange</material>
     </gazebo>
     <gazebo reference="panda_leftfinger">
       <selfCollide>false</selfCollide>
-      <material>Gazebo/Orange</material>
     </gazebo>
     <gazebo reference="panda_rightfinger">
       <selfCollide>false</selfCollide>
-      <material>Gazebo/Orange</material>
     </gazebo>
 
     <gazebo reference="end_effector_frame_fixed_joint">
