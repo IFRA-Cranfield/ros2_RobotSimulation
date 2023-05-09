@@ -192,7 +192,7 @@ All packages in this repository have been developed, executed and tested in an U
         ```
     * Fix cycle time issues in humble-moveit (temporary fix):
         ```sh
-        sudo apt install ros-rolling-rmw-cyclonedds-cpp
+        sudo apt install ros-humble-rmw-cyclonedds-cpp
         Add into .bashrc file -> export RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
         ```
 
